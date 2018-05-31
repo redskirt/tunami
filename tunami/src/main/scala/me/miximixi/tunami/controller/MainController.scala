@@ -19,7 +19,7 @@ class MainController {
   @Autowired
   var loginService: LoginService = _
   
-  @RequestMapping(Array("/count"))
-  def count() = loginService.countT
+  @RequestMapping(Array("/count_"))
+  def count() = 44//loginService.countT
 
 }
