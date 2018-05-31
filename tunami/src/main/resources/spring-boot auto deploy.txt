@@ -1,0 +1,72 @@
+有关spring-boot热部署配置
+
+方式一：maven插件springloaded
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <dependencies>
+                <dependency>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>springloaded</artifactId>
+                    <version>1.2.5.RELEASE</version>
+                </dependency>
+            </dependencies>
+        </plugin>
+    </plugins>
+</build>
+
+本项目：
+			<plugin>
+				<groupId>org.scala-tools</groupId>
+				<artifactId>maven-scala-plugin</artifactId>
+				<version>${scala.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>
+							<goal>testCompile</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<recompileMode>incremental</recompileMode>
+					<scalaVersion>${scala.minor.version}</scalaVersion>
+					<launchers>
+						<launcher>
+							<id>app</id>
+							<mainClass>me.miximixi.tunami.Launcher</mainClass>
+							<args>
+								<arg>-deprecation</arg>
+							</args>
+							<jvmArgs>
+								<jvmArg>-Xms256m</jvmArg>
+								<jvmArg>-Xmx2048m</jvmArg>
+							</jvmArgs>
+						</launcher>
+					</launchers>
+				</configuration>
+				<dependencies>
+					<!-- spring热部署 -->
+					<dependency>
+						<groupId>org.springframework</groupId>
+						<artifactId>springloaded</artifactId>
+						<version>1.2.6.RELEASE</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+
+
+通过命令：mvn spring-boot:run 启动应用，修改controller中代码 或 修改html页面 后再刷新页面，会发现显示结果跟着变化。
+
+#禁止thymeleaf缓存（建议：开发环境设置为false，生成环境设置为true）
+spring.thymeleaf.cache=false
+
+方法二：依赖 spring-boot-devtools 热部署模块
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-devtools</artifactId>
+    <optional>true</optional>
+</dependency>
+修改controller中代码 或 修改html页面 后再刷新页面，会发现显示结果跟着变化。

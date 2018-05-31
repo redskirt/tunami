@@ -4,6 +4,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.boot.SpringApplication
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 
 /**
  * @Author Sasaki
@@ -14,9 +16,16 @@ import org.springframework.boot.SpringApplication
 
 @SpringBootApplication // @EnableConfigurationProperties(value = Array(classOf[PhantomjsConfig],classOf[DomainConfig]))
 @ComponentScan(basePackages = Array("me.miximixi.tunami"))
-class Launcher
+class WebConfigure 
+
+//extends WebMvcConfigurerAdapter {
+//  
+//  override def addResourceHandlers(registry: ResourceHandlerRegistry) {
+//    registry.addResourceHandler("/assets/**").addResourceLocations("classpath:/assets/")
+//  }
+//} 
 
 object Launcher extends App {
   
-  SpringApplication.run(classOf[Launcher])
+  SpringApplication.run(classOf[WebConfigure])
 }
