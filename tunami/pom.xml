@@ -81,9 +81,36 @@
 			<version>1.0.19</version>
 		</dependency>
 
+		<!-- 结合json4s使用，使得构建 Rest Controller时，Scala 的集合和 case class 支持直接序列化。 -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.module</groupId>
+			<artifactId>jackson-module-scala_${scala.version}</artifactId>
+			<version>2.8.7</version>
+		</dependency>
+
+	   <dependency>
+	      <groupId>org.json4s</groupId>
+	      <artifactId>json4s-jackson_${scala.version}</artifactId>
+	      <version>3.5.1</version>
+	    </dependency>
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.scalatest</groupId>
+			<artifactId>scalatest_${scala.version}</artifactId>
+			<version>3.0.1</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.scalamock</groupId>
+			<artifactId>scalamock-scalatest-support_${scala.version}</artifactId>
+			<version>3.5.0</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

@@ -8,10 +8,13 @@ import scala.beans.BeanProperty
  * @Timestamp May 30, 2018 4:25:12 PM
  * @Description
  */
-class T extends Serializable {
+class User extends Serializable {
   @BeanProperty
   var id: Integer = _
 
   @BeanProperty
-  var name: String = _
+  var username: String = _
+  
+    @BeanProperty
+  var password: String = _
 }
