@@ -22,7 +22,7 @@ class ServiceTestCase {
   @Test
   def testQueryUser_username {
     val user = loginService.queryUser("redskirt")
-    println(user)
+    assert(user.username.equals("redskirt"))
   }
 
 }

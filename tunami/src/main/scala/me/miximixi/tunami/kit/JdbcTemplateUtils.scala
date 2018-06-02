@@ -27,8 +27,12 @@ trait JdbcTemplateUtils {
    * 3. val allNames = query("select * from names")
    *    allNames { (rs, rowNum) => <your builder code here> }
    */
-  def query(sql: String) = new {
-    def apply[T](f: (ResultSet, Int) => T)(implicit ev: ((ResultSet, Int) => T) => RowMapper[T]): List[T] = jdbcTemplate.query(sql, ev(f)).asScala.toList
+//  def query(sql: String) = new {
+//    def apply[T](f: (ResultSet, Int) => T)(implicit ev: ((ResultSet, Int) => T) => RowMapper[T]): List[T] = jdbcTemplate.query(sql, ev(f)).asScala.toList
+//  }
+  
+  def query(sql: String, args: Object*) = new {
+    def apply[T](f: (ResultSet, Int) => T)(implicit ev: ((ResultSet, Int) => T) => RowMapper[T]): List[T] = jdbcTemplate.query(sql, args.toArray, ev(f)).asScala.toList
   }
 
 }

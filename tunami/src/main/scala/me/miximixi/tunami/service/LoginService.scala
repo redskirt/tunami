@@ -34,7 +34,7 @@ class LoginService extends JdbcTemplateUtils {
   
   
   def queryUser(username: String): User = {
-    query(sql) { (rs, i) =>
+    query(sql, username) { (rs, i) =>
       val user = new User()
       user.id = rs.getInt(1)
       user.username = rs.getString(2)
