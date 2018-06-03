@@ -21,8 +21,15 @@ class ServiceTestCase {
 
   @Test
   def testQueryUser_username {
-    val user = loginService.queryUser("redskirt")
-    assert(user.username.equals("redskirt"))
+    val user = loginService.queryUser("tunami")
+    println {
+      user match {
+        case None => false
+        case Some(_) => true
+      }
+    }
+    
+    assert(user.get.username.equals("tunami"))
   }
 
 }

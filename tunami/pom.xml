@@ -26,6 +26,14 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>com.sasaki</groupId>
+			<artifactId>working-helper-assist</artifactId>
+			<version>1.1.2</version>
+			<systemPath>/Users/sasaki/git/working-helper/working-helper/working-helper-assist/target/working-helper-assist-1.1.2.jar</systemPath>
+			<scope>system</scope>
+		</dependency>
+	
+		<dependency>
 			<groupId>org.scala-lang</groupId>
 			<artifactId>scala-library</artifactId>
 			<version>${scala.minor.version}</version>

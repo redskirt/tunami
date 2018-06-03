@@ -1,5 +1,8 @@
 package me.miximixi.tunami.controller
 
+import com.sasaki.packages.independent._
+
+import org.json4s.JsonAST.{ JString, JNull }
 import org.json4s.JsonDSL._
 import org.json4s.jackson.JsonMethods._
 import org.springframework.beans.factory.annotation.Autowired
@@ -12,9 +15,7 @@ import com.fasterxml.jackson.databind.JsonNode
 
 import javax.servlet.http.HttpSession
 import me.miximixi.tunami.service.LoginService
-import org.json4s.JsonAST.JValue
-import org.springframework.web.bind.annotation.RequestMethod
-
+import org.springframework.web.bind.annotation.RequestBody
 
 /**
  * @Author Sasaki
@@ -23,37 +24,53 @@ import org.springframework.web.bind.annotation.RequestMethod
  * @Description
  */
 @RestController
-class EntranceController @Autowired() (loginService: LoginService) {
+class EntranceController @Autowired() (loginService: LoginService) extends UsefulController {
 
-  implicit def autoAsJsonNode(value: JValue): JsonNode = asJsonNode(value)
-
-  val SESSION_USER = "SESSION_USER"
-
-  @RequestMapping(value = { Array("/_", "/login") }, method = Array(RequestMethod.GET))
+  @RequestMapping(value = { Array("/_", "/login") }, method = Array(GET))
   def login = new ModelAndView("login")
-  
-  @RequestMapping(value = { Array("/doLogin/{username}/{password}") }, method = Array(RequestMethod.POST))
-  def doLogin(@PathVariable username: String, @PathVariable password: String, session: HttpSession): JsonNode = {
-    val user = loginService.queryUser(username)
-    
-    if(null == user)
-      render("verify" -> false)
-    else if(!password.equals(user.password))
-      render("verify" -> false)
-    else {
-//      session.setAttribute(SESSION_USER, username)
-      render("verify" -> true)
+
+  /**
+   * /{username}/{password}
+   * @PathVariable
+   * 
+   * @RequestParam username: String, @RequestParam password: String, 
+   */
+  @RequestMapping(value = { Array("/doLogin") }, method = Array(POST))
+  def doLogin(@RequestBody body: JsonNode, session: HttpSession): JsonNode = {
+    val json = fromJsonNode(body)
+
+    (json \ "username", json \ "password") match {
+      case (JString(username), JString(password)) =>
+        if (nonEmpty(username) && nonEmpty(password)) {
+          val optionUser = loginService.queryUser(username)
+          optionUser match {
+            case None => ("verify" -> false) ~ ("message" -> "用户名不存在！")
+            case Some(_) => {
+              if (md5(password) == optionUser.get.password) {
+                session.setAttribute(SESSION_USER, username)
+                ("verify" -> true) ~ ("message" -> JNull)
+              } else
+                ("verify" -> false) ~ ("message" -> "用户名或密码错误！")
+            }
+          }
+        } else
+          ("verify" -> false) ~ ("message" -> "用户名和密码不能为空！")
+      case _ => ("verify" -> false) ~ ("message" -> "非法参数！")
     }
   }
+  
+  @RequestMapping(value = { Array("/") }, method = Array(GET))
+  def doLogout(session: HttpSession) = {
+    session.removeAttribute(SESSION_USER)
+    new ModelAndView(s"${_REDIRECT}/_")
+  }
 
-  @RequestMapping(value = { Array("/") }, method = Array(RequestMethod.GET))
+  @RequestMapping(value = { Array("/") }, method = Array(GET))
   def /(session: HttpSession) = {
-    if(null == session.getAttribute(SESSION_USER)) 
-      new ModelAndView("redirect:/_")
-    else 
+    if (null == session.getAttribute(SESSION_USER))
+      new ModelAndView(s"${_REDIRECT}/_")
+    else
       new ModelAndView("index")
   }
 
-  @RequestMapping(value = { Array("/test") }, method = Array(RequestMethod.GET))
-  def test() = "test"
 }
