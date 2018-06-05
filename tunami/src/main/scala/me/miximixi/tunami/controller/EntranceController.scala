@@ -59,7 +59,7 @@ class EntranceController @Autowired() (loginService: LoginService) extends Usefu
     }
   }
   
-  @RequestMapping(value = { Array("/") }, method = Array(GET))
+  @RequestMapping(value = { Array("/doLogout") }, method = Array(GET))
   def doLogout(session: HttpSession) = {
     session.removeAttribute(SESSION_USER)
     new ModelAndView(s"${_REDIRECT}/_")
