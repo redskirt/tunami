@@ -1,26 +1,13 @@
- <head th:fragment="header(title)">
+ <head th:fragment="header">
 	<meta charset="utf-8">
-	<title th:text="${title}">${title} TUNAMI</title>
+	<title>TUNAMI</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<!-- Le styles -->
-	
-	
+
 	<link rel="stylesheet" href="assets/css/style.css">
 	<link rel="stylesheet" href="assets/css/loader-style.css">
 	<link rel="stylesheet" href="assets/css/bootstrap.css">
-	<link rel="stylesheet" href="assets/css/signin.css">
-	
-	<link rel="stylesheet" type="text/css" href="assets/js/progress-bar/number-pb.css">
-	
-	
-	<style type="text/css">
-	canvas#canvas4 {
-		position: relative;
-		top: 20px;
-	}
-	</style>
 	
 	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 	<!--[if lt IE 9]>
@@ -28,6 +15,8 @@
 	        <![endif]-->
 	<!-- Fav and touch icons -->
 	<link rel="shortcut icon" href="assets/ico/minus.png">
+	
+	<script type="text/javascript" src="assets/js/jquery.js" ></script>
 </head>
 
 <div th:fragment="navbar">
@@ -142,7 +131,7 @@
 </div>
 
 <div th:fragment="side_menu">
-<!-- SIDE MENU -->
+	<!-- SIDE MENU -->
 	<div id="skin-select">
 		<div id="logo">
 			<h1>
@@ -154,8 +143,8 @@
 		</a>
 		<div class="dark">
 			<form action="#">
-				<span> 
-					<input type="text" name="search" value="" class="search rounded id_search" placeholder="搜索栏目..." autofocus="">
+				<span> <input type="text" name="search" value=""
+					class="search rounded id_search" placeholder="搜索栏目..." autofocus="">
 				</span>
 			</form>
 		</div>
@@ -170,36 +159,47 @@
 			<div id="tree-wrap">
 				<div class="side-bar">
 					<ul class="topnav menu-left-nest">
-						<li><a href="#" style="border-left: 0px solid !important;" class="title-menu-left"> 
-								<span>主栏目</span> 
-							</a>
-						</li>
-						<li>
-							<a class="tooltip-tip ajax-load" href="#" title="多级菜单"> 
-								<i class="icon-document-edit"></i> 
-								<span>多级菜单</span>
-							</a>	
+						<li><a href="#" style="border-left: 0px solid !important;"
+							class="title-menu-left"> <span>主栏目</span>
+						</a></li>
+						<li><a class="tooltip-tip ajax-load" href="#" title="多级菜单">
+								<i class="icon-document-edit"></i> <span>多级菜单</span>
+						</a>
 							<ul>
 								<li><a class="tooltip-tip2 ajax-load" href="blog-list.html"
-									title="Blog List"><i class="entypo-doc-text"></i><span>Blog
+									title="Blog List"> <i class="entypo-doc-text"></i> <span>Blog
 											List</span></a></li>
 								<li><a class="tooltip-tip2 ajax-load"
-									href="blog-detail.html" title="Blog Detail"><i
-										class="entypo-newspaper"></i><span>Blog Details</span></a></li>
+									href="blog-detail.html" title="Blog Detail"> <i
+										class="entypo-newspaper"></i><span>Blog Details</span>
+								</a></li>
 							</ul></li>
-						<li>
-							<a class="tooltip-tip ajax-load" href="media.html" title="Media"> 
-								<i class="icon-camera"></i> 
-								<span>图片库</span>
-							</a>
-						</li>
+						<li><a class="tooltip-tip ajax-load" href="/photo_gallery"
+							title="Media"> <i class="icon-camera"></i> <span>图片库</span>
+						</a></li>
 					</ul>
 
-						<div id="g1" style="height: 180px" class="gauge"></div>
-					</div>
+					<div id="g1" style="height: 180px" class="gauge"></div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- END OF SIDE MENU -->
+</div>
+<!-- END OF SIDE MENU -->
+
+<div th:fragment="footer">
+	<div class="footer-space"></div>
+	<div id="footer">
+		<div class="devider-footer-left"></div>
+		<div class="time">
+			<p id="spanDate">
+			<p id="clock">
+		</div>
+		<div class="copyright">
+			Make with Love <span class="entypo-heart"></span>Collect from <a
+				href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a>
+			All Rights Reserved
+		</div>
+		<div class="devider-footer"></div>
+	</div>
 </div>

@@ -1,25 +1,25 @@
 package me.miximixi.tunami.controller
 
-import com.sasaki.packages.independent._
-
-import org.json4s.JsonAST.{ JString, JNull }
-import org.json4s.JsonDSL._
-import org.json4s.jackson.JsonMethods._
+import org.json4s.JsonAST.JNull
+import org.json4s.JsonAST.JString
+import org.json4s.JsonDSL.boolean2jvalue
+import org.json4s.JsonDSL.pair2Assoc
+import org.json4s.JsonDSL.string2jvalue
+import org.json4s.jackson.JsonMethods.fromJsonNode
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.ModelAndView
 
 import com.fasterxml.jackson.databind.JsonNode
+import com.sasaki.packages.independent.md5
+import com.sasaki.packages.independent.nonEmpty
 
 import javax.servlet.http.HttpSession
 import me.miximixi.tunami.service.LoginService
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.json4s.JsonAST.JValue
-import org.springframework.web.bind.annotation.RequestMethod
 
 /**
  * @Author Sasaki
@@ -71,12 +71,14 @@ class EntranceController @Autowired() (loginService: LoginService) extends Usefu
     new ModelAndView(s"${_REDIRECT}/_")
   }
 
-  @RequestMapping(value = { Array("/") }, method = Array(GET))
-  def /(session: HttpSession): ModelAndView = {
-    if (null == session.getAttribute(SESSION_PRINCIPAL))
-      new ModelAndView(s"${_REDIRECT}/_")
-    else
-      new ModelAndView("index")
+//  @RequestMapping(value = { Array("/") }, method = Array(GET))
+  @GetMapping(Array("/"))
+  def /(session: HttpSession) = {
+    dispatchWithSession("index", session)
+//     if (null == session.getAttribute(SESSION_PRINCIPAL))
+//      new ModelAndView(s"${_REDIRECT}/_")
+//    else
+//      new ModelAndView("index")
   }
 
 }

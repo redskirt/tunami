@@ -5,6 +5,8 @@ import org.json4s.jackson.JsonMethods.asJsonNode
 
 import com.fasterxml.jackson.databind.JsonNode
 import org.springframework.web.bind.annotation.RequestMethod
+import javax.servlet.http.HttpSession
+import org.springframework.web.servlet.ModelAndView
 
 /**
  * @Author Sasaki
@@ -24,4 +26,11 @@ trait UsefulController {
 
   protected implicit def autoAsJsonNode(value: JValue): JsonNode = asJsonNode(value)
 
+  protected def dispatchWithSession(url: String, session: HttpSession) = {
+    if (null == session.getAttribute(SESSION_PRINCIPAL))
+      new ModelAndView(s"${_REDIRECT}/_")
+    else
+      new ModelAndView(url)
+  }
+  
 }

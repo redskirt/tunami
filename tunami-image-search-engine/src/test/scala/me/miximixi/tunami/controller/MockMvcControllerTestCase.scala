@@ -41,13 +41,13 @@ class MockMvcControllerTestCase {
   var mockMvc: MockMvc = _
   var mockSession: MockHttpSession = _
   
-  val SESSION_USER = "SESSION_USER"
+  val SESSION_PRINCIPAL = "SESSION_PRINCIPAL"
   
   @Before
   def setup {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build()
     this.mockSession = new MockHttpSession
-    mockSession.putValue(SESSION_USER, "tunami")
+    mockSession.putValue(SESSION_PRINCIPAL, "tunami")
   }
   
 //  @RequestMapping(value="/sample/insertBoard.do")
@@ -83,7 +83,7 @@ class MockMvcControllerTestCase {
     //        .andDo(print())
 
     println(">> With mock session:")
-    mockMvc.perform(get("/").session(mockSession))
+    mockMvc.perform(get("/photo_gallery").session(mockSession))
       .andExpect(status.isOk())
       .andDo(print)
   }
