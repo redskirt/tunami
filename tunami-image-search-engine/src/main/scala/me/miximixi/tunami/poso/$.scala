@@ -6,6 +6,6 @@ package me.miximixi.tunami.poso
  * @Timestamp Jun 2, 2018 4:23:56 PM
  * @Description Constant
  */
-object C {
+object $ {
   
 }

@@ -9,7 +9,7 @@ import org.scalatest.FlatSpec
 import org.scalatest.Matchers
 
 import me.miximixi.tunami.service.LoginService
-import me.miximixi.tunami.poso.User
+import me.miximixi.tunami.poso.Principal
 import javax.servlet.http.HttpSession
 import sun.net.www.protocol.https.HttpsClient
 import org.json4s.JsonAST.JValue
@@ -31,15 +31,15 @@ class ControllerSpec extends FlatSpec with Matchers with MockFactory {
   implicit def autoAsJsonNode(value: JValue): JsonNode = asJsonNode(value)
   
   "POST /doLogin" should "return true" in {
-    val username_ = "tunami"
+    val accountName_ = "tunami"
     val password_ = "000000"
     
-    val body = fromJsonNode(("username" -> username_) ~ ("password" -> password_))
+    val body = fromJsonNode(("username" -> accountName_) ~ ("password" -> password_))
     
-    val mockExistUser = new User()
-    mockExistUser.username = username_
+    val mockExistUser = new Principal()
+    mockExistUser.accountName = accountName_
     mockExistUser.password = md5(password_)
-    (loginService.queryUser _).when(username_).returns(Some(mockExistUser))
+    (loginService.queryPrincipal _).when(accountName_).returns(Some(mockExistUser))
     
     val result = pretty(fromJsonNode(entranceController.doLogin(body, null)))
     val expected = pretty(("verify" -> true) ~ ("message" -> JNull))

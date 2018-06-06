@@ -19,16 +19,16 @@ import nz.net.ultraq.thymeleaf.LayoutDialect
 @SpringBootApplication // @EnableConfigurationProperties(value = Array(classOf[PhantomjsConfig],classOf[DomainConfig]))
 @ComponentScan(basePackages = Array("me.miximixi.tunami"))
 class WebConfigure  
-{
-
-  @Bean
-  def templateEngine(): SpringTemplateEngine = {
-    val templateEngine = new SpringTemplateEngine()
-    templateEngine.addDialect(new LayoutDialect())
-    templateEngine
-  }
-  
-} 
+//{
+//
+//  @Bean
+//  def templateEngine(): SpringTemplateEngine = {
+//    val templateEngine = new SpringTemplateEngine()
+//    templateEngine.addDialect(new LayoutDialect())
+//    templateEngine
+//  }
+//  
+//} 
 
 object Launcher extends App {
   

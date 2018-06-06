@@ -44,15 +44,15 @@ class EntranceController @Autowired() (loginService: LoginService) extends Usefu
   def doLogin(@RequestBody body: JsonNode, session: HttpSession): JsonNode = {
     val json = fromJsonNode(body)
 
-    (json \ "username", json \ "password") match {
-      case (JString(username), JString(password)) =>
-        if (nonEmpty(username) && nonEmpty(password)) {
-          val optionUser = loginService.queryUser(username)
+    (json \ "accountName", json \ "password") match {
+      case (JString(accountName), JString(password)) =>
+        if (nonEmpty(accountName) && nonEmpty(password)) {
+          val optionUser = loginService.queryPrincipal(accountName)
           optionUser match {
             case None => ("verify" -> false) ~ ("message" -> "用户名不存在！")
             case Some(_) => {
               if (md5(password) == optionUser.get.password) {
-                session.setAttribute(SESSION_USER, username)
+                session.setAttribute(SESSION_PRINCIPAL, accountName)
                 ("verify" -> true) ~ ("message" -> JNull)
               } else
                 ("verify" -> false) ~ ("message" -> "用户名或密码错误！")
@@ -67,13 +67,13 @@ class EntranceController @Autowired() (loginService: LoginService) extends Usefu
 //  @RequestMapping(value = { Array("/doLogout") }, method = Array(GET))
   @GetMapping(Array("/doLogout"))
   def doLogout(session: HttpSession) = {
-    session.removeAttribute(SESSION_USER)
+    session.removeAttribute(SESSION_PRINCIPAL)
     new ModelAndView(s"${_REDIRECT}/_")
   }
 
   @RequestMapping(value = { Array("/") }, method = Array(GET))
   def /(session: HttpSession): ModelAndView = {
-    if (null == session.getAttribute(SESSION_USER))
+    if (null == session.getAttribute(SESSION_PRINCIPAL))
       new ModelAndView(s"${_REDIRECT}/_")
     else
       new ModelAndView("index")

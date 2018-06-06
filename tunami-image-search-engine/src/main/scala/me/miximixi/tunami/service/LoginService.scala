@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 
 import me.miximixi.tunami.kit.JdbcTemplateUtils
 import me.miximixi.tunami.kit.JdbcTemplateUtils.mapRow
-import me.miximixi.tunami.poso.User
+import me.miximixi.tunami.poso.Principal
 
 /**
  * @Author Sasaki
@@ -25,17 +25,15 @@ class LoginService extends JdbcTemplateUtils {
     this.jdbcTemplate = jdbcTemplate
   }
   
-  val attr_user = "attr_user"
-  val sql = s"select id, username, password from $attr_user where username=?"
+  val attr_principal = "attr_principal"
   
-  
-  def queryUser(username: String): Option[User] = 
-    query(sql, username) { (rs, i) =>
-      val user = new User()
-      user.id = rs.getInt(1)
-      user.username = rs.getString(2)
-      user.password = rs.getString(3)
-      user
+  def queryPrincipal(accountName: String): Option[Principal] = 
+    query(s"select id, account_name, password from $attr_principal where account_name=?", accountName) { (rs, i) =>
+      val principal = new Principal()
+      principal.id = rs.getInt(1)
+      principal.accountName = rs.getString(2)
+      principal.password = rs.getString(3)
+      principal
     }.headOption
   
 }

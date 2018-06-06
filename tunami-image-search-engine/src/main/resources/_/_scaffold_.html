@@ -1,0 +1,205 @@
+ <head th:fragment="header(title)">
+	<meta charset="utf-8">
+	<title th:text="${title}">${title} TUNAMI</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- Le styles -->
+	
+	
+	<link rel="stylesheet" href="assets/css/style.css">
+	<link rel="stylesheet" href="assets/css/loader-style.css">
+	<link rel="stylesheet" href="assets/css/bootstrap.css">
+	<link rel="stylesheet" href="assets/css/signin.css">
+	
+	<link rel="stylesheet" type="text/css" href="assets/js/progress-bar/number-pb.css">
+	
+	
+	<style type="text/css">
+	canvas#canvas4 {
+		position: relative;
+		top: 20px;
+	}
+	</style>
+	
+	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+	<!--[if lt IE 9]>
+	        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	        <![endif]-->
+	<!-- Fav and touch icons -->
+	<link rel="shortcut icon" href="assets/ico/minus.png">
+</head>
+
+<div th:fragment="navbar">
+<!-- TOP NAVBAR -->
+	<nav role="navigation" class="navbar navbar-static-top">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button data-target="#bs-example-navbar-collapse-1"
+					data-toggle="collapse" class="navbar-toggle" type="button">
+					<span class="entypo-menu"></span>
+				</button>
+				<button class="navbar-toggle toggle-menu-mobile toggle-left"
+					type="button">
+					<span class="entypo-list-add"></span>
+				</button>
+
+				<div id="logo-mobile" class="visible-xs">
+					<h1>
+						WEB管理<span>v1.2</span>
+					</h1>
+				</div>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div id="bs-example-navbar-collapse-1" class="collapse navbar-collapse">
+				<div id="nt-title-container"
+					class="navbar-left running-text visible-lg">
+					<ul class="date-top">
+						<li class="entypo-calendar" style="margin-right: 5px"></li>
+						<li id="Date"></li>
+					</ul>
+
+					<ul id="digital-clock" class="digital">
+						<li class="entypo-clock" style="margin-right: 5px"></li>
+						<li class="hour"></li>
+						<li>:</li>
+						<li class="min"></li>
+						<li>:</li>
+						<li class="sec"></li>
+						<li class="meridiem"></li>
+					</ul>
+					<ul id="nt-title">
+						<li><i class="wi-day-lightning"></i>&#160;&#160;Berlin&#160;
+							<b>85</b><i class="wi-fahrenheit"></i>&#160;; 15km/h</li>
+						<li><i class="wi-day-lightning"></i>&#160;&#160;Yogyakarta&#160;
+							<b>85</b><i class="wi-fahrenheit"></i>&#160;; Tonight- 72 °F
+							(22.2 °C)</li>
+
+						<li><i class="wi-day-lightning"></i>&#160;&#160;Sttugart&#160;
+							<b>85</b><i class="wi-fahrenheit"></i>&#160;; 15km/h</li>
+
+						<li><i class="wi-day-lightning"></i>&#160;&#160;Muchen&#160;
+							<b>85</b><i class="wi-fahrenheit"></i>&#160;; 15km/h</li>
+
+						<li><i class="wi-day-lightning"></i>&#160;&#160;Frankurt&#160;
+							<b>85</b><i class="wi-fahrenheit"></i>&#160;; 15km/h</li>
+					</ul>
+				</div>
+
+				<ul style="margin-right: 0;" class="nav navbar-nav navbar-right">
+					<li><a data-toggle="dropdown" class="dropdown-toggle" href="#">
+							<img alt="" class="admin-pic img-circle"
+							src="http://api.randomuser.me/portraits/thumb/men/10.jpg">Hi,
+							Dave Mattew <b class="caret"></b>
+					</a>
+						<ul style="margin-top: 14px;" role="menu"
+							class="dropdown-setting dropdown-menu">
+							<li><a href="#"> <span class="entypo-user"></span>&#160;&#160;My
+									Profile
+							</a></li>
+							<li><a href="#"> <span class="entypo-vcard"></span>&#160;&#160;Account
+									Setting
+							</a></li>
+							<li><a href="#"> <span class="entypo-lifebuoy"></span>&#160;&#160;Help
+							</a></li>
+							<li class="divider"></li>
+							<li>
+								<a href="/doLogout">
+									<span class="entypo-basket"></span>&#160;&#160; 注销
+								</a>
+							</li>
+						</ul></li>
+					<li><a data-toggle="dropdown" class="dropdown-toggle" href="#">
+							<span class="icon-gear"></span>&#160;&#160;主题
+					</a>
+						<ul role="menu" class="dropdown-setting dropdown-menu">
+
+							<li class="theme-bg">
+								<div id="button-bg"></div>
+								<div id="button-bg2"></div>
+								<div id="button-bg3"></div>
+								<div id="button-bg5"></div>
+								<div id="button-bg6"></div>
+								<div id="button-bg7"></div>
+								<div id="button-bg8"></div>
+								<div id="button-bg9"></div>
+								<div id="button-bg10"></div>
+								<div id="button-bg11"></div>
+								<div id="button-bg12"></div>
+								<div id="button-bg13"></div>
+							</li>
+						</ul></li>
+				</ul>
+
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container-fluid -->
+	</nav>
+<!-- /END OF TOP NAVBAR -->
+</div>
+
+<div th:fragment="side_menu">
+<!-- SIDE MENU -->
+	<div id="skin-select">
+		<div id="logo">
+			<h1>
+				CloudSoft<span>v1.2</span>
+			</h1>
+		</div>
+
+		<a id="toggle"> <span class="entypo-menu"></span>
+		</a>
+		<div class="dark">
+			<form action="#">
+				<span> 
+					<input type="text" name="search" value="" class="search rounded id_search" placeholder="搜索栏目..." autofocus="">
+				</span>
+			</form>
+		</div>
+
+		<div class="search-hover">
+			<form id="demo-2">
+				<input type="search" placeholder="搜索栏目..." class="id_search">
+			</form>
+		</div>
+
+		<div class="skin-part">
+			<div id="tree-wrap">
+				<div class="side-bar">
+					<ul class="topnav menu-left-nest">
+						<li><a href="#" style="border-left: 0px solid !important;" class="title-menu-left"> 
+								<span>主栏目</span> 
+							</a>
+						</li>
+						<li>
+							<a class="tooltip-tip ajax-load" href="#" title="多级菜单"> 
+								<i class="icon-document-edit"></i> 
+								<span>多级菜单</span>
+							</a>	
+							<ul>
+								<li><a class="tooltip-tip2 ajax-load" href="blog-list.html"
+									title="Blog List"><i class="entypo-doc-text"></i><span>Blog
+											List</span></a></li>
+								<li><a class="tooltip-tip2 ajax-load"
+									href="blog-detail.html" title="Blog Detail"><i
+										class="entypo-newspaper"></i><span>Blog Details</span></a></li>
+							</ul></li>
+						<li>
+							<a class="tooltip-tip ajax-load" href="media.html" title="Media"> 
+								<i class="icon-camera"></i> 
+								<span>图片库</span>
+							</a>
+						</li>
+					</ul>
+
+						<div id="g1" style="height: 180px" class="gauge"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END OF SIDE MENU -->
+</div>

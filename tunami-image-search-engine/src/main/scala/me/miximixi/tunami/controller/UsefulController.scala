@@ -19,7 +19,7 @@ trait UsefulController {
   final val PUT = RequestMethod.PUT
   final val DELETE = RequestMethod.DELETE
 
-  protected val SESSION_USER = "SESSION_USER"
+  protected val SESSION_PRINCIPAL = "SESSION_PRINCIPAL"
   protected val _REDIRECT = "redirect:"
 
   protected implicit def autoAsJsonNode(value: JValue): JsonNode = asJsonNode(value)
