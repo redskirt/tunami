@@ -1,5 +1,6 @@
 package me.miximixi.tunami.poso
 
+
 /**
  * @Author Sasaki
  * @Mail redskirt@outlook.com

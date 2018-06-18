@@ -32,7 +32,8 @@ trait JdbcTemplateUtils {
 //  }
   
   def query(sql: String, args: Object*) = new {
-    def apply[T](f: (ResultSet, Int) => T)(implicit ev: ((ResultSet, Int) => T) => RowMapper[T]): List[T] = jdbcTemplate.query(sql, args.toArray, ev(f)).asScala.toList
+    def apply[T](f: (ResultSet, Int) => T)(implicit ev: ((ResultSet, Int) => T) => RowMapper[T]): List[T] = 
+      jdbcTemplate.query(sql, args.toArray, ev(f)).asScala.toList
   }
 
 }
