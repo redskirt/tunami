@@ -1,7 +1,7 @@
 package me.miximixi.tunami.poso
 
 import scala.beans.BeanProperty
-import java.sql.{ Timestamp => JTimestamp }
+import com.sasaki.packages.constant._
 
 /**
  * @Author Sasaki
@@ -12,7 +12,7 @@ import java.sql.{ Timestamp => JTimestamp }
 
 class C {
 
-  def this($id: Integer) {
+  def this($id: JInt) {
     this()
     this.id = $id
   }
@@ -23,10 +23,18 @@ class C {
   }
 
   @BeanProperty
-  var id: Integer = _
+  var id: JInt = _
 
   @BeanProperty
   var timestamp: JTimestamp = _
+}
+
+class Metadata extends C {
+  
+  @BeanProperty // -> image_repo
+  var imageRepo: String = _
+  
+  
 }
 
 class Principal extends C {
@@ -45,5 +53,27 @@ class Principal extends C {
 
   @BeanProperty
   var status: String = _
+}
+
+class ImageContent extends C {
+
+  @BeanProperty
+  var dir: String = _
+
+  @BeanProperty // -> file_name
+  var fileName: String = _
+
+  @BeanProperty
+  var name: String = _
+
+  @BeanProperty
+  var descript: String = _
+
+  @BeanProperty
+  var city: String = _
+
+  @BeanProperty
+  var `type`: String = _
 
 }
+

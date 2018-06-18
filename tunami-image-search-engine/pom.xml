@@ -29,10 +29,10 @@
 			<groupId>com.sasaki</groupId>
 			<artifactId>working-helper-assist</artifactId>
 			<version>1.1.2</version>
-			<systemPath>/Users/sasaki/git/working-helper/working-helper/working-helper-assist/target/working-helper-assist-1.1.2.jar</systemPath>
-			<scope>system</scope>
+			<systemPath>/Users/sasaki/repo/com/sasaki/working-helper-assist/1.1.2/working-helper-assist-1.1.2.jar</systemPath>
+			<scope>system</scope> 
 		</dependency>
-	
+	 
 		<dependency>
 			<groupId>org.scala-lang</groupId>
 			<artifactId>scala-library</artifactId>
@@ -81,7 +81,6 @@
 		<dependency>
 		  <groupId>nz.net.ultraq.thymeleaf</groupId>
 		  <artifactId>thymeleaf-layout-dialect</artifactId>
-		  <version>2.0.5</version>
 		</dependency>
 
 		<dependency>

@@ -8,6 +8,9 @@ import me.miximixi.tunami.kit.JdbcTemplateUtils
 import me.miximixi.tunami.kit.JdbcTemplateUtils.mapRow
 import me.miximixi.tunami.poso.Principal
 
+import com.sasaki.chain.ScalaEntity
+
+
 /**
  * @Author Sasaki
  * @Mail redskirt@outlook.com
@@ -15,7 +18,7 @@ import me.miximixi.tunami.poso.Principal
  * @Description 
  */
 @Service
-class LoginService extends JdbcTemplateUtils {
+class LoginService extends ScalaEntity with JdbcTemplateUtils  {
   
 //  @Autowired
 //  private var jdbcTemplate: JdbcTemplate = _
@@ -33,6 +36,10 @@ class LoginService extends JdbcTemplateUtils {
       principal.id = rs.getInt(1)
       principal.accountName = rs.getString(2)
       principal.password = rs.getString(3)
+      
+//      setMultiple[Principal](principal, Array(
+//        ("id", rs.getInt(1).asInstanceOf[Object]), ()    
+//      ))
       principal
     }.headOption
   
