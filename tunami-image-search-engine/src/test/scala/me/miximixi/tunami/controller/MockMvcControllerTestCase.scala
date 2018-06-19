@@ -76,15 +76,21 @@ class MockMvcControllerTestCase {
     //    .andExpect(status().isOk())
     //      .andExpect(content().contentType("application/json;charset=UTF-8"))
     // "text/html;charset=UTF-8"
-    println(">> Without session:")
-    mockMvc.perform(get("/"))
-      .andExpect(redirectedUrl("/_"))
-      .andExpect(status().is(302))
+    //    println(">> Without session:")
+    //    mockMvc.perform(get("/"))
+    //      .andExpect(redirectedUrl("/_"))
+    //      .andExpect(status().is(302))
     //        .andDo(print())
 
-    println(">> With mock session:")
-    mockMvc.perform(get("/photo_gallery").session(mockSession))
+    //    println(">> With mock session:")
+    //    mockMvc.perform(get("/photo_gallery").session(mockSession))
+    //      .andExpect(status.isOk())
+    //      .andDo(print)
+
+    println(">> Reqeuest resources in repo.")
+    mockMvc.perform(get("/assets/SZU/SZU0001.jpg"))
       .andExpect(status.isOk())
       .andDo(print)
   }
+  
 }
