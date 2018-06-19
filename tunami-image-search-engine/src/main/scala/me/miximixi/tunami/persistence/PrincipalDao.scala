@@ -3,9 +3,9 @@ package me.miximixi.tunami.persistence
 import org.springframework.stereotype.Repository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.jdbc.core.JdbcTemplate
-import me.miximixi.tunami.kit.JdbcTemplateUtils
+import me.miximixi.tunami.kit.JdbcTemplateHandler
 import me.miximixi.tunami.poso.Principal
-import me.miximixi.tunami.kit.JdbcTemplateUtils.mapRow
+import me.miximixi.tunami.kit.JdbcTemplateHandler._
 import com.sasaki.chain.ScalaEntity
 
 
@@ -16,27 +16,20 @@ import com.sasaki.chain.ScalaEntity
  * @Description
  */
 @Repository
-class PrincipalDao extends JdbcTemplateUtils with DB with ScalaEntity {
+class PrincipalDao extends JdbcTemplateHandler with DB with ScalaEntity {
+
+  def query(accountName: String): Option[Principal] =
+    query(s"select id, account_name, password from $attr_principal where account_name = ?", accountName) { (rs, i) =>
+
+      setMultiple(new Principal, Array(
+        ("id", Int.box(rs.getInt(1))),
+        ("accountName", rs.getString(2)),
+        ("password", rs.getString(3))))
+    }.headOption
 
   @Autowired
   def setJdbcTemplate(jdbcTemplate: JdbcTemplate) {
     this.jdbcTemplate = jdbcTemplate
   }
-
-  def queryPrincipal(accountName: String): Option[Principal] = 
-    query(s"select id, account_name, password from $attr_principal where account_name=?", accountName) { (rs, i) =>
-      
-    val principal = new Principal()
-    //      principal.id = rs.getInt(1)
-    //      principal.accountName = rs.getString(2)
-    //      principal.password = rs.getString(3)
-
-    //      principal
-
-    setMultiple[Principal](principal, Array(
-      ("id", Int.box(rs.getInt(1))),
-      ("accountName", rs.getString(2)),
-      ("password", rs.getString(3))))
-  }.headOption
 
 }

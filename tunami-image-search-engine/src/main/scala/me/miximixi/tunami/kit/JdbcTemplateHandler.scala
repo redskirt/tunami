@@ -14,7 +14,7 @@ import org.springframework.jdbc.core.{ RowMapper, JdbcTemplate }
  * @Description 
  * Ref: https://github.com/j-shepard/java-vs-scala
  */
-trait JdbcTemplateUtils {
+trait JdbcTemplateHandler {
   protected var jdbcTemplate: JdbcTemplate = _
 
   /**
@@ -38,7 +38,7 @@ trait JdbcTemplateUtils {
 
 }
 
-object JdbcTemplateUtils {
+object JdbcTemplateHandler {
 
   /** Performs implicit conversion from a closure to RowMapper[T]: Note the closure matches the signature of RowMapper.mapRow */
   implicit def mapRow[T](rowMapper: (ResultSet, Int) => T): RowMapper[T] = {

@@ -1,12 +1,10 @@
 package me.miximixi.tunami.service
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Service
 
+import me.miximixi.tunami.persistence.PrincipalDao
 import me.miximixi.tunami.poso.Principal
-
-import com.sasaki.chain.ScalaEntity
 
 
 /**
@@ -16,12 +14,12 @@ import com.sasaki.chain.ScalaEntity
  * @Description 
  */
 @Service
-class LoginService extends ScalaEntity {
+class LoginService {
   
-//  @Autowired
-//  private var jdbcTemplate: JdbcTemplate = _
+  @Autowired
+  private var principalDao: PrincipalDao = _
   
-  def queryPrincipal(accountName: String): Option[Principal] = 
-    ???
+  def bizCheckin(accountName: String): Option[Principal] = 
+    principalDao.query(accountName)
   
 }

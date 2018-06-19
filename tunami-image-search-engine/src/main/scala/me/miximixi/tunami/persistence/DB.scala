@@ -9,6 +9,8 @@ package me.miximixi.tunami.persistence
  */
 trait DB {
     
+  val and_? = " and ? != ''"
+  
   val attr_principal = "attr_principal"
   val attr_metadata = "attr_metadata"
   val attr_image_content = "attr_image_content"

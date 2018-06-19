@@ -1,36 +1,27 @@
-package me.miximixi.tunami.service
+package me.miximixi.tunami.dao
 
 import org.junit.runner.RunWith
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit4.SpringRunner
+import me.miximixi.tunami.persistence.ImageContentDao
 import org.springframework.beans.factory.annotation.Autowired
 import org.junit.Test
 
 /**
  * @Author Sasaki
  * @Mail redskirt@outlook.com
- * @Timestamp Jun 2, 2018 9:45:41 AM
+ * @Timestamp Jun 19, 2018 8:30:35 AM
  * @Description
  */
 @RunWith(classOf[SpringRunner])
 @SpringBootTest
-class ServiceTestCase {
+class DaoTestCase {
 
   @Autowired
-  var loginService: LoginService = _
-  
+  var imageContentDao: ImageContentDao = _
 
   @Test
-  def testQueryPrinciple_username {
-    val user = loginService.bizCheckin("tunami")
-    println {
-      user match {
-        case None => false
-        case Some(_) => true
-      }
-    }
-    
-    assert(user.get.accountName.equals("tunami"))
+  def testListImageContent = {
+    imageContentDao.list() foreach println
   }
-  
 }

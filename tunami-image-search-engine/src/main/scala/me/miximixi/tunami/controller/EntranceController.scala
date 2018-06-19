@@ -47,7 +47,7 @@ class EntranceController @Autowired() (loginService: LoginService) extends Usefu
     (json \ "accountName", json \ "password") match {
       case (JString(accountName), JString(password)) =>
         if (nonEmpty(accountName) && nonEmpty(password)) {
-          val optionUser = loginService.queryPrincipal(accountName)
+          val optionUser = loginService.bizCheckin(accountName)
           optionUser match {
             case None => ("verify" -> false) ~ ("message" -> "用户名不存在！")
             case Some(_) => {
