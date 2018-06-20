@@ -18,7 +18,6 @@ class ServiceTestCase {
 
   @Autowired
   var loginService: LoginService = _
-  
 
   @Test
   def testQueryPrinciple_username {

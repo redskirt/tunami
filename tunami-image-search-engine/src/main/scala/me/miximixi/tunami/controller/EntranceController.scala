@@ -81,4 +81,8 @@ class EntranceController @Autowired() (loginService: LoginService) extends Usefu
 //      new ModelAndView("index")
   }
 
+    @GetMapping(Array("/demo2"))
+  def demo(session: HttpSession) = {
+     new ModelAndView("demo2")
+  }
 }

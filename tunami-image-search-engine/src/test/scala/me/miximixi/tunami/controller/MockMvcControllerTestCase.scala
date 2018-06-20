@@ -88,7 +88,7 @@ class MockMvcControllerTestCase {
     //      .andDo(print)
 
     println(">> Reqeuest resources in repo.")
-    mockMvc.perform(get("/assets/SZU/SZU0001.jpg"))
+    mockMvc.perform(get("/demo2"))
       .andExpect(status.isOk())
       .andDo(print)
   }

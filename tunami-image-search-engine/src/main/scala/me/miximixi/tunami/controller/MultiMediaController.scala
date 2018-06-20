@@ -18,4 +18,8 @@ class MultiMediaController extends UsefulController {
   def photo_gallery(session: HttpSession) = dispatchWithSession("photo_gallery", session)
 
   
+  @GetMapping(Array("/photo_list"))
+  def photo_list(session: HttpSession) = dispatchWithSession("photo_list", session)
+
+  
 }
