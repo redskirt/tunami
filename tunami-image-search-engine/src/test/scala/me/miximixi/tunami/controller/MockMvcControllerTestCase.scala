@@ -82,15 +82,15 @@ class MockMvcControllerTestCase {
     //      .andExpect(status().is(302))
     //        .andDo(print())
 
-    //    println(">> With mock session:")
-    //    mockMvc.perform(get("/photo_gallery").session(mockSession))
-    //      .andExpect(status.isOk())
-    //      .andDo(print)
+        println(">> With mock session:")
+        mockMvc.perform(get("/map_list").session(mockSession))
+          .andExpect(status.isOk())
+          .andDo(print)
 
-    println(">> Reqeuest resources in repo.")
-    mockMvc.perform(get("/demo2"))
-      .andExpect(status.isOk())
-      .andDo(print)
+//    println(">> Reqeuest resources in repo.")
+//    mockMvc.perform(get("/demo2"))
+//      .andExpect(status.isOk())
+//      .andDo(print)
   }
   
 }

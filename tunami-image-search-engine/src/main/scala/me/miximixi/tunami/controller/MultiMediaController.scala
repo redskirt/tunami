@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
 import javax.servlet.http.HttpSession
+import org.springframework.beans.factory.annotation.Autowired
 
 /**
  * @Author Sasaki
@@ -13,13 +14,19 @@ import javax.servlet.http.HttpSession
  */
 @RestController
 class MultiMediaController extends UsefulController {
-
-  @GetMapping(Array("/photo_gallery"))
-  def photo_gallery(session: HttpSession) = dispatchWithSession("photo_gallery", session)
-
   
-  @GetMapping(Array("/photo_list"))
-  def photo_list(session: HttpSession) = dispatchWithSession("photo_list", session)
+  @GetMapping(Array("/photo_gallery"))
+  def photo_gallery = dispatch("photo_gallery")
 
+  @GetMapping(Array("/photo_list"))
+  def photo_list = dispatch("photo_list")
+  
+  @GetMapping(Array("/map_list"))
+  def map_list = dispatch("map_list")
+  
+  @Autowired
+  override def setSession(session: HttpSession) {
+    this.session = session
+  }
   
 }

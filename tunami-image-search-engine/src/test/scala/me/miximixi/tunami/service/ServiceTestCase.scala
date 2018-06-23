@@ -29,7 +29,7 @@ class ServiceTestCase {
       }
     }
     
-    assert(user.get.accountName.equals("tunami"))
+    assert(user.get.account_name.equals("tunami"))
   }
   
 }

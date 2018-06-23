@@ -39,7 +39,6 @@ class EntranceController @Autowired() (loginService: LoginService) extends Usefu
    * 
    * @RequestParam username: String, @RequestParam password: String, 
    */
-//  @RequestMapping(value = { Array("/doLogin") }, method = Array(POST))
   @PostMapping(Array("/doLogin"))
   def doLogin(@RequestBody body: JsonNode, session: HttpSession): JsonNode = {
     val json = fromJsonNode(body)
@@ -64,25 +63,22 @@ class EntranceController @Autowired() (loginService: LoginService) extends Usefu
     }
   }
   
-//  @RequestMapping(value = { Array("/doLogout") }, method = Array(GET))
   @GetMapping(Array("/doLogout"))
   def doLogout(session: HttpSession) = {
     session.removeAttribute(SESSION_PRINCIPAL)
     new ModelAndView(s"${_REDIRECT}/_")
   }
 
-//  @RequestMapping(value = { Array("/") }, method = Array(GET))
   @GetMapping(Array("/"))
-  def /(session: HttpSession) = {
-    dispatchWithSession("index", session)
-//     if (null == session.getAttribute(SESSION_PRINCIPAL))
-//      new ModelAndView(s"${_REDIRECT}/_")
-//    else
-//      new ModelAndView("index")
-  }
+  def / = dispatch("index")
 
-    @GetMapping(Array("/demo2"))
+  @GetMapping(Array("/demo2"))
   def demo(session: HttpSession) = {
      new ModelAndView("demo2")
+  }
+
+  @Autowired
+  override def setSession(session: HttpSession) {
+    this.session = session
   }
 }

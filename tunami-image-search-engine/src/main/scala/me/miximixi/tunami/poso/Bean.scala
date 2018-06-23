@@ -34,13 +34,12 @@ class Metadata extends C {
   @BeanProperty // -> image_repo
   var imageRepo: String = _
   
-  
 }
 
 class Principal extends C {
 
   @BeanProperty
-  var accountName: String = _
+  var account_name: String = _
 
   @BeanProperty
   var password: String = _
@@ -60,8 +59,8 @@ class ImageContent extends C {
   @BeanProperty
   var dir: String = _
 
-  @BeanProperty // -> file_name
-  var fileName: String = _
+  @BeanProperty
+  var file_name: String = _
 
   @BeanProperty
   var name: String = _
@@ -77,3 +76,60 @@ class ImageContent extends C {
 
 }
 
+class VshViewMap extends C {
+  
+  @BeanProperty
+  var remark: String = _
+  
+  @BeanProperty
+  var image_name: String = _
+  
+  @BeanProperty
+  var image_id: String = _
+  
+  @BeanProperty
+  var city: String = _
+  
+  @BeanProperty
+  var page_id: String = _
+  
+  @BeanProperty
+  var original_title: String = _
+  
+  @BeanProperty
+  var transliteration: String = _
+  
+  @BeanProperty
+  var alternative_orivinal_title: String = _
+  
+  @BeanProperty
+  var collection: String = _
+  
+  @BeanProperty
+  var digtized_file: String = _
+  
+  @BeanProperty
+  var map_type: String = _
+  
+  @BeanProperty
+  var authors: String = _
+  
+  @BeanProperty
+  var year: String = _
+  
+  @BeanProperty
+  var size: String = _
+  
+  @BeanProperty
+  var map_support: String = _
+  
+  @BeanProperty
+  var place_of_publication: String = _
+  
+  @BeanProperty
+  var repository: String = _
+  
+  @BeanProperty
+  var publishers: String = _
+  
+}

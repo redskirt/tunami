@@ -37,7 +37,7 @@ class ControllerSpec extends FlatSpec with Matchers with MockFactory {
     val body = fromJsonNode(("username" -> accountName_) ~ ("password" -> password_))
     
     val mockExistUser = new Principal()
-    mockExistUser.accountName = accountName_
+    mockExistUser.account_name = accountName_
     mockExistUser.password = md5(password_)
     (loginService.bizCheckin _).when(accountName_).returns(Some(mockExistUser))
     

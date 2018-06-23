@@ -25,8 +25,14 @@ trait UsefulController {
   protected val _REDIRECT = "redirect:"
 
   protected implicit def autoAsJsonNode(value: JValue): JsonNode = asJsonNode(value)
-
-  protected def dispatchWithSession(url: String, session: HttpSession) = {
+  
+  // 运行时Session注入
+  def setSession(session: HttpSession)
+  
+  // 提供一个隐式Session
+  implicit var session: HttpSession = _
+  
+  protected def dispatch(url: String)(implicit session: HttpSession) = {
     if (null == session.getAttribute(SESSION_PRINCIPAL))
       new ModelAndView(s"${_REDIRECT}/_")
     else
