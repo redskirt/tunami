@@ -23,13 +23,8 @@ class PrincipalDao extends JdbcTemplateHandler with DB with ScalaEntity {
 
       setMultiple(new Principal, Array(
         ("id", Int.box(rs.getInt(1))),
-        ("accountName", rs.getString(2)),
+        ("account_name", rs.getString(2)),
         ("password", rs.getString(3))))
     }.headOption
-
-  @Autowired
-  def setJdbcTemplate(jdbcTemplate: JdbcTemplate) {
-    this.jdbcTemplate = jdbcTemplate
-  }
 
 }

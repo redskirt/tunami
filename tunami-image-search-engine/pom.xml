@@ -25,13 +25,19 @@
 	</properties>
 
 	<dependencies>
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.sasaki.assist</groupId> -->
+<!-- 			<artifactId>working-helper-assist</artifactId> -->
+<!-- 			<version>1.1.3</version> -->
+<!-- 		</dependency> -->
+		
 		<dependency>
 			<groupId>com.sasaki</groupId>
 			<artifactId>working-helper-assist</artifactId>
-			<version>1.1.2</version>
-			<systemPath>/Users/sasaki/repo/com/sasaki/working-helper-assist/1.1.2/working-helper-assist-1.1.2.jar</systemPath>
-			<scope>system</scope> 
-		</dependency>
+			<version>1.1.3</version>
+			<systemPath>/Users/sasaki/repo/com/sasaki/working-helper-assist/1.1.3/working-helper-assist-1.1.3.jar</systemPath>
+			<scope>system</scope>
+		</dependency> 
 	 
 		<dependency>
 			<groupId>org.scala-lang</groupId>
@@ -52,12 +58,6 @@
 			<groupId>org.scala-lang</groupId>
 			<artifactId>scalap</artifactId>
 			<version>${scala.minor.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.sasaki.assist</groupId>
-			<artifactId>working-helper-assist</artifactId>
-			<version>1.1.2</version>
 		</dependency>
 
 		<dependency>

@@ -50,7 +50,7 @@
 							<div class="form-group">
 								<!--a href="#" class="pull-right label-forgot">Forgot email?</a-->
 								<label for="inputUsernameEmail">用户名</label> 
-								<input type="text" id="username" name="username" class="form-control">
+								<input type="text" id="account_name" name="account_name" class="form-control">
 							</div>
 							<div class="form-group">
 								<!--a href="#" class="pull-right label-forgot">Forgot password?</a-->
@@ -140,7 +140,7 @@
 					$.ajax({
 					    url: "/doLogin",
 					    data: JSON.stringify({
-					    	accountName: $('#username').val(),
+					    		account_name: $('#account_name').val(),
 					    		password: $('#password').val()
 					    }),
 					    	dataType: "json",

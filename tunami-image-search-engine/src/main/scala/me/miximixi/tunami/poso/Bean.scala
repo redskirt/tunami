@@ -10,7 +10,9 @@ import com.sasaki.packages.constant._
  * @Description
  */
 
-class C {
+class C[-T] { 
+  
+  val self = this
 
   def this($id: JInt) {
     this()
@@ -22,11 +24,19 @@ class C {
     this.timestamp = $timestamp
   }
 
-  @BeanProperty
   var id: JInt = _
 
-  @BeanProperty
   var timestamp: JTimestamp = _
+  
+  def setId($id: JInt): self.type = {
+    self.id = $id
+    self
+  }
+  
+  def setTimestamp($timestamp: JTimestamp): self.type = {
+    self.timestamp = $timestamp
+    self
+  }
 }
 
 class Metadata extends C {

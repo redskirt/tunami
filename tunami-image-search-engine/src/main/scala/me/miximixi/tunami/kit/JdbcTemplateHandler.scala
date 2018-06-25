@@ -14,9 +14,13 @@ import org.springframework.jdbc.core.{ RowMapper, JdbcTemplate }
  * @Description 
  * Ref: https://github.com/j-shepard/java-vs-scala
  */
-trait JdbcTemplateHandler {
+trait JdbcTemplateHandler { self =>
+  
   protected var jdbcTemplate: JdbcTemplate = _
 
+  @org.springframework.beans.factory.annotation.Autowired
+  def setJdbcTemplate(jdbcTemplate: JdbcTemplate) = self.jdbcTemplate = jdbcTemplate
+  
   /**
    * Generates a function that accepts a closure matching the signature of RowMapper.mapRow
    * The function returned will call JdbcTemplate.query

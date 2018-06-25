@@ -30,7 +30,7 @@ import me.miximixi.tunami.service.LoginService
 @RestController
 class EntranceController @Autowired() (loginService: LoginService) extends UsefulController {
   
-  @RequestMapping(value = { Array("/_", "/login") }, method = Array(GET))
+  @GetMapping(Array("/_", "/login"))
   def login = new ModelAndView("login")
 
   /**
@@ -40,18 +40,18 @@ class EntranceController @Autowired() (loginService: LoginService) extends Usefu
    * @RequestParam username: String, @RequestParam password: String, 
    */
   @PostMapping(Array("/doLogin"))
-  def doLogin(@RequestBody body: JsonNode, session: HttpSession): JsonNode = {
+  def doLogin(@RequestBody body: JsonNode): JsonNode = {
     val json = fromJsonNode(body)
 
-    (json \ "accountName", json \ "password") match {
-      case (JString(accountName), JString(password)) =>
-        if (nonEmpty(accountName) && nonEmpty(password)) {
-          val optionUser = loginService.bizCheckin(accountName)
+    (json \ "account_name", json \ "password") match {
+      case (JString(account_name), JString(password)) =>
+        if (nonEmpty(account_name) && nonEmpty(password)) {
+          val optionUser = loginService.bizCheckin(account_name)
           optionUser match {
             case None => ("verify" -> false) ~ ("message" -> "用户名不存在！")
             case Some(_) => {
               if (md5(password) == optionUser.get.password) {
-                session.setAttribute(SESSION_PRINCIPAL, accountName)
+                session.setAttribute(SESSION_PRINCIPAL, account_name)
                 ("verify" -> true) ~ ("message" -> JNull)
               } else
                 ("verify" -> false) ~ ("message" -> "用户名或密码错误！")
@@ -64,7 +64,7 @@ class EntranceController @Autowired() (loginService: LoginService) extends Usefu
   }
   
   @GetMapping(Array("/doLogout"))
-  def doLogout(session: HttpSession) = {
+  def doLogout = {
     session.removeAttribute(SESSION_PRINCIPAL)
     new ModelAndView(s"${_REDIRECT}/_")
   }
@@ -73,12 +73,12 @@ class EntranceController @Autowired() (loginService: LoginService) extends Usefu
   def / = dispatch("index")
 
   @GetMapping(Array("/demo2"))
-  def demo(session: HttpSession) = {
+  def demo = {
      new ModelAndView("demo2")
   }
 
-  @Autowired
-  override def setSession(session: HttpSession) {
-    this.session = session
-  }
+//  @Autowired
+//  override def setSession(session: HttpSession) {
+//    this.session = session
+//  }
 }

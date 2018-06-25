@@ -29,6 +29,7 @@ class ImageContentDao extends JdbcTemplateHandler with DB with ScalaEntity {
         ${ if(nonEmpty(`type`)) s"and type = ?" else and_? }
       """
         
+        
     query(sql, city, `type`) { (rs, i) =>
       setMultiple(new ImageContent, Array(
         ("id", Int.box(rs.getInt(1))),
@@ -46,9 +47,9 @@ class ImageContentDao extends JdbcTemplateHandler with DB with ScalaEntity {
 //    jdbcTemplate.update(x$1, x$2)
   }
   
-    @Autowired
-  def setJdbcTemplate(jdbcTemplate: JdbcTemplate) {
-    this.jdbcTemplate = jdbcTemplate
-  }
+//    @Autowired
+//  def setJdbcTemplate(jdbcTemplate: JdbcTemplate) {
+//    this.jdbcTemplate = jdbcTemplate
+//  }
     
 }

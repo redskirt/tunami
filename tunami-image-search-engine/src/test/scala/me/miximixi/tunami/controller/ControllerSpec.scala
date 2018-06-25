@@ -1,19 +1,21 @@
 package me.miximixi.tunami.controller
 
-import org.json4s.JsonDSL._
-import org.json4s.jackson.JsonMethods._
-import org.json4s.JsonAST._
-
+import org.json4s.JsonAST.JNull
+import org.json4s.JsonAST.JValue
+import org.json4s.JsonDSL.boolean2jvalue
+import org.json4s.JsonDSL.pair2Assoc
+import org.json4s.JsonDSL.string2jvalue
+import org.json4s.jackson.JsonMethods.asJsonNode
+import org.json4s.jackson.JsonMethods.fromJsonNode
+import org.json4s.jackson.JsonMethods.pretty
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers
 
-import me.miximixi.tunami.service.LoginService
-import me.miximixi.tunami.poso.Principal
-import javax.servlet.http.HttpSession
-import sun.net.www.protocol.https.HttpsClient
-import org.json4s.JsonAST.JValue
 import com.fasterxml.jackson.databind.JsonNode
+
+import me.miximixi.tunami.poso.Principal
+import me.miximixi.tunami.service.LoginService
 
 /**
  * @Author Sasaki
@@ -41,7 +43,7 @@ class ControllerSpec extends FlatSpec with Matchers with MockFactory {
     mockExistUser.password = md5(password_)
     (loginService.bizCheckin _).when(accountName_).returns(Some(mockExistUser))
     
-    val result = pretty(fromJsonNode(entranceController.doLogin(body, null)))
+    val result = pretty(fromJsonNode(entranceController.doLogin(body)))
     val expected = pretty(("verify" -> true) ~ ("message" -> JNull))
     
     assert(expected == result)

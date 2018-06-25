@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.RestController
 
 import javax.servlet.http.HttpSession
 import org.springframework.beans.factory.annotation.Autowired
+import com.fasterxml.jackson.databind.JsonNode
+import org.springframework.ui.Model
 
 /**
  * @Author Sasaki
@@ -21,12 +23,11 @@ class MultiMediaController extends UsefulController {
   @GetMapping(Array("/photo_list"))
   def photo_list = dispatch("photo_list")
   
-  @GetMapping(Array("/map_list"))
-  def map_list = dispatch("map_list")
-  
-  @Autowired
-  override def setSession(session: HttpSession) {
-    this.session = session
+  @GetMapping(Array("/map_list")) 
+  def map_list(model: Model) = {
+    model.addAttribute("list", vshViewMapDao.list)    
+    dispatch("map_list")
   }
+  
   
 }

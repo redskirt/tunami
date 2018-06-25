@@ -14,5 +14,7 @@ trait DB {
   val attr_principal = "attr_principal"
   val attr_metadata = "attr_metadata"
   val attr_image_content = "attr_image_content"
+  val attr_vsh_view = "attr_vsh_view"
+  val attr_vsh_view_map = "attr_vsh_view_map"
   
 }
