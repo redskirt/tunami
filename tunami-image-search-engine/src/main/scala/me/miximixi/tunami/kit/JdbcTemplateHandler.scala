@@ -3,6 +3,7 @@ package me.miximixi.tunami.kit
 import java.sql.{ ResultSet, Timestamp }
 import java.time.{ ZoneId, Instant, LocalDateTime }
 
+import com.sasaki.packages.constant._
 import scala.collection.JavaConverters._
 
 import org.springframework.jdbc.core.{ RowMapper, JdbcTemplate }
@@ -19,7 +20,7 @@ trait JdbcTemplateHandler { self =>
   protected var jdbcTemplate: JdbcTemplate = _
 
   @org.springframework.beans.factory.annotation.Autowired
-  def setJdbcTemplate(jdbcTemplate: JdbcTemplate) = self.jdbcTemplate = jdbcTemplate
+  protected def setJdbcTemplate(jdbcTemplate: JdbcTemplate) = self.jdbcTemplate = jdbcTemplate
   
   /**
    * Generates a function that accepts a closure matching the signature of RowMapper.mapRow
@@ -35,10 +36,18 @@ trait JdbcTemplateHandler { self =>
 //    def apply[T](f: (ResultSet, Int) => T)(implicit ev: ((ResultSet, Int) => T) => RowMapper[T]): List[T] = jdbcTemplate.query(sql, ev(f)).asScala.toList
 //  }
   
-  def query(sql: String, args: Object*) = new {
-    def apply[T](f: (ResultSet, Int) => T)(implicit ev: ((ResultSet, Int) => T) => RowMapper[T]): List[T] = 
+  protected def queryJList(sql: String, args: Object*) = new {
+    def apply[T](f: (ResultSet, Int) => T)(implicit ev: ((ResultSet, Int) => T) => RowMapper[T]): JList[T] = 
+      jdbcTemplate.query(sql, args.toArray, ev(f))//.asScala.toList
+  }
+
+  protected def query(sql: String, args: Object*) = new {
+    def apply[T](f: (ResultSet, Int) => T)(implicit ev: ((ResultSet, Int) => T) => RowMapper[T]): List[T] =
       jdbcTemplate.query(sql, args.toArray, ev(f)).asScala.toList
   }
+
+//  protected implicit def list2JavaList[T](list: List[T]): com.sasaki.packages.constant.JList[T] = 
+//    list.asJava
 
 }
 

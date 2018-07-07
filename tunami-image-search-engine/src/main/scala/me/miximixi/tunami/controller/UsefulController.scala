@@ -40,8 +40,4 @@ trait UsefulController { self =>
   @Autowired
   def setSession(session: HttpSession) = self.session = session
   
-  @Autowired
-  var vshViewMapDao: VshViewMapDao = _
-  
-  
 }

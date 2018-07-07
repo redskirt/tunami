@@ -2,7 +2,6 @@ package me.miximixi.tunami.persistence
 
 import org.springframework.stereotype.Repository
 import com.sasaki.chain.ScalaEntity
-import com.sasaki.packages.constant._
 import com.sasaki.packages.independent._
 import me.miximixi.tunami.kit.JdbcTemplateHandler
 import me.miximixi.tunami.kit.JdbcTemplateHandler._
@@ -20,13 +19,12 @@ import me.miximixi.tunami.poso.ImageContent
 @Repository
 class ImageContentDao extends JdbcTemplateHandler with DB with ScalaEntity {
   
-  def list(city: String = $e, `type`: String = $e): Seq[ImageContent] = {
+  def list(city: String = __, `type`: String = __): Seq[ImageContent] = {
     val sql = s"""
         select id, dir, file_name, name, descript, city, type
         from $attr_image_content
         where true
-        ${ if(nonEmpty(city)) s"and city = ?" else and_? }
-        ${ if(nonEmpty(`type`)) s"and type = ?" else and_? }
+        ${ and(city); and(`type`) }
       """
         
         

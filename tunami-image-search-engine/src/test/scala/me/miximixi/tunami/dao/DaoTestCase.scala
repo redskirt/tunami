@@ -27,6 +27,6 @@ class DaoTestCase {
   @Test
   def testListImageContent = {
 //    imageContentDao.list() foreach println
-    vshViewMapDao.list take(10) foreach println
+//    vshViewMapDao.list // take(10) foreach println
   }
 }
