@@ -39,25 +39,6 @@ class C[-T] {
   }
 }
 
-class Pagination(val $count: Int, val $current: Int = 0, val $size: Int = 0, val $countPage: Int = 0) {
-  
-  var count = $count
-  var current: Int = if(0 == $current) 1 else $current
-  var size: Int = if(0 == $size) 15/*default size*/ else $size
-  var countPage: Int = 
-    if(0 == $countPage)
-      if(0 == count % size) 
-        count / size
-      else 
-        count / size + 1
-    else
-      $countPage
-  var from: Int = (current - 1) * size
-  var to: Int = size
-  var limit: Tuple2[JInt, JInt] = (from, to)
-  
-}
-
 class Metadata extends C {
   
   @BeanProperty // -> image_repo

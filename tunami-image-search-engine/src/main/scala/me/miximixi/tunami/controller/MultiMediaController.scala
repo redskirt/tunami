@@ -10,7 +10,7 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.PathVariable
 import me.miximixi.tunami.service.VshViewMapService
 import me.miximixi.tunami.persistence.VshViewMapDao
-import me.miximixi.tunami.poso.Pagination
+import me.miximixi.tunami.kit.PaginationHandler
 
 /**
  * @Author Sasaki
@@ -19,7 +19,7 @@ import me.miximixi.tunami.poso.Pagination
  * @Description
  */
 @RestController
-class MultiMediaController extends UsefulController {
+class MultiMediaController extends UsefulController with PaginationHandler {
   
   @Autowired
   var vshViewMapService: VshViewMapService = _
@@ -34,12 +34,15 @@ class MultiMediaController extends UsefulController {
   
   @GetMapping(Array("/map_list_{current}_{size}_{countPage}")) 
   def map_list(model: Model, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int) = {
-    
+     
     val count = vshViewMapDao.count().getOrElse(0)
     val page = new Pagination(count, current, size, countPage)
+    val htmlFoot = buildPaginateTag("/map_list", page)
     val list = vshViewMapDao.list("__", page.limit)
     
-    model.addAttribute("list", list)    
+    model.addAttribute("list", list)  
+    model.addAttribute("htmlFoot", htmlFoot)
+    
     dispatch("map_list")
   }
   

@@ -72,9 +72,9 @@ class EntranceController @Autowired() (loginService: LoginService) extends Usefu
   @GetMapping(Array("/"))
   def / = dispatch("index")
 
-  @GetMapping(Array("/demo2"))
+  @GetMapping(Array("/t"))
   def demo = {
-     new ModelAndView("demo2")
+     new ModelAndView("table-dynamic")
   }
 
 //  @Autowired

@@ -7,6 +7,8 @@ import me.miximixi.tunami.persistence.ImageContentDao
 import org.springframework.beans.factory.annotation.Autowired
 import org.junit.Test
 import me.miximixi.tunami.persistence.VshViewMapDao
+import scala.collection.JavaConverters._
+import me.miximixi.tunami.kit.PaginationHandler
 
 /**
  * @Author Sasaki
@@ -16,7 +18,7 @@ import me.miximixi.tunami.persistence.VshViewMapDao
  */
 @RunWith(classOf[SpringRunner])
 @SpringBootTest
-class DaoTestCase {
+class DaoTestCase extends PaginationHandler {
 
   @Autowired
   var imageContentDao: ImageContentDao = _
@@ -24,9 +26,13 @@ class DaoTestCase {
   var vshViewMapDao: VshViewMapDao = _
   
 
+  val page = new Pagination(100, 2, 18, 10)
+  
   @Test
   def testListImageContent = {
 //    imageContentDao.list() foreach println
-//    vshViewMapDao.list // take(10) foreach println
+    
+    
+    vshViewMapDao.list("__", page.limit).asScala.foreach(o => println(o.id))
   }
 }

@@ -17,7 +17,7 @@
             delay: 100, // The number of millseconds to wait before triggering the react event
             breakpoints: { // The different screen resolution breakpoints
                 phone: 480,
-                tablet: 1024
+                tablet: 2048 // 增大该值，修复在width超出一定长度或screen减小一定长度后导致的detail子表格失效问题
             },
             parsers: {  // The default parser to parse the value out of a cell (values are used in building up row detail)
                 alpha: function (cell) {
