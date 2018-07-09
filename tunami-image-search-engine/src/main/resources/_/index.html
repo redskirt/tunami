@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html>
-	<head lang="en" th:replace="~{_scaffold_ :: header}">
+
+<html xmlns:th="http://www.thymeleaf.org">
+	<head lang="en" th:include="~{_scaffold_ :: header}">
 	</head>
 	<head>
 		<link rel="stylesheet" href="assets/css/signin.css">
@@ -20,9 +21,9 @@
 		<div id="status">&nbsp;</div>
 	</div>
 	
-	<div th:replace="~{_scaffold_ :: navbar}"></div>
+	<div th:include="~{_scaffold_ :: navbar}"></div>
 
-	<div th:replace="~{_scaffold_ :: side_menu}"></div>
+	<div th:include="~{_scaffold_ :: side_menu}"></div>
 	
 	<!--  PAPER WRAP -->
 	<div class="wrap-fluid">
@@ -49,10 +50,7 @@
 								back,&nbsp; <strong>Dave mattew!</strong>&nbsp;&nbsp;Your last
 								sig in at Yesterday, 16:54 PM
 							</div>
-
-
 						</div>
-
 					</div>
 					<div class="col-lg-2">
 						<div class="devider-vertical visible-lg"></div>
@@ -609,7 +607,7 @@
 				<!-- /END OF CONTENT -->
 
 				<!-- FOOTER -->
-				<div th:replace="~{_scaffold_ :: footer}"></div>
+				<div th:include="~{_scaffold_ :: footer}"></div>
 				<!-- / END OF FOOTER -->
 			</div>
 		</div>
