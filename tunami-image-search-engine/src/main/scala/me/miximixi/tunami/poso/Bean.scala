@@ -110,7 +110,7 @@ class VshViewMap extends C {
   var transliteration: String = _
   
   @BeanProperty
-  var alternative_orivinal_title: String = _
+  var alternative_original_title: String = _
   
   @BeanProperty
   var collection: String = _

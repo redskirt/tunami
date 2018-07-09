@@ -42,7 +42,7 @@ trait PaginationHandler {
       .append(s"""\t<li class="footable-page-arrow${ if(page.current == page.total) " disabled" else "" }"><a href="${ if(page.current == page.total) "#" else last }">»</a></li>\n""")
       .append("</ul>")
     
-    builder.toString()
+    builder toString
   }
   
   final class Pagination(val $count: Int, val $current: Int = 0, val $size: Int = 0, val $total: Int = 0) {

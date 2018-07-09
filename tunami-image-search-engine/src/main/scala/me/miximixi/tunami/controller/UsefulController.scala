@@ -2,12 +2,18 @@ package me.miximixi.tunami.controller
 
 import org.json4s.JsonAST.JValue
 import org.json4s.jackson.JsonMethods.asJsonNode
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.core.io.FileSystemResource
+import org.springframework.core.io.InputStreamResource
+import org.springframework.http.HttpHeaders
+import org.springframework.http.MediaType
+import org.springframework.http.ResponseEntity
+import org.springframework.web.servlet.ModelAndView
 
 import com.fasterxml.jackson.databind.JsonNode
+
 import javax.servlet.http.HttpSession
-import org.springframework.web.servlet.ModelAndView
-import org.springframework.beans.factory.annotation.Autowired
-import me.miximixi.tunami.persistence.VshViewMapDao
 
 /**
  * @Author Sasaki
@@ -38,6 +44,24 @@ trait UsefulController { self =>
   
   // 运行时Session注入
   @Autowired
-  def setSession(session: HttpSession) = self.session = session
+  protected def setSession(session: HttpSession) = self.session = session
   
+  @Value("${value.repository}")
+  protected var repository: String = _
+  
+  protected def download(fullPath: String): ResponseEntity[InputStreamResource] = {
+    val file = new FileSystemResource(fullPath);
+    val headers = new HttpHeaders();
+    headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+    headers.add("Content-Disposition", s"""attachment; filename="${ file.getFilename() }"""");
+    headers.add("Pragma", "no-cache");
+    headers.add("Expires", "0");
+
+    return ResponseEntity
+      .ok()
+      .headers(headers)
+      .contentLength(file.contentLength())
+      .contentType(MediaType.parseMediaType("application/octet-stream"))
+      .body(new InputStreamResource(file.getInputStream()));
+  }
 }

@@ -11,6 +11,13 @@ import org.springframework.web.bind.annotation.PathVariable
 import me.miximixi.tunami.service.VshViewMapService
 import me.miximixi.tunami.persistence.VshViewMapDao
 import me.miximixi.tunami.kit.PaginationHandler
+import org.springframework.core.io.InputStreamResource
+import org.springframework.core.io.FileSystemResource
+import org.springframework.http.HttpHeaders
+import org.springframework.http.ResponseEntity
+import org.springframework.http.MediaType
+import org.springframework.web.bind.annotation.RequestMapping
+
 
 /**
  * @Author Sasaki
@@ -19,6 +26,7 @@ import me.miximixi.tunami.kit.PaginationHandler
  * @Description
  */
 @RestController
+@RequestMapping(Array("/media"))
 class MultiMediaController extends UsefulController with PaginationHandler {
   
   @Autowired
@@ -46,5 +54,8 @@ class MultiMediaController extends UsefulController with PaginationHandler {
     dispatch("map_list")
   }
   
+  @GetMapping(Array("/download_{dir}_{filename}"))
+  def download(@PathVariable dir: String, @PathVariable filename: String): ResponseEntity[InputStreamResource] = 
+      super.download(s"$repository/$dir/$filename")
   
 }
