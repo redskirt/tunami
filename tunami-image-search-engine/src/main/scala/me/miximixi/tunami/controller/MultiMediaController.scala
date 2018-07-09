@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import me.miximixi.tunami.service.VshViewMapService
 import me.miximixi.tunami.persistence.VshViewMapDao
 import me.miximixi.tunami.kit.PaginationHandler
-import org.springframework.core.io.InputStreamResource
+import org.springframework.core.io .InputStreamResource
 import org.springframework.core.io.FileSystemResource
 import org.springframework.http.HttpHeaders
 import org.springframework.http.ResponseEntity
