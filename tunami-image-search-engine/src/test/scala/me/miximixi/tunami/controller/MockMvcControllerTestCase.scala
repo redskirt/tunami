@@ -82,19 +82,19 @@ class MockMvcControllerTestCase {
     //      .andExpect(status().is(302))
     //        .andDo(print())
 
-//        println(">> With mock session:")
-//        mockMvc.perform(get("/media/map_list_0_10_0").session(mockSession))
-//          .andExpect(status.isOk())
-//          .andDo(print)
+        println(">> With mock session:")
+        mockMvc.perform(get("/media/map_list_0_10_0").session(mockSession))
+          .andExpect(status.isOk())
+          .andDo(print)
   }
   
-  @Test
-  def text_download(): Unit = {
-    println(">> With mock session:")
-    mockMvc.perform(get("/media/download_SZU_SZU0001.jpg").session(mockSession))
-      .andExpect(status.isOk())
-      .andDo(print)
-  }
+//  @Test
+//  def text_download(): Unit = {
+//    println(">> With mock session:")
+//    mockMvc.perform(get("/media/download_SZU_SZU0001.jpg").session(mockSession))
+//      .andExpect(status.isOk())
+//      .andDo(print)
+//  }
   
   
   

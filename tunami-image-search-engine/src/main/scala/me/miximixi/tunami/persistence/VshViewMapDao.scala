@@ -47,6 +47,7 @@ class VshViewMapDao extends JdbcTemplateHandler with DB with ScalaEntity {
       from $attr_vsh_view_map
       where true
       ${ and(city) }
+      ${ not_null("image_id") }
       order by id asc
       ${ limit_? }
       """, city, limit._1, limit._2) { (rs, i) =>

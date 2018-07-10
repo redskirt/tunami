@@ -21,5 +21,5 @@ trait DB {
   val attr_vsh_view_map = "attr_vsh_view_map"
   
   def and(column: String): String = if(__ != column) s"and $column = ?\n" else and_?
-  
+  def not_null(column: String): String = s"and $column is not null\n"
 }

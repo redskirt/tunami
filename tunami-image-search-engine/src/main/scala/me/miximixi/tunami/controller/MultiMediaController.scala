@@ -56,6 +56,6 @@ class MultiMediaController extends UsefulController with PaginationHandler {
   
   @GetMapping(Array("/download_{dir}_{filename}"))
   def download(@PathVariable dir: String, @PathVariable filename: String): ResponseEntity[InputStreamResource] = 
-      super.download(s"$repository/$dir/$filename")
+      super.download(s"$repository/map/$dir/$filename")
   
 }
