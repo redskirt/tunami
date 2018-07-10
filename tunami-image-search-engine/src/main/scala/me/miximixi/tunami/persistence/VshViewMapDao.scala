@@ -73,5 +73,13 @@ class VshViewMapDao extends JdbcTemplateHandler with DB with ScalaEntity {
         ("place_of_publication", rs.getString(16), CLASS_STRING),
         ("remark", rs.getString(17), CLASS_STRING)))
     }
+      
+    def update(o: VshViewMap): Int = 
+      jdbcTemplate.update(s"""
+        update $attr_vsh_view_map
+        set remark=?
+        where true
+        and id=?
+        """, o.remark, o.id)
 
 }

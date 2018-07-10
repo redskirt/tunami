@@ -2,7 +2,12 @@ package me.miximixi.tunami.controller
 
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
-
+import org.json4s.JsonAST.JNull
+import org.json4s.JsonAST.JString
+import org.json4s.JsonDSL.boolean2jvalue
+import org.json4s.JsonDSL.pair2Assoc
+import org.json4s.JsonDSL.string2jvalue
+import org.json4s.jackson.JsonMethods.fromJsonNode
 import javax.servlet.http.HttpSession
 import org.springframework.beans.factory.annotation.Autowired
 import com.fasterxml.jackson.databind.JsonNode
@@ -17,6 +22,10 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.ResponseEntity
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import me.miximixi.tunami.poso.VshViewMap
+import org.json4s.JsonAST.JInt
 
 
 /**
@@ -57,5 +66,21 @@ class MultiMediaController extends UsefulController with PaginationHandler {
   @GetMapping(Array("/download_{dir}_{filename}"))
   def download(@PathVariable dir: String, @PathVariable filename: String): ResponseEntity[InputStreamResource] = 
       super.download(s"$repository/map/$dir/$filename")
-  
+      
+  @PostMapping(Array("/remark"))
+  def remark(@RequestBody body: JsonNode): JsonNode =
+    ajaxHandler(body) { json =>
+      (json \ "id", json \ "remark", json \ "remark_") match {
+        case (JInt(id), JString(remark), JString(remark_)) => {
+          if (remark != remark_) {
+            val o = new VshViewMap
+            o.id = id.toInt
+            o.remark = remark
+            vshViewMapDao.update(o)
+          }
+          reply(true, "修改成功。")
+        }
+        case _ => reply(false, "修改异常！")
+      }
+    }
 }

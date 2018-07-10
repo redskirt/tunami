@@ -10,7 +10,7 @@ import com.sasaki.packages.constant._
  * @Description
  */
 
-class C[-T] { 
+class C { 
   
   val self = this
 
@@ -27,7 +27,11 @@ class C[-T] {
   var id: JInt = _
 
   var timestamp: JTimestamp = _
+
+  def getId: JInt = self.id
   
+  def getTimestamp: JTimestamp = self.timestamp
+    
   def setId($id: JInt): self.type = {
     self.id = $id
     self

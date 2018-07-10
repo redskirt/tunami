@@ -9,6 +9,7 @@ import org.junit.Test
 import me.miximixi.tunami.persistence.VshViewMapDao
 import scala.collection.JavaConverters._
 import me.miximixi.tunami.kit.PaginationHandler
+import me.miximixi.tunami.poso.VshViewMap
 
 /**
  * @Author Sasaki
@@ -29,10 +30,12 @@ class DaoTestCase extends PaginationHandler {
   val page = new Pagination(100, 2, 18, 10)
   
   @Test
-  def testListImageContent = {
-//    imageContentDao.list() foreach println
-    
-    
-    vshViewMapDao.list("__", page.limit).asScala.foreach(o => println(o.id))
+  def testListImageContent: Unit = {
+    //    imageContentDao.list() foreach println
+    //    vshViewMapDao.list("__", page.limit).asScala.foreach(o => println(o.id))
+    val o = new VshViewMap
+    o.id = 1
+    o.remark = "___"
+    vshViewMapDao.update(o)
   }
 }

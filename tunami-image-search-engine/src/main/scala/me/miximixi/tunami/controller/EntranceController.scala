@@ -40,33 +40,32 @@ class EntranceController @Autowired() (loginService: LoginService) extends Usefu
    * @RequestParam username: String, @RequestParam password: String, 
    */
   @PostMapping(Array("/doLogin"))
-  def doLogin(@RequestBody body: JsonNode): JsonNode = {
-    val json = fromJsonNode(body)
-
-    (json \ "account_name", json \ "password") match {
-      case (JString(account_name), JString(password)) =>
-        if (nonEmpty(account_name) && nonEmpty(password)) {
-          val optionUser = loginService.bizCheckin(account_name)
-          optionUser match {
-            case None => ("verify" -> false) ~ ("message" -> "用户名不存在！")
-            case Some(_) => {
-              if (md5(password) == optionUser.get.password) {
-                session.setAttribute(SESSION_PRINCIPAL, account_name)
-                ("verify" -> true) ~ ("message" -> JNull)
-              } else
-                ("verify" -> false) ~ ("message" -> "用户名或密码错误！")
+  def doLogin(@RequestBody body: JsonNode): JsonNode =
+    ajaxHandler(body) { json =>
+      (json \ "account_name", json \ "password") match {
+        case (JString(account_name), JString(password)) =>
+          if (nonEmpty(account_name) && nonEmpty(password)) {
+            val optionUser = loginService.bizCheckin(account_name)
+            optionUser match {
+              case None => ($verify -> false) ~ ($message -> "用户名不存在！")
+              case Some(_) => {
+                if (md5(password) == optionUser.get.password) {
+                  session.setAttribute($SESSION_PRINCIPAL, account_name)
+                  ($verify -> true) ~ ($message -> JNull)
+                } else
+                  ($verify -> false) ~ ($message -> "用户名或密码错误！")
+              }
             }
-          }
-        } else
-          ("verify" -> false) ~ ("message" -> "用户名和密码不能为空！")
-      case _ => ("verify" -> false) ~ ("message" -> "非法参数！")
+          } else
+            ($verify -> false) ~ ($message -> "用户名和密码不能为空！")
+        case _ => ($verify -> false) ~ ($message -> "非法参数！")
+      }
     }
-  }
   
   @GetMapping(Array("/doLogout"))
   def doLogout = {
-    session.removeAttribute(SESSION_PRINCIPAL)
-    new ModelAndView(s"${_REDIRECT}/_")
+    session.removeAttribute($SESSION_PRINCIPAL)
+    new ModelAndView(s"${$REDIRECT}/_")
   }
 
   @GetMapping(Array("/"))
