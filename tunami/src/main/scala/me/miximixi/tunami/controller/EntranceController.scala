@@ -1,21 +1,25 @@
 package me.miximixi.tunami.controller
 
-import com.sasaki.packages.independent._
-
-import org.json4s.JsonAST.{ JString, JNull }
-import org.json4s.JsonDSL._
-import org.json4s.jackson.JsonMethods._
+import org.json4s.JsonAST.JNull
+import org.json4s.JsonAST.JString
+import org.json4s.JsonDSL.boolean2jvalue
+import org.json4s.JsonDSL.pair2Assoc
+import org.json4s.JsonDSL.string2jvalue
+import org.json4s.jackson.JsonMethods.fromJsonNode
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.ModelAndView
 
 import com.fasterxml.jackson.databind.JsonNode
+import com.sasaki.packages.independent.md5
+import com.sasaki.packages.independent.nonEmpty
 
 import javax.servlet.http.HttpSession
 import me.miximixi.tunami.service.LoginService
-import org.springframework.web.bind.annotation.RequestBody
 
 /**
  * @Author Sasaki
@@ -25,8 +29,8 @@ import org.springframework.web.bind.annotation.RequestBody
  */
 @RestController
 class EntranceController @Autowired() (loginService: LoginService) extends UsefulController {
-
-  @RequestMapping(value = { Array("/_", "/login") }, method = Array(GET))
+  
+  @GetMapping(Array("/_", "/login"))
   def login = new ModelAndView("login")
 
   /**
@@ -35,42 +39,45 @@ class EntranceController @Autowired() (loginService: LoginService) extends Usefu
    * 
    * @RequestParam username: String, @RequestParam password: String, 
    */
-  @RequestMapping(value = { Array("/doLogin") }, method = Array(POST))
-  def doLogin(@RequestBody body: JsonNode, session: HttpSession): JsonNode = {
-    val json = fromJsonNode(body)
-
-    (json \ "username", json \ "password") match {
-      case (JString(username), JString(password)) =>
-        if (nonEmpty(username) && nonEmpty(password)) {
-          val optionUser = loginService.queryUser(username)
-          optionUser match {
-            case None => ("verify" -> false) ~ ("message" -> "用户名不存在！")
-            case Some(_) => {
-              if (md5(password) == optionUser.get.password) {
-                session.setAttribute(SESSION_USER, username)
-                ("verify" -> true) ~ ("message" -> JNull)
-              } else
-                ("verify" -> false) ~ ("message" -> "用户名或密码错误！")
+  @PostMapping(Array("/doLogin"))
+  def doLogin(@RequestBody body: JsonNode): JsonNode =
+    ajaxHandler(body) { json =>
+      (json \ "account_name", json \ "password") match {
+        case (JString(account_name), JString(password)) =>
+          if (nonEmpty(account_name) && nonEmpty(password)) {
+            val optionUser = loginService.bizCheckin(account_name)
+            optionUser match {
+              case None => ($verify -> false) ~ ($message -> "用户名不存在！")
+              case Some(_) => {
+                if (md5(password) == optionUser.get.password) {
+                  session.setAttribute($SESSION_PRINCIPAL, account_name)
+                  ($verify -> true) ~ ($message -> JNull)
+                } else
+                  ($verify -> false) ~ ($message -> "用户名或密码错误！")
+              }
             }
-          }
-        } else
-          ("verify" -> false) ~ ("message" -> "用户名和密码不能为空！")
-      case _ => ("verify" -> false) ~ ("message" -> "非法参数！")
+          } else
+            ($verify -> false) ~ ($message -> "用户名和密码不能为空！")
+        case _ => ($verify -> false) ~ ($message -> "非法参数！")
+      }
     }
-  }
   
-  @RequestMapping(value = { Array("/doLogout") }, method = Array(GET))
-  def doLogout(session: HttpSession) = {
-    session.removeAttribute(SESSION_USER)
-    new ModelAndView(s"${_REDIRECT}/_")
+  @GetMapping(Array("/doLogout"))
+  def doLogout = {
+    session.removeAttribute($SESSION_PRINCIPAL)
+    new ModelAndView(s"${$REDIRECT}/_")
   }
 
-  @RequestMapping(value = { Array("/") }, method = Array(GET))
-  def /(session: HttpSession) = {
-    if (null == session.getAttribute(SESSION_USER))
-      new ModelAndView(s"${_REDIRECT}/_")
-    else
-      new ModelAndView("index")
+  @GetMapping(Array("/"))
+  def / = dispatch("index")
+
+  @GetMapping(Array("/t"))
+  def demo = {
+     new ModelAndView("table-dynamic")
   }
 
+//  @Autowired
+//  override def setSession(session: HttpSession) {
+//    this.session = session
+//  }
 }

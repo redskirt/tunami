@@ -1,0 +1,294 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.0.0.RELEASE</version>
+	</parent>
+
+	<groupId>me.miximixi</groupId>
+	<artifactId>tunami-lets-pray</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>tunami-lets-pray</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<scala.version>2.11</scala.version>
+		<scala.minor.version>${scala.version}.11</scala.minor.version>
+		<spring-boot.version>2.0.0.RELEASE</spring-boot.version>
+	</properties>
+
+	<dependencies>
+		<!-- <dependency> -->
+		<!-- <groupId>com.sasaki.assist</groupId> -->
+		<!-- <artifactId>working-helper-assist</artifactId> -->
+		<!-- <version>1.1.3</version> -->
+		<!-- </dependency> -->
+
+		<dependency>
+			<groupId>com.sasaki</groupId>
+			<artifactId>working-helper-assist</artifactId>
+			<version>1.1.3</version>
+			<systemPath>/Users/sasaki/repo/com/sasaki/working-helper-assist/1.1.3/working-helper-assist-1.1.3.jar</systemPath>
+			<scope>system</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.scala-lang</groupId>
+			<artifactId>scala-library</artifactId>
+			<version>${scala.minor.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.scala-lang</groupId>
+			<artifactId>scala-compiler</artifactId>
+			<version>${scala.minor.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.scala-lang</groupId>
+			<artifactId>scala-reflect</artifactId>
+			<version>${scala.minor.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.scala-lang</groupId>
+			<artifactId>scalap</artifactId>
+			<version>${scala.minor.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>nz.net.ultraq.thymeleaf</groupId>
+			<artifactId>thymeleaf-layout-dialect</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>1.0.19</version>
+		</dependency>
+
+		<!-- 结合json4s使用，使得构建 Rest Controller时，Scala 的集合和 case class 支持直接序列化。 -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.module</groupId>
+			<artifactId>jackson-module-scala_${scala.version}</artifactId>
+			<version>2.8.7</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.json4s</groupId>
+			<artifactId>json4s-jackson_${scala.version}</artifactId>
+			<version>3.5.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.scalatest</groupId>
+			<artifactId>scalatest_${scala.version}</artifactId>
+			<version>3.0.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.scalamock</groupId>
+			<artifactId>scalamock-scalatest-support_${scala.version}</artifactId>
+			<version>3.5.0</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<sourceDirectory>src/main/scala</sourceDirectory>
+		<testSourceDirectory>src/test/scala</testSourceDirectory>
+		<plugins>
+
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+
+				<dependencies>
+					<dependency>
+						<groupId>org.springframework</groupId>
+						<artifactId>springloaded</artifactId>
+						<version>1.2.6.RELEASE</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+
+			<plugin>
+				<groupId>net.alchim31.maven</groupId>
+				<artifactId>scala-maven-plugin</artifactId>
+				<version>3.2.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>
+							<goal>testCompile</goal>
+						</goals>
+						<configuration>
+							<args>
+								<arg>-dependencyfile</arg>
+								<arg>${project.build.directory}/.scala_dependencies</arg>
+							</args>
+						</configuration>
+					</execution>
+				</executions>
+				<configuration>
+					<launchers>
+						<launcher>
+							<id>default</id>
+							<mainClass>me.miximixi.tunami.Launcher</mainClass>
+						</launcher>
+					</launchers>
+					<recompileMode>incremental</recompileMode>
+					<scalaVersion>${scala.minor.version}</scalaVersion>
+					<args>
+						<arg>-deprecation</arg>
+					</args>
+					<jvmArgs>
+						<jvmArg>-Xms64m</jvmArg>
+						<jvmArg>-Xmx1024m</jvmArg>
+					</jvmArgs>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<!-- Tests will be run with scalatest-maven-plugin instead -->
+					<skipTests>true</skipTests>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.scalatest</groupId>
+				<artifactId>scalatest-maven-plugin</artifactId>
+				<version>1.0</version>
+				<configuration>
+					<reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
+					<junitxml>.</junitxml>
+					<filereports>TestSuiteReport.txt</filereports>
+				</configuration>
+				<executions>
+					<execution>
+						<id>test</id>
+						<goals>
+							<goal>test</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<outputDirectory>${project.build.directory}/lib</outputDirectory>
+				</configuration>
+			</plugin>
+
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<includeScope>system</includeScope>
+				</configuration>
+			</plugin>
+
+			<!-- <plugin> <groupId>org.scala-tools</groupId> <artifactId>maven-scala-plugin</artifactId> 
+				<version>${scala.version}</version> <executions> <execution> <goals> <goal>compile</goal> 
+				<goal>testCompile</goal> </goals> </execution> </executions> <configuration> 
+				<recompileMode>incremental</recompileMode> <scalaVersion>${scala.minor.version}</scalaVersion> 
+				<launchers> <launcher> <id>app</id> <mainClass>me.miximixi.tunami.Launcher</mainClass> 
+				<args> <arg>-deprecation</arg> </args> <jvmArgs> <jvmArg>-Xms256m</jvmArg> 
+				<jvmArg>-Xmx2048m</jvmArg> </jvmArgs> </launcher> </launchers> </configuration> 
+				</plugin> -->
+
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-eclipse-plugin</artifactId> 
+				<configuration> <downloadSources>true</downloadSources> <buildcommands> <buildcommand>ch.epfl.lamp.sdt.core.scalabuilder</buildcommand> 
+				</buildcommands> <additionalProjectnatures> <projectnature>ch.epfl.lamp.sdt.core.scalanature</projectnature> 
+				</additionalProjectnatures> <classpathContainers> <classpathContainer>org.eclipse.jdt.launching.JRE_CONTAINER</classpathContainer> 
+				<classpathContainer>ch.epfl.lamp.sdt.launching.SCALA_CONTAINER</classpathContainer> 
+				</classpathContainers> </configuration> </plugin> -->
+
+		</plugins>
+	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.scala-tools</groupId>
+				<artifactId>maven-scala-plugin</artifactId>
+				<configuration>
+					<scalaVersion>${scala.version}</scalaVersion>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
+
+	<repositories>
+		<repository>
+			<id>scala-tools.org</id>
+			<name>Scala-Tools Maven2 Repository</name>
+			<!-- <url>http://scala-tools.org/repo-releases</url> -->
+			<url>http://repo1.maven.org/maven2/</url>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>scala-tools.org</id>
+			<name>Scala-Tools Maven2 Repository</name>
+			<!-- <url>http://scala-tools.org/repo-releases</url> -->
+			<url>http://repo1.maven.org/maven2/</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+</project>

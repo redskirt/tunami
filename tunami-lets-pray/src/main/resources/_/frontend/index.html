@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title></title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+
+<link href="https://fonts.googleapis.com/css?family=Bellefair|Open+Sans" rel="stylesheet">
+<link rel="stylesheet" th:href="@{/assets/frontend/css/styles-merged.css}">
+<link rel="stylesheet" th:href="@{/assets/frontend/css/style.min.css}">
+
+<!-- Thumbnail Proximity Effect -->
+<link rel="stylesheet" th:href="@{/assets/frontend/css/thumbnail.css}">
+
+<!-- 瀑布流 -->
+<link rel="stylesheet" type="text/css" th:href="@{/assets/frontend/css/base.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/assets/frontend/css/index.css}">
+
+<!--[if lt IE 9]>
+      <script src="js/vendor/html5shiv.min.js"></script>
+      <script src="js/vendor/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+	<!-- Fixed navbar -->
+	<nav class="navbar navbar-default navbar-fixed-top probootstrap-navbar">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar-collapse"
+					aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" th:href="index.html" title="uiCookies:FineOak">FineOak</a>
+			</div>
+
+			<div id="navbar-collapse" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="index.html">Home</a></li>
+					<li><a href="services.html">Services</a></li>
+					<li><a href="about.html">About</a></li>
+					<li><a href="gallery.html">Gallery</a></li>
+					<li class="dropdown"><a href="#" data-toggle="dropdown"
+						class="dropdown-toggle">Pages</a>
+						<ul class="dropdown-menu">
+							<li><a href="about.html">About Us</a></li>
+							<li><a href="portfolio.html">Portfolio</a></li>
+							<li><a href="portfolio-single.html">Portfolio Single</a></li>
+							<li class="dropdown-submenu dropdown"><a href="#"
+								data-toggle="dropdown" class="dropdown-toggle"><span>Sub
+										Menu</span></a>
+								<ul class="dropdown-menu">
+									<li><a href="#">Second Level Menu</a></li>
+									<li><a href="#">Second Level Menu</a></li>
+									<li><a href="#">Second Level Menu</a></li>
+									<li><a href="#">Second Level Menu</a></li>
+								</ul></li>
+							<li><a href="services.html">Services</a></li>
+						</ul></li>
+					<li><a href="contact.html">Contact</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<!-- <section class="flexslider"> -->
+		<section class="pe-container" style="width: 100%; height: 500px; background: #b39e9e00 url(/assets/frontend/images/2.jpg) center center; text-align: center; box-shadow: 0 1px 2px rgba(0,0,0,0.2);">
+		<ul id="pe-thumbs" class="pe-thumbs" style="list-style: none; padding: 0;">
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/1.jpg}" />
+				<div class="pe-description">
+						<h3>time</h3>
+						<p>Since time, and his predestinated end</p>
+					</div></a></li>
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/2.jpg}" />
+				<div class="pe-description">
+						<h3>hopeful</h3>
+						<p>Abridged the circuit of his hopeful days</p>
+					</div></a></li>
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/3.jpg}" />
+				<div class="pe-description">
+						<h3>virtue</h3>
+						<p>Whiles both his youth and virtue did intend</p>
+					</div></a></li>
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/4.jpg}" />
+				<div class="pe-description">
+						<h3>endeavors</h3>
+						<p>The good endeavors of deserving praise</p>
+					</div></a></li>
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/5.jpg}" />
+				<div class="pe-description">
+						<h3>monument</h3>
+						<p>What memorable monument can last</p>
+					</div></a></li>
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/6.jpg}" />
+				<div class="pe-description">
+						<h3>name</h3>
+						<p>Whereon to build his never-blemished name</p>
+					</div></a></li>
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/7.jpg}" />
+				<div class="pe-description">
+						<h3>life was graced</h3>
+						<p>But his own worth, wherein his life was graced</p>
+					</div></a></li>
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/8.jpg}" />
+				<div class="pe-description">
+						<h3>the same</h3>
+						<p>Sith as that ever he maintained the same?</p>
+					</div></a></li>
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/9.jpg}" />
+				<div class="pe-description">
+						<h3>oblivion</h3>
+						<p>Oblivion in the darkest day to come</p>
+					</div></a></li>
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/10.jpg}" />
+				<div class="pe-description">
+						<h3>sin shall tread</h3>
+						<p>When sin shall tread on merit in the dust</p>
+					</div></a></li>
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/11.jpg}" />
+				<div class="pe-description">
+						<h3>lamentable tomb</h3>
+						<p>Cannot rase out the lamentable tomb</p>
+					</div></a></li>
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/12.jpg}" />
+				<div class="pe-description">
+						<h3>short-lived deserts</h3>
+						<p>Of his short-lived deserts; but still they must</p>
+					</div></a></li>
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/13.jpg}" />
+				<div class="pe-description">
+						<h3>hearts and memories</h3>
+						<p>Even in the hearts and memories of men</p>
+					</div></a></li>
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/14.jpg}" />
+				<div class="pe-description">
+						<h3>respect</h3>
+						<p>Claim fit respect, that they, in every limb</p>
+					</div></a></li>
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/15.jpg}" />
+				<div class="pe-description">
+						<h3>comfort</h3>
+						<p>Remembering what he was, with comfort then</p>
+					</div></a></li>
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/16.jpg}" />
+				<div class="pe-description">
+						<h3>pattern</h3>
+						<p>May pattern out one truly good, by him</p>
+					</div></a></li>
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/17.jpg}" />
+				<div class="pe-description">
+						<h3>truly good</h3>
+						<p>For he was truly good, if honest care</p>
+					</div></a></li>
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/18.jpg}" />
+				<div class="pe-description">
+						<h3>harmless conversation</h3>
+						<p>Of harmless conversation may commend</p>
+					</div></a></li>
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/19.jpg}" />
+				<div class="pe-description">
+						<h3>recompensed</h3>
+						<p>Ill recompensed only in his end</p>
+					</div></a></li>
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/20.jpg}" />
+				<div class="pe-description">
+						<h3>tongue</h3>
+						<p>Nor can the tongue of him who loved him least</p>
+					</div></a></li>
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/21.jpg}" />
+				<div class="pe-description">
+						<h3>superlative</h3>
+						<p>To one superlative above the rest</p>
+					</div></a></li>
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/22.jpg}" />
+				<div class="pe-description">
+						<h3>steady faith</h3>
+						<p>Of many men in steady faith reprove</p>
+					</div></a></li>
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/23.jpg}" />
+				<div class="pe-description">
+						<h3>constant temper</h3>
+						<p>His constant temper, in the equal weight</p>
+					</div></a></li>
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/24.jpg}" />
+				<div class="pe-description">
+						<h3>thankfulness</h3>
+						<p>Of thankfulness and kindness: Truth doth leave</p>
+					</div></a></li>
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/25.jpg}" />
+				<div class="pe-description">
+						<h3>proof</h3>
+						<p>Sufficient proof, he was in every right</p>
+					</div></a></li>
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/26.jpg}" />
+				<div class="pe-description">
+						<h3>thankful</h3>
+						<p>As kind to give, as thankful to receive.</p>
+					</div></a></li>
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/27.jpg}" />
+				<div class="pe-description">
+						<h3>curious eye</h3>
+						<p>The curious eye of a quick-brained survey</p>
+					</div></a></li>
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/28.jpg}" />
+				<div class="pe-description">
+						<h3>scantly find</h3>
+						<p>Could scantly find a mote amidst the sun</p>
+					</div></a></li>
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/29.jpg}" />
+				<div class="pe-description">
+						<h3>too-shortened days</h3>
+						<p>Of his too-shortened days, or make a prey</p>
+					</div></a></li>
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/30.jpg}" />
+				<div class="pe-description">
+						<h3>faulty errors</h3>
+						<p>Of any faulty errors he had done</p>
+					</div></a></li>
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/31.jpg}" />
+				<div class="pe-description">
+						<h3>spleenful sense</h3>
+						<p>Not that he was above the spleenful sense</p>
+					</div></a></li>
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/32.jpg}" />
+				<div class="pe-description">
+						<h3>spite of malice</h3>
+						<p>And spite of malice, but for that he had</p>
+					</div></a></li>
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/33.jpg}" />
+				<div class="pe-description">
+						<h3>innocence</h3>
+						<p>Warrant enough in his own innocence</p>
+					</div></a></li>
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/34.jpg}" />
+				<div class="pe-description">
+						<h3>nature</h3>
+						<p>Against the sting of some in nature bad</p>
+					</div></a></li>
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/35.jpg}" />
+				<div class="pe-description">
+						<h3>absolutely blest</h3>
+						<p>Yet who is he so absolutely blest</p>
+					</div></a></li>
+			<li><a href="http://www.17sucai.com/"><img
+					th:src="@{/assets/frontend/images/thumbs/36.jpg}" />
+				<div class="pe-description">
+						<h3>mortal frame</h3>
+						<p>That lives encompassed in a mortal frame</p>
+					</div></a></li>
+		</ul>
+		</section>
+	<!-- </section> -->
+
+	<section class="probootstrap-section proboostrap-clients probootstrap-bg-white probootstrap-zindex-above-showcase">
+		<div class="container">
+			<div class="row">
+				<div
+					class="col-md-6 col-md-offset-3 text-center section-heading probootstrap-animate">
+					<h2>让我们同心合一祷告</h2>
+					<p class="lead">———— Let's Pray ————</p>
+				</div>
+			</div>
+			<!-- END row -->
+			
+				<div class="waterfull clearfloat" id="waterfull">
+					<ul>
+						<li class="item"><a href="#" class="a-img"> <img
+								th:src="@{/assets/frontend/images/t8.jpg}" alt="">
+	
+						</a>
+							<h2 class="li-title" title="手把手教你用css3来创建loading动画(二)">手把手教你用css3来创建loading动画(二)</h2>
+							<p class="description">HTML
+								5以前的标准由于考虑到浏览器安全问题并不允许直接跨域通信并不允许直接跨域通信并不允许直接跨域通信，于...</p>
+							<div class="qianm clearfloat">
+								<span class="sp1"><b>688</b>浏览</span> <span class="sp2">标题</span>
+								<span class="sp3">2小时前&nbsp;By</span>
+							</div></li>
+						<li class="item"><a href="#" class="a-img"> <img
+								th:src="@{/assets/frontend/images/t8.jpg}" alt="">
+	
+						</a>
+							<h2 class="li-title" title="手把手教你用css3来创建loading动画(二)">手把手教你用css3来创建loading动画(二)</h2>
+							<p class="description">HTML
+								5以前的标准由于考虑到浏览器安全问题并不允许直接跨域通信并不允许直接跨域通信并不允许直接跨域通信，于...</p>
+							<div class="qianm clearfloat">
+								<span class="sp1"><b>688</b>浏览</span> <span class="sp2">标题</span>
+								<span class="sp3">2小时前&nbsp;By</span>
+							</div></li>
+						<li class="item"><a href="#" class="a-img"> <img
+								th:src="@{/assets/frontend/images/t8.jpg}" alt="">
+	
+						</a>
+							<h2 class="li-title" title="手把手教你用css3来创建loading动画(二)">手把手教你用css3来创建loading动画(二)</h2>
+							<p class="description">HTML
+								5以前的标准由于考虑到浏览器安全问题并不允许直接跨域通信并不允许直接跨域通信并不允许直接跨域通信，于...</p>
+							<div class="qianm clearfloat">
+								<span class="sp1"><b>688</b>浏览</span> <span class="sp2">标题</span>
+								<span class="sp3">2小时前&nbsp;By</span>
+							</div></li>
+						<li class="item"><a href="#" class="a-img"> <img
+								th:src="@{/assets/frontend/images/t8.jpg}" alt="">
+	
+						</a>
+							<h2 class="li-title" title="手把手教你用css3来创建loading动画(二)">手把手教你用css3来创建loading动画(二)</h2>
+							<p class="description">HTML
+								5以前的标准由于考虑到浏览器安全问题并不允许直接跨域通信并不允许直接跨域通信并不允许直接跨域通信，于...</p>
+							<div class="qianm clearfloat">
+								<span class="sp1"><b>688</b>浏览</span> <span class="sp2">标题</span>
+								<span class="sp3">2小时前&nbsp;By</span>
+							</div></li>
+						<li class="item"><a href="#" class="a-img"> <img
+								th:src="@{/assets/frontend/images/t8.jpg}" alt="">
+	
+						</a>
+							<h2 class="li-title" title="手把手教你用css3来创建loading动画(二)">手把手教你用css3来创建loading动画(二)</h2>
+							<p class="description">HTML
+								5以前的标准由于考虑到浏览器安全问题并不允许直接跨域通信并不允许直接跨域通信并不允许直接跨域通信，于...</p>
+							<div class="qianm clearfloat">
+								<span class="sp1"><b>688</b>浏览</span> <span class="sp2">标题</span>
+								<span class="sp3">2小时前&nbsp;By</span>
+							</div></li>
+						<li class="item"><a href="#" class="a-img"> <img
+								th:src="@{/assets/frontend/images/t8.jpg}" alt="">
+						</a>
+							<h2 class="li-title" title="手把手教你用css3来创建loading动画(二)">手把手教你用css3来创建loading动画(二)</h2>
+							<p class="description">HTML
+								5以前的标准由于考虑到浏览器安全问题并不允许直接跨域通信并不允许直接跨域通信并不允许直接跨域通信，于...</p>
+							<div class="qianm clearfloat">
+								<span class="sp1"><b>688</b>浏览</span> <span class="sp2">标题</span>
+								<span class="sp3">2小时前&nbsp;By</span>
+							</div></li>
+						<li class="item"><a href="#" class="a-img"> <img
+								th:src="@{/assets/frontend/images/t8.jpg}" alt="">
+	
+						</a>
+							<h2 class="li-title" title="手把手教你用css3来创建loading动画(二)">手把手教你用css3来创建loading动画(二)</h2>
+							<p class="description">HTML
+								5以前的标准由于考虑到浏览器安全问题并不允许直接跨域通信并不允许直接跨域通信并不允许直接跨域通信，于...</p>
+							<div class="qianm clearfloat">
+								<span class="sp1"><b>688</b>浏览</span> <span class="sp2">标题</span>
+								<span class="sp3">2小时前&nbsp;By</span>
+							</div></li>
+						<li class="item"><a href="#" class="a-img"> <img
+								th:src="@{/assets/frontend/images/t8.jpg}" alt="">
+	
+						</a>
+							<h2 class="li-title" title="手把手教你用css3来创建loading动画(二)">手把手教你用css3来创建loading动画(二)</h2>
+							<p class="description">HTML
+								5以前的标准由于考虑到浏览器安全问题并不允许直接跨域通信并不允许直接跨域通信并不允许直接跨域通信，于...</p>
+							<div class="qianm clearfloat">
+								<span class="sp1"><b>688</b>浏览</span> <span class="sp2">标题</span>
+								<span class="sp3">2小时前&nbsp;By</span>
+							</div></li>
+						<li class="item"><a href="#" class="a-img"> <img
+								th:src="@{/assets/frontend/images/t8.jpg}" alt="">
+	
+						</a>
+							<h2 class="li-title" title="手把手教你用css3来创建loading动画(二)">手把手教你用css3来创建loading动画(二)</h2>
+							<p class="description">HTML
+								5以前的标准由于考虑到浏览器安全问题并不允许直接跨域通信并不允许直接跨域通信并不允许直接跨域通信，于...</p>
+							<div class="qianm clearfloat">
+								<span class="sp1"><b>688</b>浏览</span> <span class="sp2">标题</span>
+								<span class="sp3">2小时前&nbsp;By</span>
+							</div></li>
+						<li class="item"><a href="#" class="a-img"> <img
+								th:src="@{/assets/frontend/images/t8.jpg}" alt="">
+	
+						</a>
+							<h2 class="li-title" title="手把手教你用css3来创建loading动画(二)">手把手教你用css3来创建loading动画(二)</h2>
+							<p class="description">HTML
+								5以前的标准由于考虑到浏览器安全问题并不允许直接跨域通信并不允许直接跨域通信并不允许直接跨域通信，于...</p>
+							<div class="qianm clearfloat">
+								<span class="sp1"><b>688</b>浏览</span> <span class="sp2">标题</span>
+								<span class="sp3">2小时前&nbsp;By</span>
+							</div></li>
+						<li class="item"><a href="#" class="a-img"> <img
+								th:src="@{/assets/frontend/images/t8.jpg}" alt="">
+	
+						</a>
+							<h2 class="li-title" title="手把手教你用css3来创建loading动画(二)">手把手教你用css3来创建loading动画(二)</h2>
+							<p class="description">HTML
+								5以前的标准由于考虑到浏览器安全问题并不允许直接跨域通信并不允许直接跨域通信并不允许直接跨域通信，于...</p>
+							<div class="qianm clearfloat">
+								<span class="sp1"><b>688</b>浏览</span> <span class="sp2">标题</span>
+								<span class="sp3">2小时前&nbsp;By</span>
+							</div></li>
+					</ul>
+				</div>
+				<!-- loading按钮自己通过样式调整 -->
+				<div id="imloading"
+					style="width: 150px; height: 30px; line-height: 30px; font-size: 16px; text-align: center; border-radius: 3px; opacity: 0.7; background: #000; margin: 10px auto 30px; color: #fff; display: none">
+					素材加载中.....</div>
+		</div>
+	</section>
+
+	<footer class="probootstrap-footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 text-center">
+					<ul class="probootstrap-footer-social">
+						<li><a href="#"><i class="icon-twitter"></i></a></li>
+						<li><a href="#"><i class="icon-facebook"></i></a></li>
+						<li><a href="#"><i class="icon-github"></i></a></li>
+						<li><a href="#"><i class="icon-dribbble"></i></a></li>
+						<li><a href="#"><i class="icon-linkedin"></i></a></li>
+						<li><a href="#"><i class="icon-youtube"></i></a></li>
+					</ul>
+				</div>
+			</div>
+			<!-- END row -->
+			<div class="row">
+				<div class="col-md-12 copyright text-center">
+					<p>Copyright &copy; 2018.Company name All rights reserved.</p>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+
+	<script th:src="@{/assets/frontend/js/scripts.min.js}"></script>
+	<script th:src="@{/assets/frontend/js/custom.min.js}"></script>
+	
+	<script type="text/javascript" th:src="@{/assets/frontend/js/jquery.proximity.js}"></script>
+	<script type="text/javascript">
+		$(function() {
+
+			var Photo = (function() {
+
+				// list of thumbs
+				var $list = $('#pe-thumbs'),
+				// list's width and offset left.
+				// this will be used to know the position of the description container
+				listW = $list.width(), listL = $list.offset().left,
+				// the images
+				$elems = $list.find('img'),
+				// the description containers
+				$descrp = $list.find('div.pe-description'),
+				// maxScale : maximum scale value the image will have
+				// minOpacity / maxOpacity : minimum (set in the CSS) and maximum values for the image's opacity
+				settings = {
+					maxScale : 1.3,
+					maxOpacity : 0.9,
+					minOpacity : Number($elems.css('opacity'))
+				}, init = function() {
+
+					// minScale will be set in the CSS
+					settings.minScale = _getScaleVal() || 1;
+					// preload the images (thumbs)
+					_loadImages(function() {
+
+						_calcDescrp();
+						_initEvents();
+
+					});
+
+				},
+				// Get Value of CSS Scale through JavaScript:
+				// http://css-tricks.com/get-value-of-css-rotation-through-javascript/
+				_getScaleVal = function() {
+
+					var st = window.getComputedStyle($elems.get(0), null), tr = st
+							.getPropertyValue("-webkit-transform")
+							|| st.getPropertyValue("-moz-transform")
+							|| st.getPropertyValue("-ms-transform")
+							|| st.getPropertyValue("-o-transform")
+							|| st.getPropertyValue("transform") || "fail...";
+
+					if (tr !== 'none') {
+
+						var values = tr.split('(')[1].split(')')[0].split(','), a = values[0], b = values[1], c = values[2], d = values[3];
+
+						return Math.sqrt(a * a + b * b);
+
+					}
+
+				},
+				// calculates the style values for the description containers,
+				// based on the settings variable
+				_calcDescrp = function() {
+
+					$descrp
+							.each(function(i) {
+
+								var $el = $(this), $img = $el.prev(), img_w = $img
+										.width(), img_h = $img.height(), img_n_w = settings.maxScale
+										* img_w, img_n_h = settings.maxScale
+										* img_h, space_t = (img_n_h - img_h) / 2, space_l = (img_n_w - img_w) / 2;
+
+								$el.data('space_l', space_l).css({
+									height : settings.maxScale * $el.height(),
+									top : -space_t,
+									left : img_n_w - space_l
+								});
+
+							});
+
+				}, _initEvents = function() {
+
+					$elems
+							.on(
+									'proximity.Photo',
+									{
+										max : 80,
+										throttle : 10,
+										fireOutOfBounds : true
+									},
+									function(event, proximity, distance) {
+
+										var $el = $(this), $li = $el
+												.closest('li'), $desc = $el
+												.next(), scaleVal = proximity
+												* (settings.maxScale - settings.minScale)
+												+ settings.minScale, scaleExp = 'scale('
+												+ scaleVal + ')';
+
+										// change the z-index of the element once it reaches the maximum scale value
+										// also, show the description container
+										if (scaleVal === settings.maxScale) {
+
+											$li.css('z-index', 1000);
+
+											if ($desc.offset().left
+													+ $desc.width() > listL
+													+ listW) {
+
+												$desc
+														.css(
+																'left',
+																-$desc.width()
+																		- $desc
+																				.data('space_l'));
+
+											}
+
+											$desc.fadeIn(800);
+
+										} else {
+
+											$li.css('z-index', 1);
+
+											$desc.stop(true, true).hide();
+
+										}
+
+										$el
+												.css({
+													'-webkit-transform' : scaleExp,
+													'-moz-transform' : scaleExp,
+													'-o-transform' : scaleExp,
+													'-ms-transform' : scaleExp,
+													'transform' : scaleExp,
+													'opacity' : (proximity
+															* (settings.maxOpacity - settings.minOpacity) + settings.minOpacity)
+												});
+
+									});
+
+				}, _loadImages = function(callback) {
+
+					var loaded = 0, total = $elems.length;
+
+					$elems.each(function(i) {
+
+						var $el = $(this);
+
+						$('<img/>').load(function() {
+
+							++loaded;
+							if (loaded === total)
+								callback.call();
+
+						}).attr('src', $el.attr('src'));
+
+					});
+
+				};
+
+				return {
+					init : init
+				};
+
+			})();
+
+			Photo.init();
+
+		});
+	</script>
+	
+	<script type="text/javascript" th:src="@{/assets/frontend/js/jQueryColor.js}"></script>
+	<!--这个插件是瀑布流主插件函数必须-->
+	<script type="text/javascript" th:src="@{/assets/frontend/js/jquery.masonry.min.js}"></script>
+	<!--这个插件只是为了扩展jquery的animate函数动态效果可有可无-->
+	<script type="text/javascript" th:src="@{/assets/frontend/js/jQeasing.js}"></script>
+	<script th:inline="javascript">
+	/*
+		抛开瀑布流布局各种乱七八糟的算法，基于masonry的瀑布流，很是简单的，而且通过扩展animate,能实现瀑布流布局的晃动、弹球等效果。
+		masonry还有很多参数我这里注解了常用的参数
+	 */
+		$(function(){
+				/*瀑布流开始*/
+				var container = $('.waterfull ul');
+				var loading=$('#imloading');
+				// 初始化loading状态
+				loading.data("on",true);
+				/*判断瀑布流最大布局宽度，最大为1280*/
+				function tores(){
+					var tmpWid=$(window).width();
+					if(tmpWid>1280){
+						tmpWid=1280;
+					}else{
+						var column=Math.floor(tmpWid/320);
+						tmpWid=column*320;
+					}
+					$('.waterfull').width(tmpWid);
+				}
+				tores();
+				$(window).resize(function(){
+					tores();
+				});
+				container.imagesLoaded(function(){
+				  container.masonry({
+				  	columnWidth: 320,
+				    itemSelector : '.item',
+				    isFitWidth: true,//是否根据浏览器窗口大小自动适应默认false
+				    isAnimated: true,//是否采用jquery动画进行重拍版
+				    isRTL:false,//设置布局的排列方式，即：定位砖块时，是从左向右排列还是从右向左排列。默认值为false，即从左向右
+				    isResizable: true,//是否自动布局默认true
+				    animationOptions: {
+						duration: 800,
+						easing: 'easeInOutBack',//如果你引用了jQeasing这里就可以添加对应的动态动画效果，如果没引用删除这行，默认是匀速变化
+						queue: false//是否队列，从一点填充瀑布流
+					}
+				  });
+				});
+				/*模拟从后台获取到的数据*/
+				var sqlJson=[
+					{'title':'瀑布流其实就是几个函数的事！','intro':'爆料，苏亚雷斯又咬人啦，C罗哪有内马尔帅，梅西今年要不夺冠，你就去泰国吧，老子买了阿根廷赢得彩票，输了就去不成了。','src':'/assets/frontend/images/one.jpg','writer':'标题','date':'2小时前','looked':321},
+					{'title':'瀑布流其实就是几个函数的事！','intro':'爆料了，苏亚雷斯又咬人啦，C罗哪有内马尔帅，梅西今年要不夺冠，你就去泰国吧，老子买了阿根廷赢得彩票，输了就去不成了。','src':'/assets/frontend/images/one.jpg','writer':'标题','date':'2小时前','looked':321},
+					{'title':'瀑布流其实就是几个函数的事！','intro':'爆料了，苏亚雷斯又咬人啦，C罗哪有内马尔帅，梅西今年要不夺冠，你就去泰国吧，老子买了阿根廷赢得彩票，输了就去不成了。','src':'/assets/frontend/images/one.jpg','writer':'标题','date':'2小时前','looked':321},
+					{'title':'瀑布流其实就是几个函数的事！','intro':'爆料了，苏亚雷斯又咬人啦，C罗哪有内马尔帅，梅西今年要不夺冠，你就去泰国吧，老子买了阿根廷赢得彩票，输了就去不成了。','src':'/assets/frontend/images/one.jpg','writer':'标题','date':'2小时前','looked':321}];
+				/*本应该通过ajax从后台请求过来类似sqljson的数据然后，便利，进行填充，这里我们用sqlJson来模拟一下数据*/
+				$(window).scroll(function(){
+					if(!loading.data("on")) return;
+					// 计算所有瀑布流块中距离顶部最大，进而在滚动条滚动时，来进行ajax请求，方法很多这里只列举最简单一种，最易理解一种
+					var itemNum=$('#waterfull').find('.item').length;
+					var itemArr=[];
+					itemArr[0]=$('#waterfull').find('.item').eq(itemNum-1).offset().top+$('#waterfull').find('.item').eq(itemNum-1)[0].offsetHeight;
+					itemArr[1]=$('#waterfull').find('.item').eq(itemNum-2).offset().top+$('#waterfull').find('.item').eq(itemNum-1)[0].offsetHeight;
+					itemArr[2]=$('#waterfull').find('.item').eq(itemNum-3).offset().top+$('#waterfull').find('.item').eq(itemNum-1)[0].offsetHeight;
+					var maxTop=Math.max.apply(null,itemArr);
+					if(maxTop<$(window).height()+$(document).scrollTop()){
+						//加载更多数据
+						loading.data("on",false).fadeIn(800);
+						(function(sqlJson){
+							/*这里会根据后台返回的数据来判断是否你进行分页或者数据加载完毕这里假设大于30就不在加载数据*/
+							if(itemNum>30){
+								loading.text('就有这么多了！');
+							}else{
+								var html="";
+								for(var i in sqlJson){
+									html+="<li class='item'><a href='#' class='a-img'><img src='"+sqlJson[i].src+"'></a>";
+									html+="<h2 class='li-title'>"+sqlJson[i].title+"</h2>";
+									html+="<p class='description'>"+sqlJson[i].intro+"</p><div class='qianm clearfloat'>";
+									html+="<span class='sp1'><b>"+sqlJson[i].looked+"</b>浏览</span>";
+									html+="<span class='sp2'>"+sqlJson[i].writer+"</span><span class='sp3'>"+sqlJson[i].date+"&nbsp;By</span></div></li>";		
+								}
+								/*模拟ajax请求数据时延时800毫秒*/
+								var time=setTimeout(function(){
+									$(html).find('img').each(function(index){
+										loadImage($(this).attr('src'));
+									})
+									var $newElems = $(html).css({ opacity: 0}).appendTo(container);
+									$newElems.imagesLoaded(function(){
+										$newElems.animate({ opacity: 1},800);
+										container.masonry( 'appended', $newElems,true);
+										loading.data("on",true).fadeOut();
+										clearTimeout(time);
+							        });
+								},800)
+							}
+						})(sqlJson);
+					}
+				});
+				function loadImage(url) {
+				     var img = new Image(); 
+				     //创建一个Image对象，实现图片的预下载
+				      img.src = url;
+				      if (img.complete) {
+				         return img.src;
+				      }
+				      img.onload = function () {
+				       	return img.src;
+				      };
+				 };
+				 loadImage('/assets/frontend/images/one.jpg');
+				/*item hover效果*/
+				var rbgB=['#71D3F5','#F0C179','#F28386','#8BD38B'];
+				$('#waterfull').on('mouseover','.item',function(){
+					var random=Math.floor(Math.random() * 4);
+					$(this).stop(true).animate({'backgroundColor':rbgB[random]},1000);
+				});
+				$('#waterfull').on('mouseout','.item',function(){
+					$(this).stop(true).animate({'backgroundColor':'#fff'},1000);
+				});
+		})
+    </script>
+
+</body>
+</html>

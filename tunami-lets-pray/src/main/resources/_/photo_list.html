@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+<head lang="en" th:replace="~{_scaffold_ :: header}" />
+<head>
+<link href="assets/js/footable/css/footable.core.css?v=2-0-1" rel="stylesheet" type="text/css">
+<link href="assets/js/footable/css/footable.standalone.css" rel="stylesheet" type="text/css">
+<link href="assets/js/footable/css/footable-demos.css" rel="stylesheet" type="text/css">
+
+<link rel="stylesheet" href="assets/js/dataTable/lib/jquery.dataTables/css/DT_bootstrap.css">
+<link rel="stylesheet" href="assets/js/dataTable/css/datatables.responsive.css">
+</head>
+<body>
+	<!-- Preloader -->
+	<div id="preloader">
+		<div id="status">&nbsp;</div>
+	</div>
+	<!-- TOP NAVBAR -->
+
+	<div th:replace="~{_scaffold_ :: navbar}"></div>
+
+	<div th:replace="~{_scaffold_ :: side_menu}"></div>
+
+	<!--  PAPER WRAP -->
+	<div class="wrap-fluid">
+		<div class="container-fluid paper-wrap bevel tlbr">
+			<!-- CONTENT -->
+			<!--TITLE -->
+			<div class="row">
+				<div id="paper-top">
+					<div class="col-sm-3">
+						<h2 class="tittle-content-header">
+							<i class="icon-media-record"></i> 
+							<span>图片库 </span>
+						</h2>
+					</div>
+
+					<div class="col-sm-7">
+						<div class="devider-vertical visible-lg"></div>
+						<div class="tittle-middle-header">
+							<div class="alert">
+								<button type="button" class="close" data-dismiss="alert">×</button>
+								<span class="tittle-alert entypo-info-circled"></span> Welcome
+								back,&nbsp; <strong>Dave mattew!</strong>&nbsp;&nbsp;这里可以显示一个通知栏，上一次更新照片?张，新增照片?张。
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-2">
+						<div class="devider-vertical visible-lg"></div>
+						<div class="btn-group btn-wigdet pull-right visible-lg">
+							<div class="btn">管理栏</div>
+							<button data-toggle="dropdown" class="btn dropdown-toggle" type="button">
+								<span class="caret"></span> 
+								<span class="sr-only">Toggle Dropdown</span>
+							</button>
+							<ul role="menu" class="dropdown-menu">
+								<li><a href="#"> <span
+										class="entypo-plus-circled margin-iconic"></span>照片管理
+								</a></li>
+								<li><a href="#"> <span
+										class="entypo-heart margin-iconic"></span>收藏夹
+								</a></li>
+								<li><a href="#"> <span class="entypo-cog margin-iconic"></span>设置
+								</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--/ TITLE -->
+
+			<!-- BREADCRUMB -->
+			<ul id="breadcrumb">
+				<li><span class="entypo-home"></span></li>
+				<li><i class="fa fa-lg fa-angle-right"></i></li>
+				<li><a href="#" title="Sample page 1">Extra Pages</a></li>
+				<li><i class="fa fa-lg fa-angle-right"></i></li>
+				<li><a href="#" title="Sample page 1">Blank Page</a></li>
+				<li class="pull-right">右边区域</li>
+			</ul>
+			<!-- END OF BREADCRUMB -->
+			
+
+			<div class="content-wrap">
+				<div class="row">
+					<div class="col-sm-12">
+
+						<div class="nest" id="FootableClose">
+							<div class="title-alt">
+								<h6>Footable paginate</h6>
+								<div class="titleClose">
+									<a class="gone" href="#FootableClose"> <span
+										class="entypo-cancel"></span>
+									</a>
+								</div>
+								<div class="titleToggle">
+									<a class="nav-toggle-alt" href="#Footable"> <span
+										class="entypo-up-open"></span>
+									</a>
+								</div>
+							</div>
+
+							<div class="body-nest" id="Filtering">
+							
+								<p class="lead well">公告内容：这个表格。。。</p>
+							
+								<div class="row" style="margin-bottom: 10px;">
+									<div class="col-sm-4">
+										<input class="form-control" id="filter"
+											placeholder="Search..." type="text">
+									</div>
+									<div class="col-sm-2">
+										<select class="filter-status form-control">
+											<option value="active">Active
+											<option value="disabled">Disabled
+											<option value="suspended">Suspended
+										</select>
+									</div>
+									<div class="col-sm-6">
+										<a href="#clear" style="margin-left: 10px;" class="pull-right btn btn-info clear-filter" title="clear filter">clear</a>
+									</div>
+								</div>
+								
+
+								<table id="footable-res2" class="demo" data-filter="#filter" data-filter-text-only="true" data-page-size="10">
+<!-- 									<thead> -->
+<!-- 										<tr> -->
+<!-- 											<th>序号</th> -->
+<!-- 											<th>缩略图</th> -->
+<!-- 											<th>图片编号</th> -->
+<!-- 											<th>城市</th> -->
+<!-- 											<th>年代</th> -->
+<!-- 											<th data-hide="phone,tablet">标题</th> -->
+<!-- 											<th data-hide="phone,tablet">收藏者</th> -->
+<!-- 											<th data-hide="phone,tablet">摄影师</th> -->
+<!-- 											<th data-hide="phone,tablet">照片类型</th> -->
+<!-- 											<th data-hide="phone,tablet">素材来源</th> -->
+<!-- 											<th data-hide="phone,tablet">备注</th> -->
+<!-- <!-- 											<th>类型</th> --> -->
+<!-- <!-- 											<th data-hide="phone,tablet">位置</th> --> -->
+<!-- <!-- 											<th data-hide="phone,tablet">范围</th> --> -->
+<!-- <!-- 											<th data-hide="phone,tablet">日期</th> --> -->
+<!-- <!-- 											<th data-hide="phone,tablet">建立时间</th> --> -->
+<!-- <!-- 											<th data-hide="phone,tablet">关键字（英）</th> --> -->
+<!-- <!-- 											<th data-hide="phone,tablet">关键字（法）</th> --> -->
+<!-- <!-- 											<th data-hide="phone,tablet">相关照片</th> --> -->
+<!-- 											<th data-hide="phone,tablet">街道名</th> -->
+<!-- 											<th data-hide="phone,tablet">收藏库</th> -->
+<!-- 											<th data-hide="phone,tablet">描述</th> -->
+<!-- 										</tr> -->
+<!-- 									</thead> -->
+<!-- 									<tbody> -->
+<!-- 										<tr> -->
+<!-- 											<td>Isidra</td> -->
+<!-- 											<td><a href="#">Boudreaux</a></td> -->
+<!-- 											<td>Traffic Court Referee</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368994">22 Jun 1972</td> -->
+											
+<!-- 											<td data-value="21">22 Jun 1972</td> -->
+<!-- 											<td data-value="1">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+											
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 										</tr> -->
+<!-- 										<tr> -->
+<!-- 											<td>Isidra</td> -->
+<!-- 											<td><a href="#">Boudreaux</a></td> -->
+<!-- 											<td>Traffic Court Referee</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368994">22 Jun 1972</td> -->
+											
+<!-- 											<td data-value="21">22 Jun 1972</td> -->
+<!-- 											<td data-value="1">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+											
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 										</tr> -->
+<!-- 										<tr> -->
+<!-- 											<td>Isidra</td> -->
+<!-- 											<td><a href="#">Boudreaux</a></td> -->
+<!-- 											<td>Traffic Court Referee</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368994">22 Jun 1972</td> -->
+											
+<!-- 											<td data-value="21">22 Jun 1972</td> -->
+<!-- 											<td data-value="1">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+											
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 										</tr> -->
+<!-- 										<tr> -->
+<!-- 											<td>Isidra</td> -->
+<!-- 											<td><a href="#">Boudreaux</a></td> -->
+<!-- 											<td>Traffic Court Referee</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368994">22 Jun 1972</td> -->
+											
+<!-- 											<td data-value="21">22 Jun 1972</td> -->
+<!-- 											<td data-value="1">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+											
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 										</tr> -->
+<!-- 										<tr> -->
+<!-- 											<td>Isidra</td> -->
+<!-- 											<td><a href="#">Boudreaux</a></td> -->
+<!-- 											<td>Traffic Court Referee</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368994">22 Jun 1972</td> -->
+											
+<!-- 											<td data-value="21">22 Jun 1972</td> -->
+<!-- 											<td data-value="1">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+											
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 										</tr> -->
+<!-- 										<tr> -->
+<!-- 											<td>Isidra</td> -->
+<!-- 											<td><a href="#">Boudreaux</a></td> -->
+<!-- 											<td>Traffic Court Referee</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368994">22 Jun 1972</td> -->
+											
+<!-- 											<td data-value="21">22 Jun 1972</td> -->
+<!-- 											<td data-value="1">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+											
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 											<td data-value="78025368997">22 Jun 1972</td> -->
+<!-- 										</tr> -->
+<!-- 									</tbody> -->
+<!-- 									<tfoot> -->
+<!-- 										<tr> -->
+<!-- 											<td colspan="5"> -->
+<!-- 												<div class="pagination pagination-centered"></div> -->
+<!-- 											</td> -->
+<!-- 										</tr> -->
+<!-- 									</tfoot> -->
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /END OF CONTENT -->
+
+			<!-- FOOTER -->
+			<div th:replace="~{_scaffold_ :: footer}"></div>
+			<!-- / END OF FOOTER -->
+		</div>
+	</div>
+	<!--  END OF PAPER WRAP -->
+
+	<!-- MAIN EFFECT -->
+	<script type="text/javascript" src="assets/js/preloader.js"></script>
+	<script type="text/javascript" src="assets/js/bootstrap.js"></script>
+	<script type="text/javascript" src="assets/js/app.js"></script>
+	<script type="text/javascript" src="assets/js/load.js"></script>
+	<script type="text/javascript" src="assets/js/main.js"></script>
+
+	<!-- /MAIN EFFECT -->
+	<!-- GAGE -->
+	<script type="text/javascript" src="assets/js/toggle_close.js"></script>
+	<script src="assets/js/footable/js/footable.js?v=2-0-1" type="text/javascript"></script>
+	<script src="assets/js/footable/js/footable.sort.js?v=2-0-1" type="text/javascript"></script>
+	<script src="assets/js/footable/js/footable.filter.js?v=2-0-1" type="text/javascript"></script>
+	<script src="assets/js/footable/js/footable.paginate.js?v=2-0-1" type="text/javascript"></script>
+
+	<script type="text/javascript">
+		$(function() {
+			$('.footable-res').footable();
+		});
+	
+		 $(function() {
+		        $('#footable-res2').footable().bind('footable_filtering', function(e) {
+		            var selected = $('.filter-status').find(':selected').text();
+		            if (selected && selected.length > 0) {
+		                e.filter += (e.filter && e.filter.length > 0) ? ' ' + selected : selected;
+		                e.clear = !e.filter;
+		            }
+		        });
+
+			$('.clear-filter').click(function(e) {
+				e.preventDefault();
+				$('.filter-status').val('');
+				$('table.demo').trigger('footable_clear_filter');
+			});
+
+			$('.filter-status').change(function(e) {
+				e.preventDefault();
+				$('table.demo').trigger('footable_filter', { 
+					filter : $('#filter').val()
+				});
+			});
+
+			$('.filter-api').click(function(e) {
+				e.preventDefault();
+
+				//get the footable filter object
+				var footableFilter = $('table').data('footable-filter');
+
+				alert('about to filter table by "tech"');
+				//filter by 'tech'
+				footableFilter.filter('tech');
+
+				//clear the filter
+				if (confirm('clear filter now?')) {
+					footableFilter.clearFilter();
+				}
+			});
+		});
+	</script>
+</body>
+</html>

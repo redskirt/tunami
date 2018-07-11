@@ -20,8 +20,8 @@ class ServiceTestCase {
   var loginService: LoginService = _
 
   @Test
-  def testQueryUser_username {
-    val user = loginService.queryUser("tunami")
+  def testQueryPrinciple_username {
+    val user = loginService.bizCheckin("tunami")
     println {
       user match {
         case None => false
@@ -29,7 +29,7 @@ class ServiceTestCase {
       }
     }
     
-    assert(user.get.username.equals("tunami"))
+    assert(user.get.account_name.equals("tunami"))
   }
-
+  
 }
