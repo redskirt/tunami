@@ -289,19 +289,28 @@
 					</div></a></li>
 		</ul>
 		</section>
-	<!-- </section> -->
+
+	<section class="probootstrap-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3 text-center section-heading probootstrap-animate">
+            <h2>今日福音<span style="font-size: 16px; font-family: Bellefair,serif;"> / Today's Gospel</span></h2>
+            <h5 style="font-size: 20px;">Hosanna to the Son of David!</h5>
+          </div>
+        </div>
+      </div>
+    </section>
 
 	<section class="probootstrap-section proboostrap-clients probootstrap-bg-white probootstrap-zindex-above-showcase">
 		<div class="container">
 			<div class="row">
 				<div
 					class="col-md-6 col-md-offset-3 text-center section-heading probootstrap-animate">
-					<h2>让我们同心合一祷告</h2>
-					<p class="lead">———— Let's Pray ————</p>
+					<h2>同心祷告<span style="font-size: 16px; font-family: Bellefair,serif;"> / Let's Pray</span></h2>
 				</div>
 			</div>
 			<!-- END row -->
-			
+				<div class="content">
 				<div class="waterfull clearfloat" id="waterfull">
 					<ul>
 						<li class="item"><a href="#" class="a-img"> <img
@@ -426,6 +435,7 @@
 							</div></li>
 					</ul>
 				</div>
+				</div>
 				<!-- loading按钮自己通过样式调整 -->
 				<div id="imloading"
 					style="width: 150px; height: 30px; line-height: 30px; font-size: 16px; text-align: center; border-radius: 3px; opacity: 0.7; background: #000; margin: 10px auto 30px; color: #fff; display: none">
@@ -463,9 +473,7 @@
 	<script type="text/javascript" th:src="@{/assets/frontend/js/jquery.proximity.js}"></script>
 	<script type="text/javascript">
 		$(function() {
-
 			var Photo = (function() {
-
 				// list of thumbs
 				var $list = $('#pe-thumbs'),
 				// list's width and offset left.
@@ -482,7 +490,6 @@
 					maxOpacity : 0.9,
 					minOpacity : Number($elems.css('opacity'))
 				}, init = function() {
-
 					// minScale will be set in the CSS
 					settings.minScale = _getScaleVal() || 1;
 					// preload the images (thumbs)
@@ -575,26 +582,18 @@
 											$desc.fadeIn(800);
 
 										} else {
-
 											$li.css('z-index', 1);
-
 											$desc.stop(true, true).hide();
-
 										}
-
-										$el
-												.css({
-													'-webkit-transform' : scaleExp,
-													'-moz-transform' : scaleExp,
-													'-o-transform' : scaleExp,
-													'-ms-transform' : scaleExp,
-													'transform' : scaleExp,
-													'opacity' : (proximity
-															* (settings.maxOpacity - settings.minOpacity) + settings.minOpacity)
-												});
-
+										$el.css({
+												'-webkit-transform' : scaleExp,
+												'-moz-transform' : scaleExp,
+												'-o-transform' : scaleExp,
+												'-ms-transform' : scaleExp,
+												'transform' : scaleExp,
+												'opacity' : (proximity * (settings.maxOpacity - settings.minOpacity) + settings.minOpacity)
+											});
 									});
-
 				}, _loadImages = function(callback) {
 
 					var loaded = 0, total = $elems.length;
@@ -642,14 +641,14 @@
 				var loading=$('#imloading');
 				// 初始化loading状态
 				loading.data("on",true);
-				/*判断瀑布流最大布局宽度，最大为1280*/
+				/*判断瀑布流最大布局宽度，最大为1170*/
 				function tores(){
 					var tmpWid=$(window).width();
-					if(tmpWid>1280){
-						tmpWid=1280;
-					}else{
-						var column=Math.floor(tmpWid/320);
-						tmpWid=column*320;
+					if(tmpWid>1170){
+						tmpWid=1170;
+					} else {
+						var column=Math.floor(tmpWid / 320);
+						tmpWid=column * 320;
 					}
 					$('.waterfull').width(tmpWid);
 				}
@@ -659,11 +658,11 @@
 				});
 				container.imagesLoaded(function(){
 				  container.masonry({
-				  	columnWidth: 320,
+				  	columnWidth: 230,
 				    itemSelector : '.item',
 				    isFitWidth: true,//是否根据浏览器窗口大小自动适应默认false
 				    isAnimated: true,//是否采用jquery动画进行重拍版
-				    isRTL:false,//设置布局的排列方式，即：定位砖块时，是从左向右排列还是从右向左排列。默认值为false，即从左向右
+				    isRTL: false,//设置布局的排列方式，即：定位砖块时，是从左向右排列还是从右向左排列。默认值为false，即从左向右
 				    isResizable: true,//是否自动布局默认true
 				    animationOptions: {
 						duration: 800,
@@ -721,6 +720,7 @@
 						})(sqlJson);
 					}
 				});
+				
 				function loadImage(url) {
 				     var img = new Image(); 
 				     //创建一个Image对象，实现图片的预下载
@@ -742,7 +742,7 @@
 				$('#waterfull').on('mouseout','.item',function(){
 					$(this).stop(true).animate({'backgroundColor':'#fff'},1000);
 				});
-		})
+		});
     </script>
 
 </body>

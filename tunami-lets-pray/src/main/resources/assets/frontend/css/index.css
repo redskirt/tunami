@@ -1,5 +1,5 @@
 .content{
-	width: 1280px;
+	width: 1170px;
 	margin: 0 auto;
 }
 .content .rec_con ul li{
@@ -292,8 +292,8 @@
 }
 .waterfull ul li{
 	float: left;
-	width: 284px;
-	padding: 8px;
+	width: 200px;
+	padding: 2px;
 	margin: 0 6px 10px;
 	background: #fff;
 	border-radius: 3px;
@@ -303,12 +303,12 @@
 	box-shadow: 0 0 10px #BCBCBC;
 }
 .waterfull ul li .a-img{
-	width: 284px;
+	width: 200px;
 	display: block;
 	position: relative;
 }
 .waterfull ul li .a-img img{
-	width: 284px;
+	width: 200px;
 	display: block;
 	min-height: 250px;
 }
