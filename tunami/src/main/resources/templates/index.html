@@ -4,8 +4,8 @@
 	<head lang="en" th:include="~{_scaffold_ :: header}">
 	</head>
 	<head>
-		<link rel="stylesheet" th:href="@{/assets/css/signin.css}">
-		<link rel="stylesheet" th:href="@{/assets/js/progress-bar/number-pb.css}">
+		<link rel="stylesheet" href="assets/css/signin.css">
+		<link rel="stylesheet" href="assets/js/progress-bar/number-pb.css">
 
 		<style type="text/css">
 		canvas#canvas4 {
@@ -23,7 +23,7 @@
 	
 	<div th:include="~{_scaffold_ :: navbar}"></div>
 
-	<div th:include="~{_scaffold_ :: side_menu}"></div>
+	<div role="side_menu" th:include="~{nav :: side_menu}"></div>
 	
 	<!--  PAPER WRAP -->
 	<div class="wrap-fluid">
@@ -615,7 +615,7 @@
 	<!--  END OF PAPER WRAP -->
 
 	<!-- Map -->
-	<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.0&key=8fc17bdeef7438f8a263ca28d89d263c"></script>
+	<script type="text/javascript" src='http://webapi.amap.com/maps?v=1.4.0&key=8fc17bdeef7438f8a263ca28d89d263c'></script>
 	<script type="text/javascript">
 		var map = new AMap.Map('imap', {
 			resizeEnable : true,
@@ -632,26 +632,26 @@
 	</script>
 	<script type="text/javascript" src="https://webapi.amap.com/demos/js/liteToolbar.js"></script>
 
-	<script th:src="@{/assets/js/progress-bar/src/jquery.velocity.min.js}"></script>
-	<script th:src="@{/assets/js/progress-bar/number-pb.js}"></script>
-	<script th:src="@{/assets/js/progress-bar/progress-app.js}"></script>
+	<script src="assets/js/progress-bar/src/jquery.velocity.min.js"></script>
+	<script src="assets/js/progress-bar/number-pb.js"></script>
+	<script src="assets/js/progress-bar/progress-app.js"></script>
 
 	<!-- MAIN EFFECT -->
-	<script type="text/javascript" th:src="@{/assets/js/preloader.js}"></script>
-	<script type="text/javascript" th:src="@{/assets/js/bootstrap.js}"></script>
-	<script type="text/javascript" th:src="@{/assets/js/app.js}"></script>
-	<script type="text/javascript" th:src="@{/assets/js/load.js}"></script>
-	<script type="text/javascript" th:src="@{/assets/js/main.js}"></script>
+	<script type="text/javascript" src="assets/js/preloader.js"></script>
+	<script type="text/javascript" src="assets/js/bootstrap.js"></script>
+	<script type="text/javascript" src="assets/js/app.js"></script>
+	<script type="text/javascript" src="assets/js/load.js"></script>
+	<script type="text/javascript" src="assets/js/main.js"></script>
 
 	<!-- GAGE -->
-	<script type="text/javascript" th:src="@{/assets/js/chart/jquery.flot.js}"></script>
-	<script type="text/javascript" th:src="@{/assets/js/chart/jquery.flot.resize.js}"></script>
-	<script type="text/javascript" th:src="@{/assets/js/chart/realTime.js}"></script>
-	<script type="text/javascript" th:src="@{/assets/js/speed/canvasgauge-coustom.js}"></script>
-	<script type="text/javascript" th:src="@{/assets/js/countdown/jquery.countdown.js}"></script>
+	<script type="text/javascript" src="assets/js/chart/jquery.flot.js"></script>
+	<script type="text/javascript" src="assets/js/chart/jquery.flot.resize.js"></script>
+	<script type="text/javascript" src="assets/js/chart/realTime.js"></script>
+	<script type="text/javascript" src="assets/js/speed/canvasgauge-coustom.js"></script>
+	<script type="text/javascript" src="assets/js/countdown/jquery.countdown.js"></script>
 
 	<!-- 测试注释，不确定是否有异常。 -->
-	<!-- <script th:src="@{/assets/js/jhere-custom.js"></script> -->
+	<!-- <script src="assets/js/jhere-custom.js"></script> -->
 
 	<script>
 		var gauge4 = new Gauge("canvas4", {

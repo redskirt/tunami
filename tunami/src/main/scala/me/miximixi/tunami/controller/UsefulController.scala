@@ -59,8 +59,8 @@ trait UsefulController { self =>
   @Autowired
   protected def setSession(session: HttpSession) = self.session = session
   
-  @Value("${value.repository}")
-  protected var repository: String = _
+//  @Value("${value.repository}")
+//  protected var repository: String = _
   
   protected def download(fullPath: String): ResponseEntity[InputStreamResource] = {
     val file = new FileSystemResource(fullPath);

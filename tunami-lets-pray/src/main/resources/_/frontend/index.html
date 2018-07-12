@@ -313,15 +313,20 @@
 				<div class="content">
 				<div class="waterfull clearfloat" id="waterfull">
 					<ul>
-						<li class="item"><a href="#" class="a-img"> <img
-								th:src="@{/assets/frontend/images/t8.jpg}" alt="">
-	
-						</a>
-							<h2 class="li-title" title="手把手教你用css3来创建loading动画(二)">手把手教你用css3来创建loading动画(二)</h2>
+						<li class="item">
 							<p class="description">HTML
 								5以前的标准由于考虑到浏览器安全问题并不允许直接跨域通信并不允许直接跨域通信并不允许直接跨域通信，于...</p>
 							<div class="qianm clearfloat">
-								<span class="sp1"><b>688</b>浏览</span> <span class="sp2">标题</span>
+								<span class="sp1"><b>688</b>浏览</span> 
+								<span class="sp2">2小时前，来自上海的弟兄为家人祷告</span>
+								<span class="sp3"></span>
+							</div></li>
+						<li class="item">
+							<p class="description">HTML
+								5以前的标准由于考虑到浏览器安全问题并不允许直接跨域通信并不允许直接跨域通信并不允许直接跨域通信，于...</p>
+							<div class="qianm clearfloat">
+								<span class="sp1"><b>688</b>浏览</span> 
+								<span class="sp2">标题</span>
 								<span class="sp3">2小时前&nbsp;By</span>
 							</div></li>
 						<li class="item"><a href="#" class="a-img"> <img
@@ -346,22 +351,7 @@
 								<span class="sp1"><b>688</b>浏览</span> <span class="sp2">标题</span>
 								<span class="sp3">2小时前&nbsp;By</span>
 							</div></li>
-						<li class="item"><a href="#" class="a-img"> <img
-								th:src="@{/assets/frontend/images/t8.jpg}" alt="">
-	
-						</a>
-							<h2 class="li-title" title="手把手教你用css3来创建loading动画(二)">手把手教你用css3来创建loading动画(二)</h2>
-							<p class="description">HTML
-								5以前的标准由于考虑到浏览器安全问题并不允许直接跨域通信并不允许直接跨域通信并不允许直接跨域通信，于...</p>
-							<div class="qianm clearfloat">
-								<span class="sp1"><b>688</b>浏览</span> <span class="sp2">标题</span>
-								<span class="sp3">2小时前&nbsp;By</span>
-							</div></li>
-						<li class="item"><a href="#" class="a-img"> <img
-								th:src="@{/assets/frontend/images/t8.jpg}" alt="">
-	
-						</a>
-							<h2 class="li-title" title="手把手教你用css3来创建loading动画(二)">手把手教你用css3来创建loading动画(二)</h2>
+						<li class="item">
 							<p class="description">HTML
 								5以前的标准由于考虑到浏览器安全问题并不允许直接跨域通信并不允许直接跨域通信并不允许直接跨域通信，于...</p>
 							<div class="qianm clearfloat">
@@ -437,9 +427,9 @@
 				</div>
 				</div>
 				<!-- loading按钮自己通过样式调整 -->
-				<div id="imloading"
-					style="width: 150px; height: 30px; line-height: 30px; font-size: 16px; text-align: center; border-radius: 3px; opacity: 0.7; background: #000; margin: 10px auto 30px; color: #fff; display: none">
-					素材加载中.....</div>
+				<div id="imloading" style="width: 250px; height: 30px; line-height: 30px; font-size: 16px; text-align: center; border-radius: 3px; opacity: 0.7; background: #000; margin: 10px auto 30px; color: #fff; display: none">
+					奉主耶稣的名求，阿们！
+				</div>
 		</div>
 	</section>
 
@@ -466,12 +456,21 @@
 		</div>
 	</footer>
 
+	<div id="moquu_wxin" class="moquu_wxin">
+		<a href="javascript:void(0)"><div class="moquu_wxinh"></div></a>
+	</div>
 
 	<script th:src="@{/assets/frontend/js/scripts.min.js}"></script>
 	<script th:src="@{/assets/frontend/js/custom.min.js}"></script>
 	
 	<script type="text/javascript" th:src="@{/assets/frontend/js/jquery.proximity.js}"></script>
 	<script type="text/javascript">
+		var url = window.location.href;
+// 		if (url.indexOf("newsCategoryManage") > 0 || url.indexOf("newsCategoryEdit") > 0) {
+// 			$("#news").addClass("active");
+// 			$("#newsCategoryManage").addClass("active");
+// 		} 
+	
 		$(function() {
 			var Photo = (function() {
 				// list of thumbs
@@ -693,7 +692,7 @@
 						(function(sqlJson){
 							/*这里会根据后台返回的数据来判断是否你进行分页或者数据加载完毕这里假设大于30就不在加载数据*/
 							if(itemNum>30){
-								loading.text('就有这么多了！');
+								loading.text('已显示最近100条祷告。');
 							}else{
 								var html="";
 								for(var i in sqlJson){
@@ -745,5 +744,65 @@
 		});
     </script>
 
+	<script type="text/javascript">
+		var scrolltotop={
+			setting:{
+				startline:100, //起始行
+				scrollto:0, //滚动到指定位置
+				scrollduration:400, //滚动过渡时间
+				fadeduration:[500,100] //淡出淡现消失
+			},
+			controlHTML:'<img src="/assets/frontend/images/top.png" style="width:30px; height:30px; border:0;" />', //返回顶部按钮
+			controlattrs:{offsetx:10,offsety:10},//返回按钮固定位置
+			anchorkeyword:"#top",
+			state:{
+				isvisible:false,
+				shouldvisible:false
+			},scrollup:function(){
+				if(!this.cssfixedsupport){
+					this.$control.css({opacity:0});
+				}
+				var dest=isNaN(this.setting.scrollto)?this.setting.scrollto:parseInt(this.setting.scrollto);
+				if(typeof dest=="string"&&jQuery("#"+dest).length==1){
+					dest=jQuery("#"+dest).offset().top;
+				}else{
+					dest=0;
+				}
+				this.$body.animate({scrollTop:dest},this.setting.scrollduration);
+			},keepfixed:function(){
+				var $window=jQuery(window);
+				var controlx=$window.scrollLeft()+$window.width()-this.$control.width()-this.controlattrs.offsetx;
+				var controly=$window.scrollTop()+$window.height()-this.$control.height()-this.controlattrs.offsety;
+				this.$control.css({left:controlx+"px",top:controly+"px"});
+			},togglecontrol:function(){
+				var scrolltop=jQuery(window).scrollTop();
+				if(!this.cssfixedsupport){
+					this.keepfixed();
+				}
+				this.state.shouldvisible=(scrolltop>=this.setting.startline)?true:false;
+				if(this.state.shouldvisible&&!this.state.isvisible){
+					this.$control.stop().animate({opacity:1},this.setting.fadeduration[0]);
+					this.state.isvisible=true;
+				}else{
+					if(this.state.shouldvisible==false&&this.state.isvisible){
+						this.$control.stop().animate({opacity:0},this.setting.fadeduration[1]);
+						this.state.isvisible=false;
+					}
+				}
+			},init:function(){
+				jQuery(document).ready(function($){
+					var mainobj=scrolltotop;
+					var iebrws=document.all;
+					mainobj.cssfixedsupport=!iebrws||iebrws&&document.compatMode=="CSS1Compat"&&window.XMLHttpRequest;
+					mainobj.$body=(window.opera)?(document.compatMode=="CSS1Compat"?$("html"):$("body")):$("html,body");
+					mainobj.$control=$('<div id="topcontrol" style="z-index:9;" >'+mainobj.controlHTML+"</div>").css({position:mainobj.cssfixedsupport?"fixed":"absolute",bottom:mainobj.controlattrs.offsety,right:mainobj.controlattrs.offsetx,opacity:0,cursor:"pointer"}).attr({title:"返回顶部"}).click(function(){mainobj.scrollup();return false;}).appendTo("body");if(document.all&&!window.XMLHttpRequest&&mainobj.$control.text()!=""){mainobj.$control.css({width:mainobj.$control.width()});}mainobj.togglecontrol();
+					$('a[href="'+mainobj.anchorkeyword+'"]').click(function(){mainobj.scrollup();return false;});
+					$(window).bind("scroll resize",function(e){mainobj.togglecontrol();});
+				});
+			}
+		};
+		scrolltotop.init();
+	</script>
+	
 </body>
 </html>

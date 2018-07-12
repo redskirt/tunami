@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head lang="en" th:include="_scaffold_ :: header" />
+
+<head>
+<link th:href="@{/assets/js/footable/css/footable.core.css?v=2-0-1}" rel="stylesheet" type="text/css">
+<link th:href="@{/assets/js/footable/css/footable.standalone.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/assets/js/footable/css/footable-demos.css}" rel="stylesheet" type="text/css">
+
+<link rel="stylesheet" th:href="@{/assets/js/dataTable/lib/jquery.dataTables/css/DT_bootstrap.css}">
+<link rel="stylesheet" th:href="@{/assets/js/dataTable/css/datatables.responsive.css}">
+
+<!-- viewport -->
+<link rel="stylesheet" th:href="@{/assets/viewport/css/mag.css}" />
+<link rel="stylesheet" th:href="@{/assets/viewport/css/default.css}" />
+<link rel="stylesheet" th:href="@{/assets/viewport/css/index.css}" />
+</head>
+<body>
+	<!-- Preloader -->
+	<div id="preloader">
+		<div id="status">&nbsp;</div>
+	</div>
+	<!-- TOP NAVBAR -->
+
+	<div th:include="~{_scaffold_ :: navbar}"></div>
+
+	<div th:include="~{_scaffold_ :: side_menu}"></div>
+
+	<!--  PAPER WRAP -->
+	<div class="wrap-fluid">
+		<div class="container-fluid paper-wrap bevel tlbr">
+			<!-- CONTENT -->
+			<!--TITLE -->
+			<div class="row">
+				<div id="paper-top">
+					<div class="col-sm-3">
+						<h2 class="tittle-content-header">
+							<i class="icon-media-record"></i> 
+							<span>图片库 </span>
+						</h2>
+					</div>
+
+					<div class="col-sm-7">
+						<div class="devider-vertical visible-lg"></div>
+						<div class="tittle-middle-header">
+							<div class="alert">
+								<button type="button" class="close" data-dismiss="alert">×</button>
+								<span class="tittle-alert entypo-info-circled"></span> Welcome
+								back,&nbsp; <strong>Dave mattew!</strong>&nbsp;&nbsp;这里可以显示一个通知栏，上一次更新照片?张，新增照片?张。
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-2">
+						<div class="devider-vertical visible-lg"></div>
+						<div class="btn-group btn-wigdet pull-right visible-lg">
+							<div class="btn">管理栏</div>
+							<button data-toggle="dropdown" class="btn dropdown-toggle" type="button">
+								<span class="caret"></span> 
+								<span class="sr-only">Toggle Dropdown</span>
+							</button>
+							<ul role="menu" class="dropdown-menu">
+								<li><a href="#"> <span
+										class="entypo-plus-circled margin-iconic"></span>照片管理
+								</a></li>
+								<li><a href="#"> <span
+										class="entypo-heart margin-iconic"></span>收藏夹
+								</a></li>
+								<li><a href="#"> <span class="entypo-cog margin-iconic"></span>设置
+								</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--/ TITLE -->
+
+			<!-- BREADCRUMB -->
+			<ul id="breadcrumb">
+				<li><span class="entypo-home"></span></li>
+				<li><i class="fa fa-lg fa-angle-right"></i></li>
+				<li><a href="#" title="Sample page 1">Extra Pages</a></li>
+				<li><i class="fa fa-lg fa-angle-right"></i></li>
+				<li><a href="#" title="Sample page 1">Blank Page</a></li>
+				<li class="pull-right">右边区域</li>
+			</ul>
+			<!-- END OF BREADCRUMB -->
+			
+			<div class="content-wrap">
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="nest" id="FootableClose">
+							<div class="title-alt">
+								<h6>Footable paginate</h6>
+								<div class="titleClose">
+									<a class="gone" href="#FootableClose"> <span
+										class="entypo-cancel"></span>
+									</a>
+								</div>
+								<div class="titleToggle">
+									<a class="nav-toggle-alt" href="#Footable"> <span
+										class="entypo-up-open"></span>
+									</a>
+								</div>
+							</div>
+							<div class="body-nest">
+								<div id="message-true" class="alert alert-success" style="display: block;">
+									<button data-dismiss="alert" class="close" type="button">×</button>
+									<span class="entypo-thumbs-up"></span> 
+									<strong>Well done!</strong>
+								</div>
+								<div id="message-false" class="alert alert-danger" style="display: none;">
+									<button data-dismiss="alert" class="close" type="button">×</button>
+									<span class="entypo-attention"></span> 
+									<strong>Oh snap!</strong>
+								</div>
+							</div>
+							<div class="body-nest" id="Filtering">
+								<div class="row" style="margin-bottom: 10px;">
+									<div class="col-sm-4">
+										<input class="form-control" id="filter"
+											placeholder="Search..." type="text">
+									</div>
+									<div class="col-sm-2">
+										<select class="filter-status form-control">
+											<option value="active">Active
+											<option value="disabled">Disabled
+											<option value="suspended">Suspended
+										</select>
+									</div>
+									<div class="col-sm-6">
+										<a href="#clear" style="margin-left: 10px;" class="pull-right btn btn-info clear-filter" title="clear filter">clear</a>
+									</div>
+								</div>
+								
+								<!-- data-limit-navigation="12"  data-filter="#filter" data-filter-text-only="true"-->
+								<!-- id="footable-res2" 绑定搜索事件 -->
+								
+								<table id="footable-res2" class="demo" data-filter="#filter" data-filter-text-only="true" data-page-size="15">
+									<thead>
+										<tr>
+											<th>index</th>
+											<th>thumbnail</th>
+											<th>image id</th>
+											<th>city</th>
+											<th>year</th>
+											
+											<th data-hide="phone,tablet">original title</th>
+											<th data-hide="phone,tablet">transliteration</th>
+											<th data-hide="phone,tablet">alternative original title</th>
+											<th data-hide="phone,tablet">size</th>
+											<th data-hide="phone,tablet">author(s)</th>
+											
+											<th data-hide="phone,tablet">collection</th>
+											<th data-hide="phone,tablet">place of publication</th>
+											<th data-hide="phone,tablet">map type</th>
+											<th data-hide="phone,tablet">publishers</th>
+											<th data-hide="phone,tablet">repository</th>
+											
+											<th data-hide="phone,tablet">remark</th>
+										</tr>
+									</thead>
+                                    	<tbody>
+										<tr th:each="o,iterStat : ${list}">
+											<td>
+												<input id="id" th:value="@{${o.id}}" style="display: none;"/>
+												<span class="status-metro status-disabled" th:text="${iterStat.count}"></span>
+												<a th:href="@{'/media/download_' + ${o.city} + '_' + ${o.image_name}}" class="pull-right btn btn-info">下载</a>
+											</td> 
+											<td>
+												<div class="mag-eg-el-wrap">
+													<div class="img-thumbnail">
+														<div mag-thumb="inner-inline" mag-flow="inline" class="mag-eg-el">
+															<img th:src="@{'/assets/map/' + ${o.city}+'/' + ${o.image_name}}" style="width: 400px; max-width: 100%; height: auto;" />
+														</div>
+														<div mag-zoom="inner-inline" class="mag-eg-el">
+															<img th:src="@{'/assets/map/' + ${o.city} + '/' + ${o.image_name}}" />
+														</div>
+													</div>
+												</div>
+											</td>
+											<td th:text="${o.image_id}"></td>
+											<td th:text="${o.city}"></td>
+											<td th:text="${o.year}"></td>
+											
+											<td th:text="${o.original_title}"></td>
+											<td th:text="${o.transliteration}"></td>
+											<td th:text="${o.alternative_original_title}"></td>
+											<td th:text="${o.size}"></td>
+											<td th:text="${o.authors}"></td>
+											
+											<td th:text="${o.collection}"></td>
+											<td th:text="${o.place_of_publication}"></td>
+											<td th:text="${o.map_type}"></td>
+											<td th:text="${o.repository}"></td>
+											<td th:text="${o.publishers}"></td>
+											
+											<td>
+												<form role="form" class="form-inline">
+													<div class="form-group">
+														<input id="remark" value="@{${o.remark_}}" style="display: none;"/>
+														<textarea id="remark_" style="width: 300px;" th:placeholder="@{${o.remark}}" class="form-control" name="message"></textarea>
+													</div>
+													<button id="sumbit-modify" th:onclick="@{'javascript:modifyRemark(' + ${o.id} + ', \'' + ${o.city} + '\', \'' + ${o.remark} + '\');'}" class="btn btn-success" type="button">修改</button>
+												</form>
+											</td>
+                                     	</tr>
+									</tbody>
+									<tfoot>
+										<tr>
+											<td colspan="5">
+												<div id="htmlFoot" class="pagination pagination-centered">
+												</div>
+											</td>
+										</tr> 
+									</tfoot>
+                                </table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /END OF CONTENT -->
+
+			<!-- FOOTER -->
+			<div th:include="~{_scaffold_ :: footer}"></div>
+			<!-- / END OF FOOTER -->
+		</div>
+	</div>
+	<!--  END OF PAPER WRAP -->
+
+	<!-- MAIN EFFECT -->
+	<script type="text/javascript" th:src="@{/assets/js/preloader.js}"></script>
+	<script type="text/javascript" th:src="@{/assets/js/bootstrap.js}"></script>
+	<script type="text/javascript" th:src="@{/assets/js/app.js}"></script>
+	<script type="text/javascript" th:src="@{/assets/js/load.js}"></script>
+	<script type="text/javascript" th:src="@{/assets/js/main.js}"></script>
+
+	<!-- /MAIN EFFECT -->
+	<!-- GAGE -->
+	<script type="text/javascript" th:src="@{/assets/js/toggle_close.js}"></script>
+	<script th:src="@{/assets/js/footable/js/footable.js?v=2-0-1}" type="text/javascript"></script>
+	<script th:src="@{/assets/js/footable/js/footable.sort.js?v=2-0-1}" type="text/javascript"></script>
+	<script th:src="@{/assets/js/footable/js/footable.filter.js?v=2-0-1}" type="text/javascript"></script>
+<!-- 	<script th:src="@{/assets/js/footable/js/footable.paginate.js}?v=2-0-1" type="text/javascript"></script> -->
+    
+	<!-- viewport 图片焦点控件 -->    
+	<script th:src="@{/assets/viewport/js/jquery.bridget.js}"></script>
+	<script th:src="@{/assets/viewport/js/jquery.mousewheel.min.js}"></script>
+	<script th:src="@{/assets/viewport/js/jquery.event.drag.js}"></script>
+	<script th:src="@{/assets/viewport/js/screenfull.js}"></script>
+	<script th:src="@{/assets/viewport/js/hammer.min.js}"></script>
+	<script th:src="@{/assets/viewport/js/mag-analytics.js}"></script>
+	<script th:src="@{/assets/viewport/js/mag.js}"></script>
+	<script th:src="@{/assets/viewport/js/PreventGhostClick.js}"></script>
+	<script th:src="@{/assets/viewport/js/mag-jquery.js}"></script>
+	<script th:src="@{/assets/viewport/js/mag-control.js}"></script>
+	<script th:src="@{/assets/viewport/js/index.js}"></script>
+    
+    <script th:inline="javascript">
+    	/*<![CDATA[*/
+        var htmlFoot = [[${htmlFoot}]];
+		$(document).ready(function () {
+			$("#htmlFoot").html(htmlFoot);
+		});
+		
+		function modifyRemark(id, city, remark) {
+			$.ajax({
+			    url: "/media/remark",
+			    data: JSON.stringify({
+			    		id: id,
+			    		city: city,
+			    		remark: remark,
+			    		remark_ : $("#remark_").val()
+			    }),
+			    	dataType: "json",
+			    	type: "POST",
+			    	contentType: "application/json",
+			    	success: function (data) {
+					if(data.verify) {
+// 						$("#message-true-text").html(data.message);  
+// 						$("#message-true").show();
+						$("#message-true").css("display", "inline-block");
+						setTimeout('$("#message-true").hide()', 2000);
+					} else {
+// 						$("#message-false-text").html(data.message);
+						$("#message-false").css("display", "inline-block"); 
+						setTimeout('$("#message-false").hide()', 2000);
+					}
+	       	 	}
+	    		}); 
+		}
+		
+		/*]]>*/
+    </script>
+    
+    <script type="text/javascript">
+    $(function() {
+        $('.footable-res').footable();
+    });
+    
+    $(function() {
+        $('#footable-res2').footable().bind('footable_filtering', function(e) {
+            var selected = $('.filter-status').find(':selected').text();
+            if (selected && selected.length > 0) {
+                e.filter += (e.filter && e.filter.length > 0) ? ' ' + selected : selected;
+                e.clear = !e.filter;
+            }
+        });
+
+        $('.clear-filter').click(function(e) {
+            e.preventDefault();
+            $('.filter-status').val('');
+            $('table.demo').trigger('footable_clear_filter');
+        });
+
+        $('.filter-status').change(function(e) {
+            e.preventDefault();
+            $('table.demo').trigger('footable_filter', {
+                filter: $('#filter').val()
+            });
+        });
+
+        $('.filter-api').click(function(e) {
+            e.preventDefault();
+
+            //get the footable filter object
+            var footableFilter = $('table').data('footable-filter');
+
+            alert('about to filter table by "tech"');
+            //filter by 'tech'
+            footableFilter.filter('tech');
+
+            //clear the filter
+            if (confirm('clear filter now?')) {
+                footableFilter.clearFilter();
+            }
+        });
+    });
+    </script>
+</body>
+</html>

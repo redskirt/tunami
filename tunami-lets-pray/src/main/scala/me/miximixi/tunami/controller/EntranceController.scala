@@ -28,11 +28,11 @@ import me.miximixi.tunami.service.LoginService
  * @Description
  */
 @RestController
-@RequestMapping(Array("/e"))
+@RequestMapping(Array("/_"))
 class EntranceController @Autowired() (loginService: LoginService) extends UsefulController {
   
-  @GetMapping(Array("/_"))
-  def `_` = new ModelAndView("login")
+  @GetMapping(Array(""))
+  def / = new ModelAndView("login")
 
   /**
    * /{username}/{password}

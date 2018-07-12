@@ -138,7 +138,7 @@
 		            return false;  
 				} else {
 					$.ajax({
-					    url: "/doLogin",
+					    url: "/_/doLogin",
 					    data: JSON.stringify({
 					    		account_name: $('#account_name').val(),
 					    		password: $('#password').val()
@@ -151,7 +151,7 @@
 					    	contentType: "application/json",
 					    	success: function (data) {
 							if(data.verify) {
-								window.location.href = '/'; 
+								window.location.href = '/_/index'; 
 							}
 							else {
 								$("#message").html(data.message);  
