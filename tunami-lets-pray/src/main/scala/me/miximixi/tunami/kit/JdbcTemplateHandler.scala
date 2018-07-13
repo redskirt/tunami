@@ -16,7 +16,7 @@ import org.springframework.jdbc.core.{ RowMapper, JdbcTemplate }
  * Ref: https://github.com/j-shepard/java-vs-scala
  */
 trait JdbcTemplateHandler { self =>
-  
+    
   protected var jdbcTemplate: JdbcTemplate = _
 
   @org.springframework.beans.factory.annotation.Autowired
@@ -49,6 +49,7 @@ trait JdbcTemplateHandler { self =>
 //  protected implicit def list2JavaList[T](list: List[T]): com.sasaki.packages.constant.JList[T] = 
 //    list.asJava
 
+//  protected def getString[T](rs:ResultSet, column: String) = rs.getString(columnIndex)
 }
 
 object JdbcTemplateHandler {
@@ -69,4 +70,15 @@ object JdbcTemplateHandler {
 /** Wrapper class for ResultSet that adds helper methods */
 final class RichResultSet(rs: ResultSet) {
   def getLocalDateTime(colIndex: Int): LocalDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(rs.getTimestamp(colIndex).getTime()), ZoneId.systemDefault())
+}
+
+abstract class AbstractQueryHander[T] {
+    
+  def insert(sql: Seq[T]): Int
+  
+  def insert(o: T): Int = insert(Seq(o))
+  
+  def list: JList[T]
+  
+  def update(o: T): Int
 }

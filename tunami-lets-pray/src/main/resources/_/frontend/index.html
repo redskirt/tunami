@@ -19,6 +19,11 @@
 <link rel="stylesheet" type="text/css" th:href="@{/assets/frontend/css/base.css}">
 <link rel="stylesheet" type="text/css" th:href="@{/assets/frontend/css/index.css}">
 
+<!-- 弹出层 -->
+<!-- <link rel="stylesheet" type="text/css" th:href="@{/assets/frontend/css/normalize.css}" /> -->
+<!-- <link rel="stylesheet" type="text/css" th:href="@{/assets/frontend/css/demo.css}" /> -->
+<!-- <link rel="stylesheet" type="text/css" th:href="@{/assets/frontend/css/component.css}" /> -->
+<!-- <link rel="stylesheet" type="text/css" th:href="@{/assets/frontend/css/content.css}" /> -->
 <!--[if lt IE 9]>
       <script src="js/vendor/html5shiv.min.js"></script>
       <script src="js/vendor/respond.min.js"></script>
@@ -432,7 +437,21 @@
 				</div>
 		</div>
 	</section>
-
+	
+	<div class="morph-content" style="left: 335.609px; top: 419.234px;">
+		<div>
+			<div class="content-style-form content-style-form-1">
+				<span class="icon icon-close">Close the dialog</span>
+				<h2>Login</h2>
+				<form>
+					<p><label>Email</label><input type="text"></p>
+					<p><label>Password</label><input type="password"></p>
+					<p><button>Login</button></p>
+				</form>
+			</div>
+		</div>
+	</div>
+				
 	<footer class="probootstrap-footer">
 		<div class="container">
 			<div class="row">
@@ -624,6 +643,8 @@
 		});
 	</script>
 	
+	
+	<!-- Waterfall -->
 	<script type="text/javascript" th:src="@{/assets/frontend/js/jQueryColor.js}"></script>
 	<!--这个插件是瀑布流主插件函数必须-->
 	<script type="text/javascript" th:src="@{/assets/frontend/js/jquery.masonry.min.js}"></script>
@@ -804,5 +825,76 @@
 		scrolltotop.init();
 	</script>
 	
+	
+	<!-- 弹出层 -->
+	<script type="text/javascript" th:src="@{/assets/frontend/js/modernizr.custom.js}"></script>
+	<script type="text/javascript" th:src="@{/assets/frontend/js/classie.js}"></script>
+	<script type="text/javascript" th:src="@{/assets/frontend/js/uiMorphingButton_fixed.js}"></script>
+	<script type="text/javascript">
+	(function() {
+		var docElem = window.document.documentElement, didScroll, scrollPosition;
+	
+		// trick to prevent scrolling when opening/closing button
+		function noScrollFn() {
+			window.scrollTo( scrollPosition ? scrollPosition.x : 0, scrollPosition ? scrollPosition.y : 0 );
+		}
+	
+		function noScroll() {
+			window.removeEventListener( 'scroll', scrollHandler );
+			window.addEventListener( 'scroll', noScrollFn );
+		}
+	
+		function scrollFn() {
+			window.addEventListener( 'scroll', scrollHandler );
+		}
+	
+		function canScroll() {
+			window.removeEventListener( 'scroll', noScrollFn );
+			scrollFn();
+		}
+	
+		function scrollHandler() {
+			if( !didScroll ) {
+				didScroll = true;
+				setTimeout( function() { scrollPage(); }, 60 );
+			}
+		};
+	
+		function scrollPage() {
+			scrollPosition = { x : window.pageXOffset || docElem.scrollLeft, y : window.pageYOffset || docElem.scrollTop };
+			didScroll = false;
+		};
+	
+		scrollFn();
+	
+		[].slice.call( document.querySelectorAll( '.morph-button' ) ).forEach( function( bttn ) {
+			new UIMorphingButton( bttn, {
+				closeEl : '.icon-close',
+				onBeforeOpen : function() {
+					// don't allow to scroll
+					noScroll();
+				},
+				onAfterOpen : function() {
+					// can scroll again
+					canScroll();
+				},
+				onBeforeClose : function() {
+					// don't allow to scroll
+					noScroll();
+				},
+				onAfterClose : function() {
+					// can scroll again
+					canScroll();
+				}
+			} );
+		} );
+	
+		// for demo purposes only
+		[].slice.call( document.querySelectorAll( 'form button' ) ).forEach( function( bttn ) { 
+			bttn.addEventListener( 'click', function( ev ) { ev.preventDefault(); } );
+		} );
+	})();
+	</script>
+
 </body>
 </html>

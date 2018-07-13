@@ -9,17 +9,16 @@ package me.miximixi.tunami.persistence
  */
 trait DB {
 
-  val __ = "__"
-  val and_? = " and ? is false " // 若有多余参数但不需要赋值，则用该变量占位
-  val count_from = "select count(0) from "
-  val limit_? = " limit ?,? "
+  protected val __ = "__"
+  protected val and_? = " and ? is false " // 若有多余参数但不需要赋值，则用该变量占位
+  protected val count_from = "select count(0) from "
+  protected val limit_? = " limit ?,? "
   
-  val attr_principal = "attr_principal"
-  val attr_metadata = "attr_metadata"
-  val attr_image_content = "attr_image_content"
-  val attr_vsh_view = "attr_vsh_view"
-  val attr_vsh_view_map = "attr_vsh_view_map"
+  protected val attr_principal = "attr_principal"
+  protected val attr_metadata = "attr_metadata"
+  protected val attr_gospel = "attr_gospel"
+  protected val bhvr_prayer = "bhvr_prayer"
   
-  def and(column: String): String = if(__ != column) s"and $column = ?\n" else and_?
-  def not_null(column: String): String = s"and $column is not null\n"
+  protected def and(column: String): String = if(__ != column) s"and $column = ?\n" else and_?
+  protected def not_null(column: String): String = s"and $column is not null\n"
 }

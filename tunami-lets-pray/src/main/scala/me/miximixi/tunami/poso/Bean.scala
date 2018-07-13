@@ -68,3 +68,37 @@ class Principal extends C {
   var status: String = _
 }
 
+class Gospel extends C {
+  
+  @BeanProperty
+  var content: String = _
+  
+  @BeanProperty
+  var date: java.sql.Date = _
+//  var date: JDate = _
+}
+
+class Prayer extends C {
+
+  @BeanProperty
+  var content: String = _
+  
+  @BeanProperty
+  var location: String = _
+  
+  @BeanProperty
+  var gender: String = _
+  
+  @BeanProperty
+  var target: String = _
+  
+//  @BeanProperty
+//  var relation: String = _
+  
+  @BeanProperty
+  var see: JInt = _
+  
+  @BeanProperty
+  var digg: JInt = _
+
+}
