@@ -35,8 +35,8 @@
 			<groupId>com.sasaki</groupId>
 			<artifactId>working-helper-assist</artifactId>
 			<version>1.1.4</version>
-			<!-- <systemPath>/Users/sasaki/repo/com/sasaki/working-helper-assist/1.1.3/working-helper-assist-1.1.3.jar</systemPath>
-			<scope>system</scope> -->
+			<systemPath>/Users/sasaki/repo/com/sasaki/working-helper-assist/1.1.4/working-helper-assist-1.1.4.jar</systemPath>
+			<scope>system</scope>
 		</dependency>
 
 		<dependency>

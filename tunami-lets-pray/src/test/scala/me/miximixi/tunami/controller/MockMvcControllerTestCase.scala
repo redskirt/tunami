@@ -79,7 +79,7 @@ class MockMvcControllerTestCase {
 //		  .andExpect(redirectedUrl("/_"))
     
         println(">> Without session:")
-        mockMvc.perform(get("/_"))
+        mockMvc.perform(get("/"))
           .andExpect(status.isOk())
           .andDo(print())
 

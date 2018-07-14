@@ -87,7 +87,7 @@ class Prayer extends C {
   var location: String = _
   
   @BeanProperty
-  var gender: String = _
+  var gender: String = _ // 0: female, 1: male
   
   @BeanProperty
   var target: String = _
@@ -100,5 +100,6 @@ class Prayer extends C {
   
   @BeanProperty
   var digg: JInt = _
-
+  
+  val genderInfo = if("0" == gender) "姊妹" else "弟兄"
 }
