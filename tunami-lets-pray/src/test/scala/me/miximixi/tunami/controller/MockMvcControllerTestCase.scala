@@ -76,17 +76,21 @@ class MockMvcControllerTestCase {
     //    .andExpect(status().isOk())
     //      .andExpect(content().contentType("application/json;charset=UTF-8"))
     // "text/html;charset=UTF-8"
-//		  .andExpect(redirectedUrl("/_"))
-    
-        println(">> Without session:")
-        mockMvc.perform(get("/"))
-          .andExpect(status.isOk())
-          .andDo(print())
+    //		  .andExpect(redirectedUrl("/_"))
 
-//        println(">> With mock session:")
-//        mockMvc.perform(get("/media/map_list_0_10_0").session(mockSession))
-//          .andExpect(status.isOk())
-//          .andDo(print)
+    //        println(">> Without session:")
+    //        mockMvc.perform(get("/"))
+    //          .andExpect(status.isOk())
+    //          .andDo(print())
+    import org.json4s.jackson.JsonMethods.render
+    import org.json4s.JsonDSL._
+//    val body = ("content" -> "大卫之子，和撒那！赞美主！大卫之子，和撒那！赞美主！大卫之子，和撒那！赞美主！大卫之子，和撒那！赞美主！") ~ ("location" -> "上海") ~ ("gender" -> "1") ~ ("target" -> "国家")
+//    
+    val body = render(("username" -> "tunami") ~ ("password" -> "000000"))
+    println(">> With mock session:")
+    mockMvc.perform(post("/ajaxSubmitPrayer"))
+      .andExpect(status.isOk())
+      .andDo(print)
   }
   
 //  @Test

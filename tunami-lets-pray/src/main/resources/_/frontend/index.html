@@ -22,8 +22,8 @@
 <!-- 弹出层 -->
 <!-- <link rel="stylesheet" type="text/css" th:href="@{/assets/frontend/css/normalize.css}" /> -->
 <!-- <link rel="stylesheet" type="text/css" th:href="@{/assets/frontend/css/demo.css}" /> -->
-<!-- <link rel="stylesheet" type="text/css" th:href="@{/assets/frontend/css/component.css}" /> -->
-<!-- <link rel="stylesheet" type="text/css" th:href="@{/assets/frontend/css/content.css}" /> -->
+<link rel="stylesheet" type="text/css" th:href="@{/assets/frontend/css/component.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/assets/frontend/css/content.css}" />
 <!--[if lt IE 9]>
       <script src="js/vendor/html5shiv.min.js"></script>
       <script src="js/vendor/respond.min.js"></script>
@@ -334,20 +334,6 @@
 		</div>
 	</section>
 	
-	<div class="morph-content" style="left: 335.609px; top: 419.234px;">
-		<div>
-			<div class="content-style-form content-style-form-1">
-				<span class="icon icon-close">Close the dialog</span>
-				<h2>Login</h2>
-				<form>
-					<p><label>Email</label><input type="text"></p>
-					<p><label>Password</label><input type="password"></p>
-					<p><button>Login</button></p>
-				</form>
-			</div>
-		</div>
-	</div>
-				
 	<footer class="probootstrap-footer">
 		<div class="container">
 			<div class="row">
@@ -371,8 +357,28 @@
 		</div>
 	</footer>
 
-	<div id="moquu_wxin" class="moquu_wxin">
-		<a href="javascript:void(0)"><div class="moquu_wxinh"></div></a>
+<!-- 	<div id="moquu_wxin" class="moquu_wxin"> -->
+<!-- 		<button id="testButton" type="button">sss</button> -->
+<!-- 		<a href="javascript:void(0)"><div class="moquu_wxinh"></div></a> -->
+<!-- 	</div> -->
+
+	<div id="morph-button" style="position: fixed; bottom: 100px; right: 10px; z-index: 9;" class="morph-button morph-button-modal morph-button-modal-3 morph-button-fixed">
+		<button type="button">向主祷告</button>
+		<div class="morph-content" style="left: 335.609px; top: 419.234px;">
+			<div>
+				<div class="content-style-form content-style-form-1">
+					<span class="icon icon-close">Close the dialog</span>
+					<label>「你们当向圣所举手，称颂耶和华！」——诗篇134:2</label>
+					<p>
+						<label>内容</label>
+						<input type="text">
+					</p>
+					<p>
+						<button id="submit-button">提交</button>
+					</p>
+				</div>
+			</div>
+		</div>
 	</div>
 
 	<script th:src="@{/assets/frontend/js/scripts.min.js}"></script>
@@ -511,9 +517,7 @@
 				};
 
 			})();
-
 			Photo.init();
-
 		});
 	</script>
 	
@@ -525,11 +529,6 @@
 	<!--这个插件只是为了扩展jquery的animate函数动态效果可有可无-->
 	<script type="text/javascript" th:src="@{/assets/frontend/js/jQeasing.js}"></script>
 	<script th:inline="javascript">
-	/*
-		抛开瀑布流布局各种乱七八糟的算法，基于masonry的瀑布流，很是简单的，而且通过扩展animate,能实现瀑布流布局的晃动、弹球等效果。
-		masonry还有很多参数我这里注解了常用的参数
-	 */
-	 
 		$(function(){
 				/*瀑布流开始*/
 				var container = $('.waterfull ul');
@@ -592,7 +591,7 @@
 			 		    	contentType: "application/json",
 			 		    	success: function(increment) {
 			 		    		/*根据后台返回的数据来判断是否你进行分页或者数据加载完毕这里假设大于100就不在加载数据*/
-							if(itemNum>=100){
+							if(itemNum>=30){
 								loading.text('已显示最新100条祷告。');
 							}else{
 								var html="";
@@ -618,7 +617,7 @@
 										loading.data("on",true).fadeOut();
 										clearTimeout(time);
 							        });
-								},1100)
+								},800)
 							}							
 			 		    	}
 		 			});
@@ -750,7 +749,7 @@
 	
 		scrollFn();
 	
-		[].slice.call( document.querySelectorAll( '.morph-button' ) ).forEach( function( bttn ) {
+		[].slice.call( document.querySelectorAll( '#morph-button' ) ).forEach(function ( bttn ) {
 			new UIMorphingButton( bttn, {
 				closeEl : '.icon-close',
 				onBeforeOpen : function() {
@@ -770,13 +769,49 @@
 					canScroll();
 				}
 			} );
-		} );
-	
-		// for demo purposes only
-		[].slice.call( document.querySelectorAll( 'form button' ) ).forEach( function( bttn ) { 
-			bttn.addEventListener( 'click', function( ev ) { ev.preventDefault(); } );
-		} );
+		});
 	})();
+	</script>
+	
+	<script th:inline="javascript">
+		$(function () { 
+			$("#submit-button").on("click", function () {
+				if(false/* $("#username").val() == "" || $("#password").val() == "" */) {  
+		       		$("#message").html("用户名和密码不能为空！");  
+		            return false;  
+				} else {
+					$.ajax({
+					    url: "/ajaxSubmitPrayer",
+					    data: JSON.stringify({
+						    	/* content: $('#content').val(),
+						    	location: $('#location').val(),
+						    	gender: $('#gender').val(),
+						    	target: $('#target').val() */
+						    	content: "大卫之子，和撒那！赞美主！大卫之子，和撒那！赞美主！大卫之子，和撒那！赞美主！大卫之子，和撒那！赞美主！",
+						    	location: "上海",
+						    	gender: "1",
+						    	target: "国家"
+					    }),
+					    	dataType: "json",
+					    	beforeSend: function(){  
+			                 $("#submit-button").val("正在登录，请稍后...");  
+			            	}, 
+					    	type: "POST",
+					    	contentType: "application/json",
+					    	success: function (data) {
+					    		alert(data.message)
+// 							if(data.verify) {
+// 								window.location.href = '/'; 
+// 							}
+// 							else {
+// // 								$("#message").html(data.message);  
+// 	                        		return false;  
+// 							}
+			       	 	}
+			    		}); 
+				}  
+			});
+		});
 	</script>
 
 </body>

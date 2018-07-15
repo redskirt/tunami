@@ -36,6 +36,8 @@ class DaoTestCase extends PaginationHandler {
   @Test
   def testListImageContent: Unit = {
 //        prayerDao.list(Int.box(318)).foreach(o => println(o.id))
+        
+    println(prayerDao.update(Array[Object](Int.box(1), Int.box(3), Int.box(2))))
     
 //    println(gospelDao.query(new Date(System.currentTimeMillis())).get.content)
     
@@ -50,24 +52,24 @@ class DaoTestCase extends PaginationHandler {
 //    for(i <- 0 to 50)
 //    println(gospelDao.insert(o1))
     
-      val o = new Prayer
-      val str = "这里是正文内容。"
-      var str2: String = ""
-      
-      for(i <- 0 to 150) {
-        val random = new Random().nextInt(10)
-        for(j <- 0 to random) {
-          str2 += str
-        		o.setContent(i + str2)
-        }
-        o.setDigg(random)
-        o.setSee(random)
-        o.setGender(random % 2 toString)
-        o.setLocation("上海")
-        o.setTarget("国家")
-        o.setTimestamp(new Timestamp(System.currentTimeMillis()))
-        prayerDao.insert(o)
-      }
+//      val o = new Prayer
+//      val str = "这里是正文内容。"
+//      var str2: String = ""
+//      
+//      for(i <- 0 to 150) {
+//        val random = new Random().nextInt(10)
+//        for(j <- 0 to random) {
+//          str2 += str
+//        		o.setContent(i + str2)
+//        }
+//        o.setDigg(random)
+//        o.setSee(random)
+//        o.setGender(random % 2 toString)
+//        o.setLocation("上海")
+//        o.setTarget("国家")
+//        o.setTimestamp(new Timestamp(System.currentTimeMillis()))
+//        prayerDao.insert(o)
+//      }
     
   }
   

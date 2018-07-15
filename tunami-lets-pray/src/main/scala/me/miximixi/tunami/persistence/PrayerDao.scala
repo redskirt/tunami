@@ -1,16 +1,17 @@
 package me.miximixi.tunami.persistence
 
-import com.sasaki.packages.constant._
+import java.sql.PreparedStatement
+
+import org.springframework.jdbc.core.BatchPreparedStatementSetter
 import org.springframework.stereotype.Repository
 
 import com.sasaki.chain.ScalaEntity
+import com.sasaki.packages.constant.JInt
 
+import me.miximixi.tunami.kit.AbstractQueryHander
 import me.miximixi.tunami.kit.JdbcTemplateHandler
 import me.miximixi.tunami.kit.JdbcTemplateHandler.mapRow
 import me.miximixi.tunami.poso.Prayer
-import me.miximixi.tunami.kit.AbstractQueryHander
-import org.springframework.jdbc.core.BatchPreparedStatementSetter
-import java.sql.PreparedStatement
 
 /**
  * @Author Sasaki
@@ -78,4 +79,14 @@ class PrayerDao extends AbstractQueryHander[Prayer] with JdbcTemplateHandler wit
   
   override def update(o: Prayer) = ???
   
+  /**
+   * 新增相应id的浏览数
+   */
+  def update(ids: Array[Object]) = 
+    jdbcTemplate.update(s"""
+      update $bhvr_prayer
+      set see = see + 1
+      where id in (${ ids.map(o => "?").mkString(", ") })
+      """, ids:_*)
 }
+

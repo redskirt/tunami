@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.JsonNode
 
 import me.miximixi.tunami.poso.Principal
 import me.miximixi.tunami.service.LoginService
+import me.miximixi.tunami.controller.frontend.HomeController
 
 /**
  * @Author Sasaki
@@ -29,6 +30,7 @@ class ControllerSpec extends FlatSpec with Matchers with MockFactory {
   
   val loginService = stub[LoginService]
   val entranceController = new EntranceController(loginService)
+  val homeController = new HomeController(null, null, null)
   
   implicit def autoAsJsonNode(value: JValue): JsonNode = asJsonNode(value)
   
@@ -44,6 +46,16 @@ class ControllerSpec extends FlatSpec with Matchers with MockFactory {
     (loginService.bizCheckin _).when(accountName_).returns(Some(mockExistUser))
     
     val result = pretty(fromJsonNode(entranceController.doLogin(body)))
+    val expected = pretty(("verify" -> true) ~ ("message" -> JNull))
+    
+    assert(expected == result)
+  }
+  
+  "POST /ajaxSubmitPrayer" should "return true" in {
+    import org.json4s.jackson.JsonMethods.render
+    import org.json4s.JsonDSL._
+    val body = render(("content" -> "大卫之子，和撒那！赞美主！大卫之子，和撒那！赞美主！大卫之子，和撒那！赞美主！大卫之子，和撒那！赞美主！") ~ ("location" -> "上海") ~ ("gender" -> "1") ~ ("target" -> "国家"))
+    val result = pretty(fromJsonNode(homeController.ajaxSubmitPrayer(body)))
     val expected = pretty(("verify" -> true) ~ ("message" -> JNull))
     
     assert(expected == result)

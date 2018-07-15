@@ -9,7 +9,6 @@ import com.sasaki.packages.constant._
  * @Timestamp May 30, 2018 4:25:12 PM
  * @Description
  */
-
 class C { 
   
   val self = this
@@ -96,10 +95,10 @@ class Prayer extends C {
 //  var relation: String = _
   
   @BeanProperty
-  var see: JInt = _
+  var see: JInt = 0
   
   @BeanProperty
-  var digg: JInt = _
+  var digg: JInt = 0
   
   val genderInfo = if("0" == gender) "姊妹" else "弟兄"
 }

@@ -16,10 +16,12 @@ import me.miximixi.tunami.persistence.GospelDao
 import me.miximixi.tunami.persistence.PrayerDao
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.ResponseBody
 import scala.beans.BeanProperty
 import me.miximixi.tunami.poso.Prayer
 import me.miximixi.tunami.service.PrayerService
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import me.miximixi.tunami.poso.Gospel
 
 /**
  * @Author Sasaki
@@ -35,7 +37,11 @@ class HomeController @Autowired() (gospelDao: GospelDao, prayerDao: PrayerDao, p
     val list = prayerService.bizBuildPrayerDTO(0)
     val list_ = scala.collection.JavaConversions.seqAsJavaList(list)
     model.addAttribute("prayers", list_)
-    model.addAttribute("gospelContent", gospelDao.query(TODAY).get.content)
+    model.addAttribute("gospelContent", gospelDao.query(TODAY).getOrElse({
+      val o = new Gospel
+      o.setContent("")
+      o
+    }).content)
     new ModelAndView("frontend/index")
   }
 
@@ -50,33 +56,31 @@ class HomeController @Autowired() (gospelDao: GospelDao, prayerDao: PrayerDao, p
     })
   }
   
-  @GetMapping(Array("/ajaxSubmitPrayer"))
-  def ajaxSubmitPrayer(@ResponseBody body: JsonNode): JsonNode =
+  @PostMapping(Array("/ajaxSubmitPrayer"))
+  def ajaxSubmitPrayer(@RequestBody body: JsonNode): JsonNode =
     ajaxHandler(body) { json =>
       (json \ "content", //
         json \ "location", //
         json \ "gender", //
-        json \ "target", //
-        json \ "see", //
-        json \ "digg") match {
+        json \ "target") match {
           case (JString(content), //
             JString(location), //
             JString(gender), //
-            JString(target), //
-            JSONInt(see), //
-            JSONInt(digg)) =>
-            if (content.length() > 20) {
+            JString(target)) =>
+            if (content.length() >= 20 && content.length() <= 200) {
               val o = new Prayer
               o.setContent(content)
               o.setLocation(location)
               o.setGender(gender)
               o.setTarget(target)
-              o.setSee(see toInt)
-              o.setDigg(digg toInt)
-              prayerDao.insert(o)
-              ($verify -> true) ~ ($message -> JNull)
+              val result = prayerDao.insert(o)
+              if(1 == result)
+                ($verify -> true) ~ ($message -> JNull)
+              else
+                ($verify -> false) ~ ($message -> "处理异常。")
             } else
-              ($verify -> false) ~ ($message -> "正文内容请输入20字以上。")
+              ($verify -> false) ~ ($message -> "正文内容请输入20字以上200字以内。")
+          case _ => ($verify -> false) ~ ($message -> "提交内容有误。")
         }
     }
 }
