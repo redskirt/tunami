@@ -2,15 +2,10 @@
 
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title></title>
-<meta name="description" content="">
-<meta name="keywords" content="">
+
+<head lang="en" th:include="~{frontend/_scaffold_ :: header}"></head>
 
 <link href="https://fonts.googleapis.com/css?family=Bellefair|Open+Sans" rel="stylesheet">
-<link rel="stylesheet" th:href="@{/assets/frontend/css/styles-merged.css}">
-<link rel="stylesheet" th:href="@{/assets/frontend/css/style.min.css}">
 
 <!-- Thumbnail Proximity Effect -->
 <link rel="stylesheet" th:href="@{/assets/frontend/css/thumbnail.css}">
@@ -20,59 +15,16 @@
 <link rel="stylesheet" type="text/css" th:href="@{/assets/frontend/css/index.css}">
 
 <!-- 弹出层 -->
-<!-- <link rel="stylesheet" type="text/css" th:href="@{/assets/frontend/css/normalize.css}" /> -->
-<!-- <link rel="stylesheet" type="text/css" th:href="@{/assets/frontend/css/demo.css}" /> -->
 <link rel="stylesheet" type="text/css" th:href="@{/assets/frontend/css/component.css}" />
 <link rel="stylesheet" type="text/css" th:href="@{/assets/frontend/css/content.css}" />
+
 <!--[if lt IE 9]>
       <script src="js/vendor/html5shiv.min.js"></script>
       <script src="js/vendor/respond.min.js"></script>
     <![endif]-->
-</head>
 <body>
-	<!-- Fixed navbar -->
-	<nav class="navbar navbar-default navbar-fixed-top probootstrap-navbar">
-		<div class="container">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed"
-					data-toggle="collapse" data-target="#navbar-collapse"
-					aria-expanded="false" aria-controls="navbar">
-					<span class="sr-only">Toggle navigation</span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" th:href="index.html" title="uiCookies:FineOak">FineOak</a>
-			</div>
-
-			<div id="navbar-collapse" class="navbar-collapse collapse">
-				<ul class="nav navbar-nav navbar-right">
-					<li><a href="index.html">Home</a></li>
-					<li><a href="services.html">Services</a></li>
-					<li><a href="about.html">About</a></li>
-					<li><a href="gallery.html">Gallery</a></li>
-					<li class="dropdown"><a href="#" data-toggle="dropdown"
-						class="dropdown-toggle">Pages</a>
-						<ul class="dropdown-menu">
-							<li><a href="about.html">About Us</a></li>
-							<li><a href="portfolio.html">Portfolio</a></li>
-							<li><a href="portfolio-single.html">Portfolio Single</a></li>
-							<li class="dropdown-submenu dropdown"><a href="#"
-								data-toggle="dropdown" class="dropdown-toggle"><span>Sub
-										Menu</span></a>
-								<ul class="dropdown-menu">
-									<li><a href="#">Second Level Menu</a></li>
-									<li><a href="#">Second Level Menu</a></li>
-									<li><a href="#">Second Level Menu</a></li>
-									<li><a href="#">Second Level Menu</a></li>
-								</ul></li>
-							<li><a href="services.html">Services</a></li>
-						</ul></li>
-					<li><a href="contact.html">Contact</a></li>
-				</ul>
-			</div>
-		</div>
-	</nav>
-
+	<nav th:replace="frontend/_scaffold_ :: nav"></nav>
+	
 	<!-- <section class="flexslider"> -->
 		<section class="pe-container" style="width: 100%; height: 500px; background: #b39e9e00 url(/assets/frontend/images/2.jpg) center center; text-align: center; box-shadow: 0 1px 2px rgba(0,0,0,0.2);">
 		<ul id="pe-thumbs" class="pe-thumbs" style="list-style: none; padding: 0;">
@@ -299,8 +251,8 @@
       <div class="container">
         <div class="row">
           <div class="col-md-6 col-md-offset-3 text-center section-heading probootstrap-animate">
-            <h2>今日福音<span style="font-size: 16px; font-family: Bellefair,serif;"> / Today's Gospel</span></h2>
-            <h5 style="font-size: 20px;" th:text="${gospelContent}"></h5>
+            <h2 style="color: #ffffff;">今日福音<span style="font-size: 16px; font-family: Bellefair,serif;"> / Today's Gospel</span></h2>
+            <h5 style="font-size: 20px; color: #ffffff;" th:text="${gospelContent}"></h5>
           </div>
         </div>
       </div>
@@ -314,7 +266,7 @@
 					<h2>同心祷告<span style="font-size: 16px; font-family: Bellefair,serif;"> / Let's Pray</span></h2>
 				</div>
 			</div>
-			<div class="content">
+			
 			<div class="waterfull clearfloat" id="waterfull">
 				<ul id="ul-prayer">
 					<li class="item" th:each="o : ${prayers}">
@@ -322,45 +274,19 @@
 						<div class="qianm clearfloat">
 							<span class="sp1"><b th:text="${o.see}"></b>浏览</span> 
 							<span class="sp2" th:text="${o.info}"></span>
-						</div>
+						</div> 
 						<input th:value="${o.id}" style="display: none;">
 					</li>
 				</ul>
-			</div>
-			</div>
+			</div>				
+			
 			<div id="imloading" style="width: 250px; height: 30px; line-height: 30px; font-size: 16px; text-align: center; border-radius: 3px; opacity: 0.7; background: #000; margin: 10px auto 30px; color: #fff; display: none">
 				奉主耶稣的名求，阿们！
 			</div>
 		</div>
 	</section>
 	
-	<footer class="probootstrap-footer">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12 text-center">
-					<ul class="probootstrap-footer-social">
-						<li><a href="#"><i class="icon-twitter"></i></a></li>
-						<li><a href="#"><i class="icon-facebook"></i></a></li>
-						<li><a href="#"><i class="icon-github"></i></a></li>
-						<li><a href="#"><i class="icon-dribbble"></i></a></li>
-						<li><a href="#"><i class="icon-linkedin"></i></a></li>
-						<li><a href="#"><i class="icon-youtube"></i></a></li>
-					</ul>
-				</div>
-			</div>
-			<!-- END row -->
-			<div class="row">
-				<div class="col-md-12 copyright text-center">
-					<p>Copyright &copy; 2018.Company name All rights reserved.</p>
-				</div>
-			</div>
-		</div>
-	</footer>
-
-<!-- 	<div id="moquu_wxin" class="moquu_wxin"> -->
-<!-- 		<button id="testButton" type="button">sss</button> -->
-<!-- 		<a href="javascript:void(0)"><div class="moquu_wxinh"></div></a> -->
-<!-- 	</div> -->
+	<footer th:replace="frontend/_scaffold_ :: footer"></footer>
 
 	<div id="morph-button" style="position: fixed; bottom: 100px; right: 10px; z-index: 9;" class="morph-button morph-button-modal morph-button-modal-3 morph-button-fixed">
 		<button type="button">向主祷告</button>
@@ -380,6 +306,18 @@
 			</div>
 		</div>
 	</div>
+
+	<script type="text/javascript">
+	 //页面自适应
+    function iFrameHeight() {
+        var ifm = document.getElementById("prayerFrame");
+        var subWeb = document.frames ? document.frames["prayerFrame"].document : ifm.contentDocument;
+        if (ifm != null && subWeb != null) {
+            ifm.height = subWeb.body.scrollHeight;
+        }
+    } 
+     
+	</script>
 
 	<script th:src="@{/assets/frontend/js/scripts.min.js}"></script>
 	<script th:src="@{/assets/frontend/js/custom.min.js}"></script>
@@ -521,7 +459,6 @@
 		});
 	</script>
 	
-	
 	<!-- Waterfall -->
 	<script type="text/javascript" th:src="@{/assets/frontend/js/jQueryColor.js}"></script>
 	<!--这个插件是瀑布流主插件函数必须-->
@@ -529,184 +466,279 @@
 	<!--这个插件只是为了扩展jquery的animate函数动态效果可有可无-->
 	<script type="text/javascript" th:src="@{/assets/frontend/js/jQeasing.js}"></script>
 	<script th:inline="javascript">
-		$(function(){
-				/*瀑布流开始*/
-				var container = $('.waterfull ul');
-				var loading=$('#imloading');
-				// 初始化loading状态
-				loading.data("on",true);
-				/*判断瀑布流最大布局宽度，最大为1170*/
-				function tores(){
-					var tmpWid=$(window).width();
-					if(tmpWid>1170){
-						tmpWid=1170;
-					} else {
-						var column=Math.floor(tmpWid / 320);
-						tmpWid=column * 320;
-					}
-					$('.waterfull').width(tmpWid);
+		$(function() {
+			/*瀑布流开始*/
+			var container = $('.waterfull ul');
+			var loading = $('#imloading');
+			// 初始化loading状态
+			loading.data("on", true);
+			/*判断瀑布流最大布局宽度，最大为1170*/
+			function tores() {
+				var tmpWid = $(window).width();
+				if (tmpWid > 1170) {
+					tmpWid = 1170;
+				} else {
+					var column = Math.floor(tmpWid / 320);
+					tmpWid = column * 320;
 				}
+				$('.waterfull').width(tmpWid);
+			}
+			tores();
+			$(window).resize(function() {
 				tores();
-				$(window).resize(function(){
-					tores();
-				});
-				container.imagesLoaded(function(){
-				  container.masonry({
-				  	columnWidth: 230,
-				    itemSelector : '.item',
-				    isFitWidth: true,//是否根据浏览器窗口大小自动适应默认false
-				    isAnimated: true,//是否采用jquery动画进行重拍版
-				    isRTL: false,//设置布局的排列方式，即：定位砖块时，是从左向右排列还是从右向左排列。默认值为false，即从左向右
-				    isResizable: true,//是否自动布局默认true
-				    animationOptions: {
-						duration: 800,
-						easing: 'easeInOutBack',//如果你引用了jQeasing这里就可以添加对应的动态动画效果，如果没引用删除这行，默认是匀速变化
-						queue: false//是否队列，从一点填充瀑布流
+			});
+			container.imagesLoaded(function() {
+				container.masonry({
+					columnWidth : 230,
+					itemSelector : '.item',
+					isFitWidth : true,//是否根据浏览器窗口大小自动适应默认false
+					isAnimated : true,//是否采用jquery动画进行重拍版
+					isRTL : false,//设置布局的排列方式，即：定位砖块时，是从左向右排列还是从右向左排列。默认值为false，即从左向右
+					isResizable : true,//是否自动布局默认true
+					animationOptions : {
+						duration : 800,
+						easing : 'easeInOutBack',//如果你引用了jQeasing这里就可以添加对应的动态动画效果，如果没引用删除这行，默认是匀速变化
+						queue : false
+					//是否队列，从一点填充瀑布流
 					}
-				  });
 				});
+			});
 
-				$(window).scroll(function(){
-					if(!loading.data("on")) return;
-					// 计算所有瀑布流块中距离顶部最大，进而在滚动条滚动时进行ajax请求
-					var itemNum=$('#waterfull').find('.item').length;
-					var itemArr=[];
-					itemArr[0]=$('#waterfull').find('.item').eq(itemNum-1).offset().top+$('#waterfull').find('.item').eq(itemNum-1)[0].offsetHeight;
-					itemArr[1]=$('#waterfull').find('.item').eq(itemNum-2).offset().top+$('#waterfull').find('.item').eq(itemNum-1)[0].offsetHeight;
-					itemArr[2]=$('#waterfull').find('.item').eq(itemNum-3).offset().top+$('#waterfull').find('.item').eq(itemNum-1)[0].offsetHeight;
-					var maxTop=Math.max.apply(null,itemArr);
-					if(maxTop<$(window).height()+$(document).scrollTop()){
-						//加载更多数据
-						loading.data("on",false).fadeIn(800);
-						var minId = $("#ul-prayer").children(":last").children("input").val()
-						incrementProcess(itemNum, minId);
-					}
-				});
-				
-				function incrementProcess(itemNum, minId) {
-			 		$.ajax({
-			 		    url: "/ajaxListPrayers_" + minId,
-			 		    	dataType: "json",
-			 		    	type: "GET",
-			 		    	contentType: "application/json",
-			 		    	success: function(increment) {
-			 		    		/*根据后台返回的数据来判断是否你进行分页或者数据加载完毕这里假设大于100就不在加载数据*/
-							if(itemNum>=30){
-								loading.text('已显示最新100条祷告。');
-							}else{
-								var html="";
-								for(var i in increment){
-									html+="<li class='item'>";
-									/* <a href='#' class='a-img'><img src='"+increment[i].src+"'></a>"; */
-									/* html+="<h2 class='li-title'>"+increment[i].title+"</h2>"; */
-									html+="<div class='description' style='max-height: 300px; line-height: 2em;'>"+increment[i].content+"</div><div class='qianm clearfloat'>";
-									html+="<span class='sp1'><b>"+increment[i].see+"</b>浏览</span>";
-									html+="<span class='sp2'>"+increment[i].info+"&nbsp;By</span></div>";
-									html+="<input value='"+increment[i].id+"' style='display: none;'>";
-									html+="</li>";		
+			$(window)
+					.scroll(
+							function() {
+								if (!loading.data("on"))
+									return;
+								// 计算所有瀑布流块中距离顶部最大，进而在滚动条滚动时进行ajax请求
+								var itemNum = $('#waterfull').find('.item').length;
+								var itemArr = [];
+								itemArr[0] = $('#waterfull').find('.item').eq(
+										itemNum - 1).offset().top
+										+ $('#waterfull').find('.item').eq(
+												itemNum - 1)[0].offsetHeight;
+								itemArr[1] = $('#waterfull').find('.item').eq(
+										itemNum - 2).offset().top
+										+ $('#waterfull').find('.item').eq(
+												itemNum - 1)[0].offsetHeight;
+								itemArr[2] = $('#waterfull').find('.item').eq(
+										itemNum - 3).offset().top
+										+ $('#waterfull').find('.item').eq(
+												itemNum - 1)[0].offsetHeight;
+								var maxTop = Math.max.apply(null, itemArr);
+								if (maxTop < $(window).height()
+										+ $(document).scrollTop()) {
+									//加载更多数据
+									loading.data("on", false).fadeIn(800);
+									var minId = $("#ul-prayer").children(
+											":last").children("input").val()
+									incrementProcess(itemNum, minId);
 								}
-								/*模拟ajax请求数据时延时*/
-								var time=setTimeout(function(){
-									$(html).find('img').each(function(index){
-										loadImage($(this).attr('src'));
-									})
-									var $newElems = $(html).css({ opacity: 0}).appendTo(container);
-									$newElems.imagesLoaded(function(){
-										$newElems.animate({ opacity: 1},800);
-										container.masonry( 'appended', $newElems,true);
-										loading.data("on",true).fadeOut();
-										clearTimeout(time);
-							        });
-								},800)
-							}							
-			 		    	}
-		 			});
+							});
+
+			function incrementProcess(itemNum, minId) {
+				$
+						.ajax({
+							url : "/ajaxListPrayers_" + minId,
+							dataType : "json",
+							type : "GET",
+							contentType : "application/json",
+							success : function(increment) {
+								/*根据后台返回的数据来判断是否你进行分页或者数据加载完毕这里假设大于100就不在加载数据*/
+								if (itemNum >= 30) {
+									loading.text('已显示最新100条祷告。');
+								} else {
+									var html = "";
+									for ( var i in increment) {
+										html += "<li class='item'>";
+										/* <a href='#' class='a-img'><img src='"+increment[i].src+"'></a>"; */
+										/* html+="<h2 class='li-title'>"+increment[i].title+"</h2>"; */
+										html += "<div class='description' style='max-height: 300px; line-height: 2em;'>"
+												+ increment[i].content
+												+ "</div><div class='qianm clearfloat'>";
+										html += "<span class='sp1'><b>"
+												+ increment[i].see
+												+ "</b>浏览</span>";
+										html += "<span class='sp2'>"
+												+ increment[i].info
+												+ "&nbsp;By</span></div>";
+										html += "<input value='"+increment[i].id+"' style='display: none;'>";
+										html += "</li>";
+									}
+									/*模拟ajax请求数据时延时*/
+									var time = setTimeout(function() {
+										$(html).find('img').each(
+												function(index) {
+													loadImage($(this).attr(
+															'src'));
+												})
+										var $newElems = $(html).css({
+											opacity : 0
+										}).appendTo(container);
+										$newElems.imagesLoaded(function() {
+											$newElems.animate({
+												opacity : 1
+											}, 800);
+											container.masonry('appended',
+													$newElems, true);
+											loading.data("on", true).fadeOut();
+											clearTimeout(time);
+										});
+									}, 800)
+								}
+							}
+						});
+			}
+
+			function loadImage(url) {
+				var img = new Image();
+				//创建一个Image对象，实现图片的预下载
+				img.src = url;
+				if (img.complete) {
+					return img.src;
 				}
-				
-				function loadImage(url) {
-				     var img = new Image(); 
-				     //创建一个Image对象，实现图片的预下载
-				      img.src = url;
-				      if (img.complete) {
-				         return img.src;
-				      }
-				      img.onload = function () {
-				       	return img.src;
-				      };
-				 };
-				 loadImage('/assets/frontend/images/one.jpg');
-				/*item hover效果*/
-				var rbgB=['#71D3F5','#F0C179','#F28386','#8BD38B'];
-				$('#waterfull').on('mouseover','.item',function(){
-					var random=Math.floor(Math.random() * 4);
-					$(this).stop(true).animate({'backgroundColor':rbgB[random]},1000);
-				});
-				$('#waterfull').on('mouseout','.item',function(){
-					$(this).stop(true).animate({'backgroundColor':'#fff'},1000);
-				});
+				img.onload = function() {
+					return img.src;
+				};
+			}
+			;
+			loadImage('/assets/frontend/images/one.jpg');
+			/*item hover效果*/
+			var rbgB = [ '#71D3F5', '#F0C179', '#F28386', '#8BD38B' ];
+			$('#waterfull').on('mouseover', '.item', function() {
+				var random = Math.floor(Math.random() * 4);
+				$(this).stop(true).animate({
+					'backgroundColor' : rbgB[random]
+				}, 1000);
+			});
+			$('#waterfull').on('mouseout', '.item', function() {
+				$(this).stop(true).animate({
+					'backgroundColor' : '#fff'
+				}, 1000);
+			});
 		});
-    </script>
+	</script>
 
 	<script type="text/javascript">
-		var scrolltotop={
-			setting:{
-				startline:100, //起始行
-				scrollto:0, //滚动到指定位置
-				scrollduration:400, //滚动过渡时间
-				fadeduration:[500,100] //淡出淡现消失
+		var scrolltotop = {
+			setting : {
+				startline : 100, //起始行
+				scrollto : 0, //滚动到指定位置
+				scrollduration : 400, //滚动过渡时间
+				fadeduration : [ 500, 100 ]
+			//淡出淡现消失
 			},
-			controlHTML:'<img src="/assets/frontend/images/top.png" style="width:30px; height:30px; border:0;" />', //返回顶部按钮
-			controlattrs:{offsetx:10,offsety:10},//返回按钮固定位置
-			anchorkeyword:"#top",
-			state:{
-				isvisible:false,
-				shouldvisible:false
-			},scrollup:function(){
-				if(!this.cssfixedsupport){
-					this.$control.css({opacity:0});
+			controlHTML : '<img src="/assets/frontend/images/top.png" style="width:30px; height:30px; border:0;" />', //返回顶部按钮
+			controlattrs : {
+				offsetx : 10,
+				offsety : 10
+			},//返回按钮固定位置
+			anchorkeyword : "#top",
+			state : {
+				isvisible : false,
+				shouldvisible : false
+			},
+			scrollup : function() {
+				if (!this.cssfixedsupport) {
+					this.$control.css({
+						opacity : 0
+					});
 				}
-				var dest=isNaN(this.setting.scrollto)?this.setting.scrollto:parseInt(this.setting.scrollto);
-				if(typeof dest=="string"&&jQuery("#"+dest).length==1){
-					dest=jQuery("#"+dest).offset().top;
-				}else{
-					dest=0;
+				var dest = isNaN(this.setting.scrollto) ? this.setting.scrollto
+						: parseInt(this.setting.scrollto);
+				if (typeof dest == "string" && jQuery("#" + dest).length == 1) {
+					dest = jQuery("#" + dest).offset().top;
+				} else {
+					dest = 0;
 				}
-				this.$body.animate({scrollTop:dest},this.setting.scrollduration);
-			},keepfixed:function(){
-				var $window=jQuery(window);
-				var controlx=$window.scrollLeft()+$window.width()-this.$control.width()-this.controlattrs.offsetx;
-				var controly=$window.scrollTop()+$window.height()-this.$control.height()-this.controlattrs.offsety;
-				this.$control.css({left:controlx+"px",top:controly+"px"});
-			},togglecontrol:function(){
-				var scrolltop=jQuery(window).scrollTop();
-				if(!this.cssfixedsupport){
+				this.$body.animate({
+					scrollTop : dest
+				}, this.setting.scrollduration);
+			},
+			keepfixed : function() {
+				var $window = jQuery(window);
+				var controlx = $window.scrollLeft() + $window.width()
+						- this.$control.width() - this.controlattrs.offsetx;
+				var controly = $window.scrollTop() + $window.height()
+						- this.$control.height() - this.controlattrs.offsety;
+				this.$control.css({
+					left : controlx + "px",
+					top : controly + "px"
+				});
+			},
+			togglecontrol : function() {
+				var scrolltop = jQuery(window).scrollTop();
+				if (!this.cssfixedsupport) {
 					this.keepfixed();
 				}
-				this.state.shouldvisible=(scrolltop>=this.setting.startline)?true:false;
-				if(this.state.shouldvisible&&!this.state.isvisible){
-					this.$control.stop().animate({opacity:1},this.setting.fadeduration[0]);
-					this.state.isvisible=true;
-				}else{
-					if(this.state.shouldvisible==false&&this.state.isvisible){
-						this.$control.stop().animate({opacity:0},this.setting.fadeduration[1]);
-						this.state.isvisible=false;
+				this.state.shouldvisible = (scrolltop >= this.setting.startline) ? true
+						: false;
+				if (this.state.shouldvisible && !this.state.isvisible) {
+					this.$control.stop().animate({
+						opacity : 1
+					}, this.setting.fadeduration[0]);
+					this.state.isvisible = true;
+				} else {
+					if (this.state.shouldvisible == false
+							&& this.state.isvisible) {
+						this.$control.stop().animate({
+							opacity : 0
+						}, this.setting.fadeduration[1]);
+						this.state.isvisible = false;
 					}
 				}
-			},init:function(){
-				jQuery(document).ready(function($){
-					var mainobj=scrolltotop;
-					var iebrws=document.all;
-					mainobj.cssfixedsupport=!iebrws||iebrws&&document.compatMode=="CSS1Compat"&&window.XMLHttpRequest;
-					mainobj.$body=(window.opera)?(document.compatMode=="CSS1Compat"?$("html"):$("body")):$("html,body");
-					mainobj.$control=$('<div id="topcontrol" style="z-index:9;" >'+mainobj.controlHTML+"</div>").css({position:mainobj.cssfixedsupport?"fixed":"absolute",bottom:mainobj.controlattrs.offsety,right:mainobj.controlattrs.offsetx,opacity:0,cursor:"pointer"}).attr({title:"返回顶部"}).click(function(){mainobj.scrollup();return false;}).appendTo("body");if(document.all&&!window.XMLHttpRequest&&mainobj.$control.text()!=""){mainobj.$control.css({width:mainobj.$control.width()});}mainobj.togglecontrol();
-					$('a[href="'+mainobj.anchorkeyword+'"]').click(function(){mainobj.scrollup();return false;});
-					$(window).bind("scroll resize",function(e){mainobj.togglecontrol();});
-				});
+			},
+			init : function() {
+				jQuery(document)
+						.ready(
+								function($) {
+									var mainobj = scrolltotop;
+									var iebrws = document.all;
+									mainobj.cssfixedsupport = !iebrws
+											|| iebrws
+											&& document.compatMode == "CSS1Compat"
+											&& window.XMLHttpRequest;
+									mainobj.$body = (window.opera) ? (document.compatMode == "CSS1Compat" ? $("html")
+											: $("body"))
+											: $("html,body");
+									mainobj.$control = $(
+											'<div id="topcontrol" style="z-index:9;" >'
+													+ mainobj.controlHTML
+													+ "</div>")
+											.css(
+													{
+														position : mainobj.cssfixedsupport ? "fixed"
+																: "absolute",
+														bottom : mainobj.controlattrs.offsety,
+														right : mainobj.controlattrs.offsetx,
+														opacity : 0,
+														cursor : "pointer"
+													}).attr({
+												title : "返回顶部"
+											}).click(function() {
+												mainobj.scrollup();
+												return false;
+											}).appendTo("body");
+									if (document.all && !window.XMLHttpRequest
+											&& mainobj.$control.text() != "") {
+										mainobj.$control.css({
+											width : mainobj.$control.width()
+										});
+									}
+									mainobj.togglecontrol();
+									$('a[href="' + mainobj.anchorkeyword + '"]')
+											.click(function() {
+												mainobj.scrollup();
+												return false;
+											});
+									$(window).bind("scroll resize",
+											function(e) {
+												mainobj.togglecontrol();
+											});
+								});
 			}
 		};
 		scrolltotop.init();
 	</script>
-	
 	
 	<!-- 弹出层 -->
 	<script type="text/javascript" th:src="@{/assets/frontend/js/modernizr.custom.js}"></script>
@@ -799,14 +831,16 @@
 					    	type: "POST",
 					    	contentType: "application/json",
 					    	success: function (data) {
-					    		alert(data.message)
-// 							if(data.verify) {
-// 								window.location.href = '/'; 
-// 							}
-// 							else {
-// // 								$("#message").html(data.message);  
-// 	                        		return false;  
-// 							}
+// 					    		alert(data.message)
+							if(data.verify) {
+								window.location.reload();
+// 								window.location.href = "/"; 
+// 								window.location.href = 'http://cn.bing.com'; 
+							}
+							else {
+// 								$("#message").html(data.message);  
+	                        		return false;  
+							}
 			       	 	}
 			    		}); 
 				}  

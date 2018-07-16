@@ -21,7 +21,6 @@ import me.miximixi.tunami.poso.Prayer
 import me.miximixi.tunami.service.PrayerService
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
-import me.miximixi.tunami.poso.Gospel
 
 /**
  * @Author Sasaki
@@ -38,12 +37,26 @@ class HomeController @Autowired() (gospelDao: GospelDao, prayerDao: PrayerDao, p
     val list_ = scala.collection.JavaConversions.seqAsJavaList(list)
     model.addAttribute("prayers", list_)
     model.addAttribute("gospelContent", gospelDao.query(TODAY).getOrElse({
-      val o = new Gospel
+      val o = new me.miximixi.tunami.poso.Gospel
       o.setContent("")
       o
     }).content)
     new ModelAndView("frontend/index")
   }
+  
+  @GetMapping(Array("/frame_prayer"))
+  def frame_prayer(model: Model) = {
+		  val list = prayerService.bizBuildPrayerDTO(0)
+				  val list_ = scala.collection.JavaConversions.seqAsJavaList(list)
+				  model.addAttribute("prayers", list_)
+				  model.addAttribute("gospelContent", gospelDao.query(TODAY).getOrElse({
+					  val o = new me.miximixi.tunami.poso.Gospel
+							  o.setContent("")
+							  o
+				  }).content)
+				  new ModelAndView("frontend/frame_prayer")
+  }
+  
 
   @GetMapping(Array("/ajaxListPrayers_{minId}"))
   def ajaxListPrayers(@PathVariable minId: JInt): JsonNode = {

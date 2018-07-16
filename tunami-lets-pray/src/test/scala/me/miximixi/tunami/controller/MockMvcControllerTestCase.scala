@@ -84,11 +84,9 @@ class MockMvcControllerTestCase {
     //          .andDo(print())
     import org.json4s.jackson.JsonMethods.render
     import org.json4s.JsonDSL._
-//    val body = ("content" -> "大卫之子，和撒那！赞美主！大卫之子，和撒那！赞美主！大卫之子，和撒那！赞美主！大卫之子，和撒那！赞美主！") ~ ("location" -> "上海") ~ ("gender" -> "1") ~ ("target" -> "国家")
-//    
-    val body = render(("username" -> "tunami") ~ ("password" -> "000000"))
+    val body = ("content" -> "大卫之子，和撒那！赞美主！大卫之子，和撒那！赞美主！大卫之子，和撒那！赞美主！大卫之子，和撒那！赞美主！") ~ ("location" -> "上海") ~ ("gender" -> "1") ~ ("target" -> "国家")
     println(">> With mock session:")
-    mockMvc.perform(post("/ajaxSubmitPrayer"))
+    mockMvc.perform(post("/ajaxSubmitPrayer").requestAttr("body", body))
       .andExpect(status.isOk())
       .andDo(print)
   }

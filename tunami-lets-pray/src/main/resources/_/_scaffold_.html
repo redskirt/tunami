@@ -22,6 +22,22 @@
 	<script type="text/javascript" th:src="@{/assets/js/jquery.js}"></script>
 </head>
 
+<div th:fragment="footer">
+	<div class="footer-space"></div>
+	<div id="footer">
+		<div class="devider-footer-left"></div>
+		<div class="time">
+			<p id="spanDate">
+			<p id="clock">
+		</div>
+		<div class="copyright">
+			&copy; 2018 Developed by <a href="http://miximixi.me" target="_blank">Sasaki,</a>
+			All Rights Reserved.
+		</div>
+		<div class="devider-footer"></div>
+	</div>
+</div>
+
 <div th:fragment="navbar">
 <!-- TOP NAVBAR -->
 	<nav role="navigation" class="navbar navbar-static-top">
