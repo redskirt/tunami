@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<head lang="en" th:include="~{frontend/_scaffold_ :: header}"></head>
+
+<link href="https://fonts.googleapis.com/css?family=Bellefair|Open+Sans" rel="stylesheet">
+
+<!-- Thumbnail Proximity Effect -->
+<link rel="stylesheet" th:href="@{/assets/frontend/css/thumbnail.css}">
+
+<!-- 瀑布流 -->
+<link rel="stylesheet" type="text/css" th:href="@{/assets/frontend/css/base.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/assets/frontend/css/index.css}">
+
+<!-- 弹出层 -->
+<link rel="stylesheet" type="text/css" th:href="@{/assets/frontend/css/component.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/assets/frontend/css/content.css}" />
+
+<!--[if lt IE 9]>
+      <script src="js/vendor/html5shiv.min.js"></script>
+      <script src="js/vendor/respond.min.js"></script>
+    <![endif]-->
+<body>
+	<nav th:replace="frontend/_scaffold_ :: nav"></nav>
+	
+	<section th:replace="frontend/_scaffold_ :: vice-header"></section>
+
+	<section class="probootstrap-section probootstrap-bg-white">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3 text-center section-heading probootstrap-animate">
+            <h2>主祷文<span style="font-size: 16px; font-family: Bellefair,serif;"> / the Loard's Prayer</span></h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 probootstrap-animate">
+            <div class="owl-carousel owl-carousel-testimony owl-carousel-fullwidth">
+              <div class="item">
+
+                <div class="probootstrap-testimony-wrap text-center">
+                  <blockquote class="quote">
+                  &ldquo;
+					我们在天上的父，<br />
+					愿人都尊你的名为圣。<br />
+					愿你的国降临，<br />
+					愿你的旨意行在地上，<br />
+					如同行在天上。<br />
+					我们日用的饮食，<br />
+					今日赐给我们。<br />
+					免我们的债，<br />
+					如同我们免了人的债。<br />
+					不叫我们遇见试探，<br />
+					救我们脱离凶恶。<br />
+					因为国度，权柄，荣耀，全是你的，<br />
+					直到永远。<br />
+					阿门！
+                  &rdquo; 
+                  <cite class="author">&mdash; 马太福音，第6章，第9-13节 <br>
+                  	<span>和合本</span>
+                  </cite>
+                  </blockquote>
+                </div>
+
+              </div>
+              <div class="item">
+                <div class="probootstrap-testimony-wrap text-center">
+                  <blockquote class="quote">&ldquo;
+					Our Father in heaven,<br />
+					hallowed be your name.<br />
+					Your kingdom come,<br />
+					your will be done,<br />
+					on earth as it is in heaven.<br />
+					Give us this day our daily bread,<br />
+					and forgive us our debts,<br />
+					as we also have forgiven our debtors.<br />
+					And lead us not into temptation,<br />
+					but deliver us from evil.<br />
+					(For yours is the kingdom and the power and the glory, forever. Amen)
+                  &rdquo; 
+                  	<cite class="author">&mdash; Matthew 6:9-13 <br> 
+                  		<span>English Standard Version (ESV)</span>
+                  	</cite>
+                  </blockquote>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+	<footer th:replace="frontend/_scaffold_ :: footer"></footer>
+	
+	<script type="text/javascript" th:src="@{/assets/frontend/js/scripts.min.js}"></script>
+	<script type="text/javascript" th:src="@{/assets/frontend/js/custom.min.js}"></script>
+</body>
+</html>

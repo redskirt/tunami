@@ -43,20 +43,26 @@ class HomeController @Autowired() (gospelDao: GospelDao, prayerDao: PrayerDao, p
     }).content)
     new ModelAndView("frontend/index")
   }
-  
-  @GetMapping(Array("/frame_prayer"))
-  def frame_prayer(model: Model) = {
-		  val list = prayerService.bizBuildPrayerDTO(0)
-				  val list_ = scala.collection.JavaConversions.seqAsJavaList(list)
-				  model.addAttribute("prayers", list_)
-				  model.addAttribute("gospelContent", gospelDao.query(TODAY).getOrElse({
-					  val o = new me.miximixi.tunami.poso.Gospel
-							  o.setContent("")
-							  o
-				  }).content)
-				  new ModelAndView("frontend/frame_prayer")
+
+  @GetMapping(Array("/lords_prayer"))
+  def lords_prayer(model: Model) = {
+    new ModelAndView("frontend/lords_prayer")
   }
   
+  @GetMapping(Array("/prophet"))
+  def prophet(model: Model) = {
+		  new ModelAndView("frontend/prophet")
+  }
+
+  @GetMapping(Array("/anthem"))
+  def anthem(model: Model) = {
+    new ModelAndView("frontend/anthem")
+  }
+
+  @GetMapping(Array("/holy_orders"))
+  def holy_orders(model: Model) = {
+    new ModelAndView("frontend/orders")
+  }
 
   @GetMapping(Array("/ajaxListPrayers_{minId}"))
   def ajaxListPrayers(@PathVariable minId: JInt): JsonNode = {
