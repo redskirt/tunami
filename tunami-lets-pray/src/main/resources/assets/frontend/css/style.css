@@ -1250,7 +1250,9 @@ a:hover, a:focus, a:active {
 
 .three-cols .grid-item, .three-cols
 .grid-sizer {
-  width: 32%;
+/*   width: 32%; */
+  width: 350px;
+  height: 106px;
 }
 
 @media screen and (max-width: 768px) {
