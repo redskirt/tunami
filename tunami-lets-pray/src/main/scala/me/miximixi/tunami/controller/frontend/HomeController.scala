@@ -45,22 +45,22 @@ class HomeController @Autowired() (gospelDao: GospelDao, prayerDao: PrayerDao, p
   }
 
   @GetMapping(Array("/lords_prayer"))
-  def lords_prayer(model: Model) = {
+  def lords_prayer = {
     new ModelAndView("frontend/lords_prayer")
   }
   
-  @GetMapping(Array("/prophet"))
-  def prophet(model: Model) = {
+  @GetMapping(Array("/prophet_{category}"))
+  def prophet(@PathVariable category: String, model: Model) = {
 		  new ModelAndView("frontend/prophet")
   }
 
   @GetMapping(Array("/anthem"))
-  def anthem(model: Model) = {
+  def anthem = {
     new ModelAndView("frontend/anthem")
   }
 
   @GetMapping(Array("/holy_orders"))
-  def holy_orders(model: Model) = {
+  def holy_orders = {
     new ModelAndView("frontend/orders")
   }
 

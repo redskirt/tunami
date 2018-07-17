@@ -20,7 +20,7 @@ html {
 body {
 /*   background: #e5eaef; */
   background: #ea5455;
-  color: #8b8e94;
+/*   color: #8b8e94; */
   line-height: 28px;
   font-size: 15px;
   font-family: "Open Sans", Arial, sans-serif;
@@ -59,11 +59,11 @@ p, ul, ol {
 a {
   -webkit-transition: .3s all;
   transition: .3s all;
-  color: #85C8DD;
+  color: #000000;
 }
 
 a:hover, a:focus, a:active {
-  color: #71bfd7;
+  color: #e75854;
   text-decoration: none;
 }
 

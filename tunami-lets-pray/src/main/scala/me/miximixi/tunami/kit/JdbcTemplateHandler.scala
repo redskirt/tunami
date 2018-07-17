@@ -74,7 +74,7 @@ final class RichResultSet(rs: ResultSet) {
 
 abstract class AbstractQueryHander[T] {
     
-  def insert(sql: Seq[T]): Int
+  def insert(seq: Seq[T]): Int
   
   def insert(o: T): Int = insert(Seq(o))
   

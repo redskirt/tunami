@@ -14,6 +14,7 @@ import java.sql.Date
 import java.sql.Timestamp
 import me.miximixi.tunami.poso.Prayer
 import scala.util.Random
+import me.miximixi.tunami.persistence.ProphetDao
 
 /**
  * @Author Sasaki
@@ -29,6 +30,8 @@ class DaoTestCase extends PaginationHandler {
   var gospelDao: GospelDao = _
   @Autowired
   var prayerDao: PrayerDao = _
+  @Autowired
+  var prophetDao: ProphetDao = _
   
 
   val page = new Pagination(100, 2, 18, 10)
@@ -52,25 +55,27 @@ class DaoTestCase extends PaginationHandler {
 //    for(i <- 0 to 50)
 //    println(gospelDao.insert(o1))
     
-      val o = new Prayer
-      val str = "这"
-      var str2: String = ""
-      
-      for(i <- 0 to 150) {
-        val random = new Random().nextInt(180)
-        for(j <- 0 to random) {
-          str2 += str
-        		o.setContent(i + str2)
-        }
-        str2 = ""
-        o.setDigg(random)
-        o.setSee(random)
-        o.setGender(random % 2 toString)
-        o.setLocation("上海")
-        o.setTarget("国家")
-        o.setTimestamp(new Timestamp(System.currentTimeMillis()))
-        prayerDao.insert(o)
-      }
+//      val o = new Prayer
+//      val str = "这"
+//      var str2: String = ""
+//      
+//      for(i <- 0 to 150) {
+//        val random = new Random().nextInt(180)
+//        for(j <- 0 to random) {
+//          str2 += str
+//        		o.setContent(i + str2)
+//        }
+//        str2 = ""
+//        o.setDigg(random)
+//        o.setSee(random)
+//        o.setGender(random % 2 toString)
+//        o.setLocation("上海")
+//        o.setTarget("国家")
+//        o.setTimestamp(new Timestamp(System.currentTimeMillis()))
+//        prayerDao.insert(o)
+//      }
+    
+    prophetDao.list("律法").foreach(o => println(o.chapterO))
     
   }
   

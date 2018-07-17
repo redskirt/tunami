@@ -18,6 +18,7 @@ trait DB {
   protected val attr_principal = "attr_principal"
   protected val attr_metadata = "attr_metadata"
   protected val attr_gospel = "attr_gospel"
+  protected val attr_prophet = "attr_prophet"
   protected val bhvr_prayer = "bhvr_prayer"
   
   protected def and(column: String): String = if(__ != column) s"and $column = ?\n" else and_?
