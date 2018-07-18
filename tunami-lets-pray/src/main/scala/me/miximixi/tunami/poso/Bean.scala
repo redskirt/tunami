@@ -43,7 +43,7 @@ class C {
     self
   }
     
-  def setId($id: JInt): self.type = {
+  def setId($id: JInt): C = {
     self.id = $id
     self
   }

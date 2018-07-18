@@ -15,6 +15,7 @@ import java.sql.Timestamp
 import me.miximixi.tunami.poso.Prayer
 import scala.util.Random
 import me.miximixi.tunami.persistence.ProphetDao
+import me.miximixi.tunami.poso.Prophet
 
 /**
  * @Author Sasaki
@@ -56,6 +57,7 @@ class DaoTestCase extends PaginationHandler {
 //    println(gospelDao.insert(o1))
     
 //      val o = new Prayer
+//      val o = new Prophet
 //      val str = "这"
 //      var str2: String = ""
 //      
@@ -73,11 +75,15 @@ class DaoTestCase extends PaginationHandler {
 //        o.setTarget("国家")
 //        o.setTimestamp(new Timestamp(System.currentTimeMillis()))
 //        prayerDao.insert(o)
+        
+//        o.setCategory("律法")
+//        o.setChapter("马太福音|2|3")
+//        prophetDao.insert(o)
 //      }
     
-    val list = prophetDao.list("律法") .foreach(o => println(o.chapterO))
-//    println(list.size)
+//    val list = prophetDao.list(0, "__")// .foreach(o => println(o.chapterO))
+    val list = prophetDao.listCategory
+    println(list.size)
     
   }
-  
 }

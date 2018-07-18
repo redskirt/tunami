@@ -51,13 +51,19 @@ class FrontendController @Autowired() (
   }
 
   @GetMapping(Array("/lords_prayer"))
-  def lords_prayer = 
-    new ModelAndView("frontend/lords_prayer")
+  def lords_prayer = new ModelAndView("frontend/lords_prayer")
   
-  @GetMapping(Array("/ajaxListProphet_{category}"))
-  def ajaxListProphet(@PathVariable category: String): JsonNode = 
-    render(prophetDao.list(category).map { o =>
+  @GetMapping(Array("/prophet"))
+  def prophet(model: Model) = {
+    model.addAttribute("categories", prophetDao.listCategory)
+    new ModelAndView("frontend/prophet")
+  }
+  
+  @GetMapping(Array("/ajaxListProphet/{minId}/{category}"))
+  def ajaxListProphet(@PathVariable minId: JInt, @PathVariable category: String): JsonNode = 
+    render(prophetDao.list(minId, category).map { o =>
       (
+        ("id" -> o.id.toInt) ~
         ("content" -> o.content) ~
         ("chapter_1" -> o.chapterO._1) ~
         ("chapter_2" -> o.chapterO._2) ~
@@ -65,14 +71,10 @@ class FrontendController @Autowired() (
     })
 
   @GetMapping(Array("/anthem"))
-  def anthem = {
-    new ModelAndView("frontend/anthem")
-  }
+  def anthem = new ModelAndView("frontend/anthem")
 
   @GetMapping(Array("/holy_orders"))
-  def holy_orders = {
-    new ModelAndView("frontend/orders")
-  }
+  def holy_orders = new ModelAndView("frontend/orders")
 
   @GetMapping(Array("/ajaxListPrayers_{minId}"))
   def ajaxListPrayers(@PathVariable minId: JInt): JsonNode = {

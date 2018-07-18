@@ -36,7 +36,7 @@ class PrayerDao extends AbstractQueryHander[Prayer] with JdbcTemplateHandler wit
       where true
       ${ if(0 != minId) "and id<?" else and_? }
       order by id desc
-      limit ${ if(0 != minId) 5/*增加加载数*/ else 20/*初始化加载数*/ }
+      limit ${ if(0 != minId) 5/*增量加载数*/ else 20/*初始化加载数*/ }
       """, minId) { (rs, i) =>
 
       val o = new Prayer

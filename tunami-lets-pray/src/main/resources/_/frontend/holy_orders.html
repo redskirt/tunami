@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<head lang="en" th:include="~{frontend/_scaffold_ :: header}"></head>
+
+<!-- <link href="https://fonts.googleapis.com/css?family=Bellefair|Open+Sans" rel="stylesheet"> -->
+
+<!-- 瀑布流 -->
+<link rel="stylesheet" type="text/css" th:href="@{/assets/frontend/css/base.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/assets/frontend/css/index.css}">
+
+<body>
+	<nav th:replace="frontend/_scaffold_ :: nav"></nav>
+	
+	<section th:replace="frontend/_scaffold_ :: vice-header"></section>
+
+	<section class="probootstrap-section probootstrap-bg-white">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3 text-center section-heading probootstrap-animate">
+            <h2>主祷文<span style="font-size: 16px; font-family: Bellefair,serif;"> / the Lord's Prayer</span></h2>
+          </div>
+        </div>
+        
+        
+      </div>
+    </section>
+
+	<footer th:replace="frontend/_scaffold_ :: footer"></footer>
+	
+	<script type="text/javascript" th:src="@{/assets/frontend/js/scripts.min.js}"></script>
+	<script type="text/javascript" th:src="@{/assets/frontend/js/custom.min.js}"></script>
+</body>
+</html>

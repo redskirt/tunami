@@ -307,18 +307,6 @@
 		</div>
 	</div>
 
-	<script type="text/javascript">
-	 //页面自适应
-    function iFrameHeight() {
-        var ifm = document.getElementById("prayerFrame");
-        var subWeb = document.frames ? document.frames["prayerFrame"].document : ifm.contentDocument;
-        if (ifm != null && subWeb != null) {
-            ifm.height = subWeb.body.scrollHeight;
-        }
-    } 
-     
-	</script>
-
 	<script th:src="@{/assets/frontend/js/scripts.min.js}"></script>
 	<script th:src="@{/assets/frontend/js/custom.min.js}"></script>
 	
