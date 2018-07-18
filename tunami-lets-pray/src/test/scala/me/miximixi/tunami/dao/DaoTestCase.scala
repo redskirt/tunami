@@ -75,7 +75,8 @@ class DaoTestCase extends PaginationHandler {
 //        prayerDao.insert(o)
 //      }
     
-    prophetDao.list("律法").foreach(o => println(o.chapterO))
+    val list = prophetDao.list("律法") .foreach(o => println(o.chapterO))
+//    println(list.size)
     
   }
   

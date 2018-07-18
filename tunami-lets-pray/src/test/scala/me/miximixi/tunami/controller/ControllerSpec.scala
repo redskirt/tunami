@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.JsonNode
 
 import me.miximixi.tunami.poso.Principal
 import me.miximixi.tunami.service.LoginService
-import me.miximixi.tunami.controller.frontend.HomeController
+import me.miximixi.tunami.controller.frontend.FrontendController
 
 /**
  * @Author Sasaki
@@ -30,7 +30,7 @@ class ControllerSpec extends FlatSpec with Matchers with MockFactory {
   
   val loginService = stub[LoginService]
   val entranceController = new EntranceController(loginService)
-  val homeController = new HomeController(null, null, null)
+  val homeController = new FrontendController(null, null, null, null)
   
   implicit def autoAsJsonNode(value: JValue): JsonNode = asJsonNode(value)
   

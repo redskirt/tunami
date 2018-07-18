@@ -124,9 +124,9 @@ class Prophet extends C {
   @BeanProperty
   var chapter: String = _
   
-  lazy val chapterO: Tuple3[String, JInt, JInt] =
+  lazy val chapterO: Tuple3[String, Int, Int] =
     if (chapter == null)
-      (null, 0, 0)
+      ("", 0, 0)
     else {
       val o = chapter.split('|')
       (o(0), o(1) toInt, o(2) toInt)

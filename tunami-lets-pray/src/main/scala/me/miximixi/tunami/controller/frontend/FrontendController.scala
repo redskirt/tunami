@@ -3,7 +3,7 @@ package me.miximixi.tunami.controller.frontend
 import com.sasaki.packages.constant._
 import org.json4s.JsonAST.{ JString, JInt => JSONInt, JNull }
 import org.json4s.JsonDSL._
-import org.json4s.jackson.JsonMethods.render
+import org.json4s.jackson.JsonMethods._
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
@@ -21,6 +21,7 @@ import me.miximixi.tunami.poso.Prayer
 import me.miximixi.tunami.service.PrayerService
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
+import me.miximixi.tunami.persistence.ProphetDao
 
 /**
  * @Author Sasaki
@@ -29,7 +30,12 @@ import org.springframework.web.bind.annotation.RequestBody
  * @Description
  */
 @RestController
-class HomeController @Autowired() (gospelDao: GospelDao, prayerDao: PrayerDao, prayerService: PrayerService) extends me.miximixi.tunami.controller.UsefulController {
+class FrontendController @Autowired() (
+    gospelDao: GospelDao, //
+    prayerDao: PrayerDao, //
+    prophetDao: ProphetDao, //
+    prayerService: PrayerService
+    ) extends me.miximixi.tunami.controller.UsefulController {
 
   @GetMapping(Array("/"))
   def /(model: Model) = {
@@ -45,14 +51,18 @@ class HomeController @Autowired() (gospelDao: GospelDao, prayerDao: PrayerDao, p
   }
 
   @GetMapping(Array("/lords_prayer"))
-  def lords_prayer = {
+  def lords_prayer = 
     new ModelAndView("frontend/lords_prayer")
-  }
   
-  @GetMapping(Array("/prophet_{category}"))
-  def prophet(@PathVariable category: String, model: Model) = {
-		  new ModelAndView("frontend/prophet")
-  }
+  @GetMapping(Array("/ajaxListProphet_{category}"))
+  def ajaxListProphet(@PathVariable category: String): JsonNode = 
+    render(prophetDao.list(category).map { o =>
+      (
+        ("content" -> o.content) ~
+        ("chapter_1" -> o.chapterO._1) ~
+        ("chapter_2" -> o.chapterO._2) ~
+        ("chapter_3" -> o.chapterO._3))
+    })
 
   @GetMapping(Array("/anthem"))
   def anthem = {
