@@ -18,9 +18,19 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-6 col-md-offset-3 text-center section-heading probootstrap-animate">
-					<span style="font-size: 16px; font-family: Bellefair, serif;">
+					<span id="category-a" style="font-size: 16px; font-family: Bellefair, serif;">
 						<a href="javascript:loadListProcess('__');">全部</a> / 
-						<a th:href="@{'javascript:loadListProcess(\'' + ${o} + '\');'}" th:text="@{${o} + ' / '}" th:each="o : ${categories}"></a>
+						<th:block th:each="i:${#numbers.sequence(0, #lists.size(categories)-(1))}">
+<!-- 								th:href="@{'javascript:loadListProcess(\'' + ${o} + '\');'}"  -->
+<!-- 								th:text="@{${o}}"  -->
+<!-- 								th:each="o : ${categories}" -->
+							<a 
+								th:href="@{'javascript:loadListProcess(\'' + ${categories[i]} + '\');'}" 
+								th:text="@{${categories[i]}}"
+							></a>
+							<th:block th:if="${i lt #lists.size(categories)-(1)}" th:text="@{' / '}">
+							</th:block>
+						</th:block>
 					</span>
 				</div>
 			</div>
@@ -41,6 +51,21 @@
 	<script type="text/javascript" th:src="@{/assets/frontend/js/custom.min.js}"></script>
 	
 	<script type="text/javascript">
+		function buildHtml(data) {
+			var text = "";
+			for(var i in data) {
+				text += '<li class="item">';
+				text += '<div class="description" style="max-height: 300px; line-height: 2em;">' + data[i].content + '</div>';
+				text += '<div class="qianm clearfloat">';
+				text += '<span class="sp1"><b>' + data[i] + '</b>浏览</span> ';
+				text += '<span class="sp2">' + data[i].chapter_1 + data[i].chapter_2 + data[i].chapter_3 + '</span>';
+				text += '</div>';
+				text += '<input value="' + data[i].id + '" style="display: none;">';
+				text += '</li>'; 
+			}
+			return text;
+		}
+		
 		function loadListProcess(category) {
 			$.ajax({
 			    url: "/ajaxListProphet/0/" + category,
@@ -49,31 +74,10 @@
 			    	contentType: "application/json",
  			    	async: false, // 加同步，使得数据打印完整后再页面渲染，否则<li>样式加载不完整
 			    	success: function (data) {
-					var text = "";
-					$("#ul-prophet").html("");
-					for(var i in data) {
-						text += '<li class="item">';
-						text += '<div class="description" style="max-height: 300px; line-height: 2em;">' + data[i].content + '</div>';
-						text += '<div class="qianm clearfloat">';
-						text += '<span class="sp1"><b>' + data[i] + '</b>浏览</span> ';
-						text += '<span class="sp2">' + data[i].chapter_1 + data[i].chapter_2 + data[i].chapter_3 + '</span>';
-						text += '</div>';
-						text += '<input value="' + data[i].id + '" style="display: none;">';
-						text += '</li>'; 
-					}
-			    		$("#ul-prophet").html(text);
+			    		$("#ul-prophet").html(buildHtml(data));
 			    	}
-	    		}); 
-		}
-		
-		$(function() { 
-			$("a").click(function(){
-			    $(this).addClass("a:active");
-			    $(this).siblings("a").removeClass("a:active");
 			});
-			
-			loadListProcess("__"); 
-		});
+		}
 	</script>
 	
 	<!-- Waterfall -->
@@ -85,6 +89,17 @@
 	
 	<script th:inline="javascript">
 		$(function() {
+			// 切换种类<a>标签颜色事件
+			$("#category-a a:first").css("color", "#e75854");
+			$("#category-a a").click(function(){
+			    $(this).css("color", "#e75854");
+			    $(this).css("text-decoration", "none");
+			    $(this).siblings("a").removeAttr("style");
+			});
+			
+			// 初始化数据加载
+			loadListProcess("__"); 
+			
 			/*瀑布流开始*/
 			var container = $('.waterfull ul');
 			var loading = $('#imloading');
@@ -122,25 +137,23 @@
 				});
 			});
 
-			$(window)
-					.scroll(
-							function() {
-								if (!loading.data("on"))
-									return;
-								// 计算所有瀑布流块中距离顶部最大，进而在滚动条滚动时进行ajax请求
-								var itemNum = $('#waterfull').find('.item').length;
-								var itemArr = [];
-								itemArr[0] = $('#waterfull').find('.item').eq(itemNum - 1).offset().top + $('#waterfull').find('.item').eq(itemNum - 1)[0].offsetHeight;
-								itemArr[1] = $('#waterfull').find('.item').eq(itemNum - 2).offset().top + $('#waterfull').find('.item').eq(itemNum - 1)[0].offsetHeight;
-								itemArr[2] = $('#waterfull').find('.item').eq(itemNum - 3).offset().top + $('#waterfull').find('.item').eq(itemNum - 1)[0].offsetHeight;
-								var maxTop = Math.max.apply(null, itemArr);
-								if (maxTop < $(window).height() + $(document).scrollTop()) {
-									//加载更多数据
-									loading.data("on", false).fadeIn(800);
-									var minId = $("#ul-prophet").children(":last").children("input").val()
-									incrementProcess(itemNum, minId, "律法");
-								}
-							});
+			$(window).scroll(function() {
+				if (!loading.data("on"))
+					return;
+				// 计算所有瀑布流块中距离顶部最大，进而在滚动条滚动时进行ajax请求
+				var itemNum = $('#waterfull').find('.item').length;
+				var itemArr = [];
+				itemArr[0] = $('#waterfull').find('.item').eq(itemNum - 1).offset().top + $('#waterfull').find('.item').eq(itemNum - 1)[0].offsetHeight;
+				itemArr[1] = $('#waterfull').find('.item').eq(itemNum - 2).offset().top + $('#waterfull').find('.item').eq(itemNum - 1)[0].offsetHeight;
+				itemArr[2] = $('#waterfull').find('.item').eq(itemNum - 3).offset().top + $('#waterfull').find('.item').eq(itemNum - 1)[0].offsetHeight;
+				var maxTop = Math.max.apply(null, itemArr);
+				if (maxTop < $(window).height() + $(document).scrollTop()) {
+					//加载更多数据
+					loading.data("on", false).fadeIn(800);
+					var minId = $("#ul-prophet").children(":last").children("input").val()
+					incrementProcess(itemNum, minId, "律法");
+				}
+			});
 
 			function incrementProcess(itemNum, minId, category) {
 				$.ajax({
@@ -152,17 +165,7 @@
 						if (jQuery.isEmptyObject(data)) {
 							loading.text('已显示全部内容。');
 						} else {
-							var html = "";
-							for(var i in data) {
-								html += '<li class="item">';
-								html += '<div class="description" style="max-height: 300px; line-height: 2em;">' + data[i].content + '</div>';
-								html += '<div class="qianm clearfloat">';
-								html += '<span class="sp1"><b>' + data[i] + '</b>浏览</span> ';
-								html += '<span class="sp2">' + data[i].chapter_1 + data[i].chapter_2 + data[i].chapter_3 + '</span>';
-								html += '</div>';
-								html += '<input value="' + data[i].id + '" style="display: none;">';
-								html += '</li>'; 
-							}
+							var html = buildHtml(data);
 							
 							/*模拟ajax请求数据时延时*/
 							var time = setTimeout(function() {

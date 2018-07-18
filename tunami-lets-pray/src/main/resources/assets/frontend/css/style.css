@@ -62,7 +62,7 @@ a {
   color: #000000;
 }
 
-a:hover, a:focus, a:active {
+a:hover, a:focus/* , a:active */ {
   color: #e75854;
   text-decoration: none;
 }
