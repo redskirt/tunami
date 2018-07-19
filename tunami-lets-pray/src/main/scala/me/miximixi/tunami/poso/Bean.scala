@@ -2,6 +2,7 @@ package me.miximixi.tunami.poso
 
 import scala.beans.BeanProperty
 import com.sasaki.packages.constant._
+import com.sasaki.chain.ScalaEntity
 
 /**
  * @Author Sasaki
@@ -139,6 +140,17 @@ class Prophet extends C {
       val o = chapter.split('|')
       (o(0), o(1) toInt, o(2) toInt)
     }
+}
+
+class Anthem extends C {
+  @BeanProperty
+  var name: String = _
+
+  @BeanProperty
+  var artist: String = _
+
+  @BeanProperty
+  var order: JInt = _
 }
 
 final object Bible extends Enumeration {

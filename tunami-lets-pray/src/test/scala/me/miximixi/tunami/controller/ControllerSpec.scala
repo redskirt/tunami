@@ -30,7 +30,7 @@ class ControllerSpec extends FlatSpec with Matchers with MockFactory {
   
   val loginService = stub[LoginService]
   val entranceController = new EntranceController(loginService)
-  val homeController = new FrontendController(null, null, null, null)
+  val homeController = new FrontendController(null, null, null, null, null, null)
   
   implicit def autoAsJsonNode(value: JValue): JsonNode = asJsonNode(value)
   
@@ -43,7 +43,7 @@ class ControllerSpec extends FlatSpec with Matchers with MockFactory {
     val mockExistUser = new Principal()
     mockExistUser.account_name = accountName_
     mockExistUser.password = md5(password_)
-    (loginService.bizCheckin _).when(accountName_).returns(Some(mockExistUser))
+//    (loginService.bizCheckin _).when(accountName_).returns(Some(mockExistUser))
     
     val result = pretty(fromJsonNode(entranceController.doLogin(body)))
     val expected = pretty(("verify" -> true) ~ ("message" -> JNull))

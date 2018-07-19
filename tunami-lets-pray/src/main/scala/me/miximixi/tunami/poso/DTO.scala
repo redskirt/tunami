@@ -13,3 +13,11 @@ case class PrayerDTO (
   @BeanProperty content: String,
   @BeanProperty see:     Int,
   @BeanProperty info:    String)
+  
+case class AnthemDTO(
+  name:   String,
+  artist: String,
+  url:    String,
+  cover:  String,
+  lrc:    String,
+  theme:  String)

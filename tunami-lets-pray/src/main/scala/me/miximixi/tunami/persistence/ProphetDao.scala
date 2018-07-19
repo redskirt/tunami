@@ -45,8 +45,8 @@ class ProphetDao extends AbstractQueryHander[Prophet] with JdbcTemplateHandler w
   
   def list = ???
 
-  def list(minId: JInt = 0, category: String = __): List[Prophet] =
-    query(s"""
+  def list(minId: JInt = 0, category: String = __): JList[Prophet] =
+    queryJList(s"""
       select 
         id,
         content,

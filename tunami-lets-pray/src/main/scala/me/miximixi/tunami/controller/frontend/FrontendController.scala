@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.sasaki.packages.independent.TODAY
 
 import me.miximixi.tunami.persistence.GospelDao
+import me.miximixi.tunami.persistence.ProphetDao
 import me.miximixi.tunami.persistence.PrayerDao
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.ui.Model
@@ -32,8 +33,10 @@ import org.springframework.web.bind.annotation.RequestBody
 class FrontendController @Autowired() (
     gospelDao: GospelDao, //
     prayerDao: PrayerDao, //
+    prophetDao: ProphetDao, //
     prayerService: PrayerService, //
-    prophetService: ProphetService
+    prophetService: ProphetService, //
+    anthemService: AnthemService
     ) extends me.miximixi.tunami.controller.UsefulController {
 
   @GetMapping(Array("/"))
@@ -54,19 +57,27 @@ class FrontendController @Autowired() (
   
   @GetMapping(Array("/prophet"))
   def prophet(model: Model) = {
-    model.addAttribute("categories", prophetService.bizListPrayer(0, "__"))
+    model.addAttribute("categories", prophetDao.listCategory)
     new ModelAndView("frontend/prophet")
   }
   
   @GetMapping(Array("/ajaxListProphet/{minId}/{category}"))
-  def ajaxListProphet(@PathVariable minId: JInt, @PathVariable category: String): JsonNode = 
-    render(prophetService.bizListPrayer(minId, category).map { o =>
-      (
-        ("id" -> o.id.toInt) ~
-        ("content" -> o.content) ~
-        ("chapter_1" -> o.chapterO._1) ~
-        ("chapter_2" -> o.chapterO._2) ~
-        ("chapter_3" -> o.chapterO._3))
+  def ajaxListProphet(@PathVariable minId: JInt, @PathVariable category: String): JsonNode =
+    render({
+      val list = prophetService.bizListProphet(minId, category)
+      
+      {
+        for (i <- 0 until list.size()) yield {
+          val o = list.get(i)
+          (
+            ("id" -> o.id.toInt) ~
+            ("content" -> o.content) ~
+            ("see" -> o.see.toInt) ~
+            ("chapter_1" -> o.chapterO._1) ~
+            ("chapter_2" -> o.chapterO._2) ~
+            ("chapter_3" -> o.chapterO._3))
+        }
+      }
     })
 
   @GetMapping(Array("/anthem"))
@@ -83,6 +94,19 @@ class FrontendController @Autowired() (
         ("content" -> o.content) ~
         ("see" -> o.see) ~
         ("info" -> o.info))
+    })
+  }
+  
+  @GetMapping(Array("/ajaxListAnthem"))
+  def ajaxListAnthem: JsonNode = {
+    val list = anthemService.bizListAnthem
+    render(list.map { o => (
+        ("name" -> o.name) ~
+        ("artist" -> o.artist) ~
+        ("url" -> o.url) ~
+        ("cover" -> o.cover) ~
+        ("lrc" -> o.lrc) ~
+        ("theme" -> o.theme))
     })
   }
   

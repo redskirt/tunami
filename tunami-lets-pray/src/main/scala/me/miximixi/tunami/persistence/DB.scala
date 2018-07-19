@@ -20,6 +20,7 @@ trait DB {
   protected val attr_gospel = "attr_gospel"
   protected val attr_prophet = "attr_prophet"
   protected val bhvr_prayer = "bhvr_prayer"
+  protected val attr_anthem = "attr_anthem"
   
   protected def and(column: String, value: String): String = if(__ != value) s"and $column = ?\n" else and_?
   protected def and(column: JInt): String = if(0 != column) s"and $column = ?\n" else and_?
