@@ -2,6 +2,8 @@ package me.miximixi.tunami.service
 
 import me.miximixi.tunami.persistence.PrayerDao
 import me.miximixi.tunami.poso.PrayerDTO
+import com.sasaki.packages.independent._
+import java.text.SimpleDateFormat
 
 /**
  * @Author Sasaki
@@ -17,7 +19,11 @@ class PrayerService {
   
   def bizBuildPrayerDTO(minId: com.sasaki.packages.constant.JInt): List[PrayerDTO] = {
     val list = prayerDao.list(minId).map { o =>
-      PrayerDTO(o.id, o.content, o.see, s"2小时前，来自${o.location}的${o.genderInfo}为${o.target}祷告")
+      PrayerDTO(
+          o.getId, 
+          o.getContent, 
+          o.getSee, 
+          s"${ new SimpleDateFormat(TimePattern.PATTERN_DATE.toString()).format(o.timestamp) } 来自${o.location}的${o.genderInfo}为${o.target}祷告")
     }
     prayerDao.update(list.map(o => o.id.asInstanceOf[Object]).toArray)
     list

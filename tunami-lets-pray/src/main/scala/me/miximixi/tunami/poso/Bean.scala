@@ -32,7 +32,7 @@ class C {
   
   var status: String = "0" // 非0不被查询
 
-  var timestamp: JTimestamp = _
+  var timestamp: JTimestamp = new JTimestamp(com.sasaki.packages.independent.TIME_MULLIONS)
 
   def getId: JInt = self.id
   
@@ -53,6 +53,11 @@ class C {
   def setTimestamp($timestamp: JTimestamp): self.type = {
     self.timestamp = $timestamp
     self
+  }
+  
+  def setTimestamp($timestamp: JLong): self.type = {
+  		self.timestamp = new JTimestamp($timestamp)
+		self
   }
 }
 
