@@ -18,10 +18,9 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.ui.Model
 import scala.beans.BeanProperty
 import me.miximixi.tunami.poso.Prayer
-import me.miximixi.tunami.service.PrayerService
+import me.miximixi.tunami.service._
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
-import me.miximixi.tunami.persistence.ProphetDao
 
 /**
  * @Author Sasaki
@@ -33,8 +32,8 @@ import me.miximixi.tunami.persistence.ProphetDao
 class FrontendController @Autowired() (
     gospelDao: GospelDao, //
     prayerDao: PrayerDao, //
-    prophetDao: ProphetDao, //
-    prayerService: PrayerService
+    prayerService: PrayerService, //
+    prophetService: ProphetService
     ) extends me.miximixi.tunami.controller.UsefulController {
 
   @GetMapping(Array("/"))
@@ -55,13 +54,13 @@ class FrontendController @Autowired() (
   
   @GetMapping(Array("/prophet"))
   def prophet(model: Model) = {
-    model.addAttribute("categories", prophetDao.listCategory)
+    model.addAttribute("categories", prophetService.bizListPrayer(0, "__"))
     new ModelAndView("frontend/prophet")
   }
   
   @GetMapping(Array("/ajaxListProphet/{minId}/{category}"))
   def ajaxListProphet(@PathVariable minId: JInt, @PathVariable category: String): JsonNode = 
-    render(prophetDao.list(minId, category).map { o =>
+    render(prophetService.bizListPrayer(minId, category).map { o =>
       (
         ("id" -> o.id.toInt) ~
         ("content" -> o.content) ~
@@ -74,7 +73,7 @@ class FrontendController @Autowired() (
   def anthem = new ModelAndView("frontend/anthem")
 
   @GetMapping(Array("/holy_orders"))
-  def holy_orders = new ModelAndView("frontend/orders")
+  def holy_orders = new ModelAndView("frontend/holy_orders")
 
   @GetMapping(Array("/ajaxListPrayers_{minId}"))
   def ajaxListPrayers(@PathVariable minId: JInt): JsonNode = {

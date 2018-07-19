@@ -21,9 +21,6 @@
 					<span id="category-a" style="font-size: 16px; font-family: Bellefair, serif;">
 						<a href="javascript:loadListProcess('__');">全部</a> / 
 						<th:block th:each="i:${#numbers.sequence(0, #lists.size(categories)-(1))}">
-<!-- 								th:href="@{'javascript:loadListProcess(\'' + ${o} + '\');'}"  -->
-<!-- 								th:text="@{${o}}"  -->
-<!-- 								th:each="o : ${categories}" -->
 							<a 
 								th:href="@{'javascript:loadListProcess(\'' + ${categories[i]} + '\');'}" 
 								th:text="@{${categories[i]}}"

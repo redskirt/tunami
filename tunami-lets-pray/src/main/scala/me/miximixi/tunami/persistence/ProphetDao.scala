@@ -69,4 +69,10 @@ class ProphetDao extends AbstractQueryHander[Prophet] with JdbcTemplateHandler w
     }
     
   def update(o: Prophet) = ???
+      
+  def update(ids: Array[Object]) = jdbcTemplate.update(s"""
+		  update $attr_prophet
+		  set see = see + 1
+		  where id in (${ ids.map(o => "?").mkString(", ") })
+  """, ids:_*)
 }

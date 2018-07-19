@@ -123,6 +123,9 @@ class Prophet extends C {
   
   @BeanProperty
   var chapter: String = _
+
+  @BeanProperty
+  var see: JInt = 0
   
   lazy val chapterO: Tuple3[String, Int, Int] =
     if (chapter == null)
