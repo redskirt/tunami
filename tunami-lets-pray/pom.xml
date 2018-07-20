@@ -25,19 +25,19 @@
 	</properties>
 
 	<dependencies>
-		<!-- <dependency> -->
-		<!-- <groupId>com.sasaki.assist</groupId> -->
-		<!-- <artifactId>working-helper-assist</artifactId> -->
-		<!-- <version>1.1.3</version> -->
-		<!-- </dependency> -->
-
-		<dependency>
-			<groupId>com.sasaki</groupId>
-			<artifactId>working-helper-assist</artifactId>
-			<version>1.1.4</version>
-			<systemPath>/Users/sasaki/repo/com/sasaki/working-helper-assist/1.1.4/working-helper-assist-1.1.4.jar</systemPath>
-			<scope>system</scope>
-		</dependency>
+	<!-- 
+		Note that:
+		使用systemPath加载local jar时会出现一个Maven package打包完成，但未打包该jar的问题，
+		导致jar包运行时产生类丢失异常。
+		目前暂未找到更好的打包local jar方法，只能将其源码加入该工程以避免此问题。
+	 -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.sasaki</groupId> -->
+<!-- 			<artifactId>working-helper-assist</artifactId> -->
+<!-- 			<version>1.1.4</version> -->
+<!-- 			<systemPath>/Users/sasaki/repo/com/sasaki/working-helper-assist/1.1.4/working-helper-assist-1.1.4.jar</systemPath> -->
+<!--  			<scope>system</scope> -->
+<!-- 		</dependency> -->
 
 		<dependency>
 			<groupId>org.scala-lang</groupId>
@@ -132,17 +132,9 @@
 		<sourceDirectory>src/main/scala</sourceDirectory>
 		<testSourceDirectory>src/test/scala</testSourceDirectory>
 		<plugins>
-
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>repackage</goal>
-						</goals>
-					</execution>
-				</executions>
 
 				<dependencies>
 					<dependency>
@@ -161,7 +153,6 @@
 					<execution>
 						<goals>
 							<goal>compile</goal>
-							<goal>testCompile</goal>
 						</goals>
 						<configuration>
 							<args>
@@ -191,15 +182,6 @@
 			</plugin>
 
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<!-- Tests will be run with scalatest-maven-plugin instead -->
-					<skipTests>true</skipTests>
-				</configuration>
-			</plugin>
-
-			<plugin>
 				<groupId>org.scalatest</groupId>
 				<artifactId>scalatest-maven-plugin</artifactId>
 				<version>1.0</version>
@@ -216,50 +198,27 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
-
-			<plugin>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<outputDirectory>${project.build.directory}/lib</outputDirectory>
-				</configuration>
-			</plugin>
-
+			</plugin> 
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-					</execution>
-				</executions>
+				<artifactId>maven-eclipse-plugin</artifactId>
 				<configuration>
-					<includeScope>system</includeScope>
+					<downloadSources>true</downloadSources>
+					<buildcommands>
+						<buildcommand>ch.epfl.lamp.sdt.core.scalabuilder</buildcommand>
+					</buildcommands>
+					<additionalProjectnatures>
+						<projectnature>ch.epfl.lamp.sdt.core.scalanature</projectnature>
+					</additionalProjectnatures>
+					<classpathContainers>
+						<classpathContainer>org.eclipse.jdt.launching.JRE_CONTAINER</classpathContainer>
+						<classpathContainer>ch.epfl.lamp.sdt.launching.SCALA_CONTAINER</classpathContainer>
+					</classpathContainers>
 				</configuration>
-			</plugin>
-
-			<!-- <plugin> <groupId>org.scala-tools</groupId> <artifactId>maven-scala-plugin</artifactId> 
-				<version>${scala.version}</version> <executions> <execution> <goals> <goal>compile</goal> 
-				<goal>testCompile</goal> </goals> </execution> </executions> <configuration> 
-				<recompileMode>incremental</recompileMode> <scalaVersion>${scala.minor.version}</scalaVersion> 
-				<launchers> <launcher> <id>app</id> <mainClass>me.miximixi.tunami.Launcher</mainClass> 
-				<args> <arg>-deprecation</arg> </args> <jvmArgs> <jvmArg>-Xms256m</jvmArg> 
-				<jvmArg>-Xmx2048m</jvmArg> </jvmArgs> </launcher> </launchers> </configuration> 
-				</plugin> -->
-
-			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-eclipse-plugin</artifactId> 
-				<configuration> <downloadSources>true</downloadSources> <buildcommands> <buildcommand>ch.epfl.lamp.sdt.core.scalabuilder</buildcommand> 
-				</buildcommands> <additionalProjectnatures> <projectnature>ch.epfl.lamp.sdt.core.scalanature</projectnature> 
-				</additionalProjectnatures> <classpathContainers> <classpathContainer>org.eclipse.jdt.launching.JRE_CONTAINER</classpathContainer> 
-				<classpathContainer>ch.epfl.lamp.sdt.launching.SCALA_CONTAINER</classpathContainer> 
-				</classpathContainers> </configuration> </plugin> -->
-
+			</plugin> 
 		</plugins>
-	</build>
+	</build> 
 
 	<reporting>
 		<plugins>
@@ -276,8 +235,6 @@
 	<repositories>
 		<repository>
 			<id>scala-tools.org</id>
-			<name>Scala-Tools Maven2 Repository</name>
-			<!-- <url>http://scala-tools.org/repo-releases</url> -->
 			<url>http://repo1.maven.org/maven2/</url>
 		</repository>
 	</repositories>
@@ -285,8 +242,6 @@
 	<pluginRepositories>
 		<pluginRepository>
 			<id>scala-tools.org</id>
-			<name>Scala-Tools Maven2 Repository</name>
-			<!-- <url>http://scala-tools.org/repo-releases</url> -->
 			<url>http://repo1.maven.org/maven2/</url>
 		</pluginRepository>
 	</pluginRepositories>
