@@ -1,6 +1,5 @@
 package me.miximixi.tunami.persistence
 
-import com.sasaki.chain.ScalaEntity
 import me.miximixi.tunami.kit.AbstractQueryHander
 import org.springframework.stereotype.Repository
 import me.miximixi.tunami.kit.JdbcTemplateHandler
@@ -18,7 +17,7 @@ import java.sql.PreparedStatement
  * @Description
  */
 @Repository
-class ProphetDao extends AbstractQueryHander[Prophet] with JdbcTemplateHandler with DB with ScalaEntity {
+class ProphetDao extends AbstractQueryHander[Prophet] with JdbcTemplateHandler with DB {
 
   def insert(seq: Seq[Prophet]) = 
     jdbcTemplate.batchUpdate(s"""
@@ -62,10 +61,10 @@ class ProphetDao extends AbstractQueryHander[Prophet] with JdbcTemplateHandler w
 
       val o = new Prophet
       o.setId(rs.getInt(1))
-      setMultiple_3(o, Seq(
-        ("content", rs.getString(2), CLASS_STRING),
-        ("category", rs.getString(3), CLASS_STRING),
-        ("chapter", rs.getString(4), CLASS_STRING)))
+      o.setContent(rs.getString(2))
+      o.setCategory(rs.getString(3))
+      o.setChapter(rs.getString(4))
+      o
     }
     
   def update(o: Prophet) = ???
@@ -75,4 +74,7 @@ class ProphetDao extends AbstractQueryHander[Prophet] with JdbcTemplateHandler w
 		  set see = see + 1
 		  where id in (${ ids.map(o => "?").mkString(", ") })
   """, ids:_*)
+  
+  def queryMaxDate: Option[String] = 
+    query(s"select max(date) from $attr_gospel")((rs, i) => rs.getString(1)).headOption
 }

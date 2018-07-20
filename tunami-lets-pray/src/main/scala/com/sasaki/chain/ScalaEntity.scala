@@ -18,7 +18,7 @@ trait ScalaEntity {
   /**
    * 该方法暂不适用对父类继承属性赋值
    */
-  protected def set[E](e: E, attr: String, value: Object, /*allowNul: Boolean = false, */ classOfValue: Class[_] = null): E = {
+  def set[E](e: E, attr: String, value: Object, /*allowNul: Boolean = false, */ classOfValue: Class[_] = null): E = {
 
     var method: Method = null
     if (isNull(classOfValue)) 

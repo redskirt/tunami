@@ -91,6 +91,17 @@ class Gospel extends C {
   @BeanProperty
   var date: java.sql.Date = _
 //  var date: JDate = _
+  
+  @BeanProperty
+  var chapter: String = _
+  
+  lazy val chapterO: Tuple3[String, Int, Int] =
+  if (chapter == null)
+    ("", 0, 0)
+  else {
+    val o = chapter.split('|')
+    (o(0), o(1) toInt, o(2) toInt)
+  }
 }
 
 class Prayer extends C {
@@ -119,7 +130,7 @@ class Prayer extends C {
   val genderInfo = if("0" == gender) "姊妹" else "弟兄"
 }
 
-class Prophet extends C {
+class Prophet extends C with ScalaEntity {
   
   @BeanProperty 
   var category: String = _

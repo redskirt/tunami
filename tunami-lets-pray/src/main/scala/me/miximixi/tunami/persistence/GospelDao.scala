@@ -22,26 +22,28 @@ import java.sql.Date
 class GospelDao extends AbstractQueryHander[Gospel] with JdbcTemplateHandler with DB with ScalaEntity {
 
   def query(date: Date): Option[Gospel] =
-    query(s"select id, content, date from $attr_gospel where date=? limit 1", date) { (rs, i) =>
+    query(s"select id, content, chapter, date from $attr_gospel where date=? limit 1", date) { (rs, i) =>
 
       val o = new Gospel
       o.setId(Int.box(rs.getInt(1)))
       setMultiple(o, Array(
         ("content", rs.getString(2)),
-        ("date", rs.getDate(3))))
+        ("chapter", rs.getString(3)),
+        ("date", rs.getDate(4))))
     }.headOption
     
   override def insert(seq: Seq[Gospel]): Int =
     jdbcTemplate.batchUpdate(s"""
        insert into 
-       $attr_gospel (content, date, timestamp)
-       values (?, ?, ?)
+       $attr_gospel (content, date, chapter, timestamp)
+       values (?, ?, ?, ?)
        """, new BatchPreparedStatementSetter() {
 
       override def setValues(ps: PreparedStatement, i: Int) = {
         ps.setString(1, seq(i).getContent())
         ps.setDate(2, seq(i).getDate())
-        ps.setTimestamp(3, seq(i).getTimestamp)
+        ps.setString(3, seq(i).getChapter())
+        ps.setTimestamp(4, seq(i).getTimestamp)
       }
 
       override def getBatchSize() = seq.size
