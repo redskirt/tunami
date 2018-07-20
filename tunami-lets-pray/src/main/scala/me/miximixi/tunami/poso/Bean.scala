@@ -226,8 +226,8 @@ final object Bible extends Enumeration {
   def name(o: Bible.Value) = o.toString()
 }
 
-object APP extends App{
-  
-  println(Bible.name(Bible.创世记))
-  println(Bible.创世记.id)
-}
+//object APP extends App{
+//  
+//  println(Bible.name(Bible.创世记))
+//  println(Bible.创世记.id)
+//}

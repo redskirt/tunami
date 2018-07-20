@@ -64,10 +64,10 @@ trait PaginationHandler {
   }
 }
 
-object Main extends PaginationHandler {
-  
-  def main(args: Array[String]): Unit = {
-    val page = new Pagination(31, 4, 10, 0)
-    println(buildPaginateTag("/map_list", page))
-  }
-}
+//object Main extends PaginationHandler {
+//  
+//  def main(args: Array[String]): Unit = {
+//    val page = new Pagination(31, 4, 10, 0)
+//    println(buildPaginateTag("/map_list", page))
+//  }
+//}

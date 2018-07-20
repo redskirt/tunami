@@ -1,11 +1,7 @@
 package me.miximixi.tunami
 
-import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.ComponentScan
-import org.springframework.boot.SpringApplication
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 
 /**
  * @Author Sasaki
@@ -25,7 +21,3 @@ class WebConfigure
 //  }
 //} 
 
-object Launcher extends App {
-  
-  SpringApplication.run(classOf[WebConfigure])
-}
