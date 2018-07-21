@@ -39,27 +39,50 @@ class FrontendController @Autowired() (
     anthemService: AnthemService
     ) extends me.miximixi.tunami.controller.UsefulController {
 
+  /**
+   * 主页
+   */
   @GetMapping(Array("/"))
   def /(model: Model) = {
     val list = prayerService.bizBuildPrayerDTO(0)
     val list_ = scala.collection.JavaConversions.seqAsJavaList(list)
     model.addAttribute("prayers", list_)
-    model.addAttribute("gospelContent", gospelDao.query(TODAY).getOrElse({
-      val o = new me.miximixi.tunami.poso.Gospel
-      o.setContent("")
-      o
-    }).content)
+    model.addAttribute("gospelContent", {
+      val o = gospelDao.query(TODAY)
+      o match {
+        case Some(_) => o.get.getContent()
+        case _       => ""
+      }
+    })
     new ModelAndView("frontend/index")
   }
 
-  @GetMapping(Array("/lords_prayer"))
-  def lords_prayer = new ModelAndView("frontend/lords_prayer")
+  /**
+   * 主祷文
+   */
+  @GetMapping(Array("/lords-prayer"))
+  def lords_prayer = new ModelAndView("frontend/lords-prayer")
   
+  /**
+   * 神谕
+   */
   @GetMapping(Array("/prophet"))
   def prophet(model: Model) = {
     model.addAttribute("categories", prophetDao.listCategory)
     new ModelAndView("frontend/prophet")
   }
+  
+  /**
+   * 赞美诗  
+   */
+  @GetMapping(Array("/anthem"))
+  def anthem = new ModelAndView("frontend/anthem")
+
+  /**
+   * 事工
+   */
+  @GetMapping(Array("/holy-orders"))
+  def holy_orders = new ModelAndView("frontend/holy-orders")
   
   @GetMapping(Array("/ajaxListProphet/{minId}/{category}"))
   def ajaxListProphet(@PathVariable minId: JInt, @PathVariable category: String): JsonNode =
@@ -79,12 +102,6 @@ class FrontendController @Autowired() (
         }
       }
     })
-
-  @GetMapping(Array("/anthem"))
-  def anthem = new ModelAndView("frontend/anthem")
-
-  @GetMapping(Array("/holy_orders"))
-  def holy_orders = new ModelAndView("frontend/holy_orders")
 
   @GetMapping(Array("/ajaxListPrayers_{minId}"))
   def ajaxListPrayers(@PathVariable minId: JInt): JsonNode = {
