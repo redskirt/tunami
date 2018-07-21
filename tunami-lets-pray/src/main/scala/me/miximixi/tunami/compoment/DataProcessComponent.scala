@@ -7,7 +7,6 @@ import java.io.File
 import scala.io.Source
 import me.miximixi.tunami.poso.Prophet
 import java.util.Calendar
-import java.text.SimpleDateFormat
 import me.miximixi.tunami.poso.Gospel
 import java.util.Date
 
@@ -29,13 +28,13 @@ class DataProcessComponent {
     new java.sql.Date(date.getTime) 
   
   /**
-   * content/chapter/{date}
+   * content/chapter
    * Hosanna to the Son of David!/Mattehw|2|3
    */
-  def loadProphetProcess(textFile: File): Seq[Gospel] = {
+  def importGospelProcess(textFile: File): Seq[Gospel] = {
     val maxDate = prophetDao.queryMaxDate.get
     val line = Source.fromFile(textFile).getLines()
-      .filter(verifyChapter(_))
+      .filter(o => verifyChapter(o.split(/)(1)))
       .toSeq
 
     var days = 1 
@@ -43,26 +42,41 @@ class DataProcessComponent {
     {
       for (i <- 0 until line.size) yield {
         val group = line(i).split(/)
-        val prophet = new Gospel
+        val gospel = new Gospel
         
-        prophet.setContent(group(0))
-        prophet.setChapter(group(1))
-//        prophet.setDate(tomorrow(new Date(maxDate), days))
+        gospel.setContent(group(0))
+        gospel.setChapter(group(1))
+        gospel.setDate(tomorrow(formater.parse(maxDate), days))
 
         days += 1
 
-        prophet
+        gospel
       }
     }
   }
   
+  /**
+   * content/chapter/category
+   */
+  def importProphetProcess(textFile: File): Seq[Prophet] = 
+    Source.fromFile(textFile).getLines()
+      .filter(o => verifyChapter(o.split(/)(1)))
+      .map { o =>
+        val group = o.split(/)
+        val prophet = new Prophet
+        prophet.setContent(group(0))
+        prophet.setChapter(group(1))
+        prophet.setCategory(group(2))
+        prophet
+      } toSeq
+
+      
   private def verifyChapter(chapter: String): Boolean = true
   
-  import java.util.Date
   import com.sasaki.packages.independent.{ TimePattern => Pattern }
   
   final val DAILY_ERRIOD: Long = 24 * 60 * 60 * 1000
-  final val formater = new SimpleDateFormat(Pattern.name(Pattern.PATTERN_DATE))
+  final val formater = new java.text.SimpleDateFormat(Pattern.name(Pattern.PATTERN_DATE))
   
   def tomorrow(date: Date, days: Int = 1): Date = new Date(date.getTime + DAILY_ERRIOD * days) 
   
@@ -73,3 +87,4 @@ class DataProcessComponent {
   def yesterday(date: String): String = formater.format(formater.parse(yesterday(date)))
   
 }
+

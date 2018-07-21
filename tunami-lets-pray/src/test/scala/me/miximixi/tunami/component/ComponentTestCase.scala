@@ -23,8 +23,8 @@ class ComponentTestCase {
 
   @Test
   def test: Unit = {
-    dataProcessComponent.loadProphetProcess(new File("/Users/sasaki/gospels"))
-      .foreach(o => println(o.content))
+    dataProcessComponent.importGospelProcess(new File("/Users/sasaki/gospels"))
+      .foreach(o => println(o.date))
   }
 
 }
