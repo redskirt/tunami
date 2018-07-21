@@ -53,124 +53,43 @@
 	</div>
 </div>
 
-<section th:fragment="vice-header" class="probootstrap-section probootstrap-bg-white" style="height: 320px;">
-	<div class="owl-carousel owl-work probootstrap-animate owl-theme owl-loaded owl-text-select-on fadeInUp probootstrap-animated">
-		<div class="owl-stage-outer owl-height" style="height: 250px;">
-			<div class="owl-stage"
-				style="transform: translate3d(-1924px, 0px, 0px); transition: 0.25s; width: 6401px;">
-				<div class="owl-item cloned"
-					style="width: auto; margin-right: 20px;">
-					<div class="item">
-						<a href="#"> <img
-							th:src="@{/assets/frontend/images/work_5.jpg}"
-							alt="Free Bootstrap Template by sc.chinaz.com">
-						</a>
-					</div>
-				</div>
-				<div class="owl-item cloned"
-					style="width: auto; margin-right: 20px;">
-					<div class="item">
-						<a href="#"> <img th:src="@{/assets/frontend/images/work_7.jpg}">
-						</a>
-					</div>
-				</div>
-				<div class="owl-item cloned"
-					style="width: auto; margin-right: 20px;">
-					<div class="item">
-						<a href="portfolio-single.html"> <img
-							th:src="@{/assets/frontend/images/work_7.jpg}"
-							style="opacity: 1;">
-						</a>
-					</div>
-				</div>
-				<div class="owl-item" style="width: auto; margin-right: 20px;">
-					<div class="item">
-						<a href="#"> <img
-							th:src="@{/assets/frontend/images/work_1.jpg}">
-						</a>
-					</div>
-				</div>
-				<div class="owl-item active"
-					style="width: auto; margin-right: 20px;">
-					<div class="item">
-						<a href="#"> <img
-							th:src="@{/assets/frontend/images/work_1.jpg}">
-						</a>
-					</div>
-				</div>
-				<div class="owl-item active"
-					style="width: auto; margin-right: 20px;">
-					<div class="item">
-						<a href="#"> <img
-							th:src="@{/assets/frontend/images/work_3.jpg}">
-						</a>
-					</div>
-				</div>
-				<div class="owl-item active"
-					style="width: auto; margin-right: 20px;">
-					<div class="item">
-						<a href="#"> <img
-							th:src="@{/assets/frontend/images/work_4.jpg}">
-						</a>
-					</div>
-				</div>
-				<div class="owl-item" style="width: auto; margin-right: 20px;">
-					<div class="item">
-						<a href="portfolio-single.html"> <img
-							th:src="@{/assets/frontend/images/work_5.jpg}">
-						</a>
-					</div>
-				</div>
-				<div class="owl-item" style="width: auto; margin-right: 20px;">
-					<div class="item">
-						<a href="#"> <img
-							th:src="@{/assets/frontend/images/work_6.jpg}">
-						</a>
-					</div>
-				</div>
-				<div class="owl-item" style="width: auto; margin-right: 20px;">
-					<div class="item">
-						<a href="portfolio-single.html"> <img
-							th:src="@{/assets/frontend/images/work_6.jpg}"
-							style="opacity: 1;">
-						</a>
-					</div>
-				</div>
-				<div class="owl-item cloned"
-					style="width: auto; margin-right: 20px;">
-					<div class="item">
-						<a href="#"> <img
-							th:src="@{/assets/frontend/images/work_6.jpg}">
-						</a>
-					</div>
-				</div>
-				<div class="owl-item cloned"
-					style="width: auto; margin-right: 20px;">
-					<div class="item">
-						<a href="#"> <img th:src="@{/assets/frontend/images/work_6.jpg}">
-						</a>
-					</div>
-				</div>
-				<div class="owl-item cloned"
-					style="width: auto; margin-right: 20px;">
-					<div class="item">
-						<a href="#"> <img th:src="@{/assets/frontend/images/work_6.jpg}">
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="owl-controls">
-			<div class="owl-nav">
-				<div class="owl-prev" style="">
-					<i class="icon-chevron-thin-left"></i>
-				</div>
-				<div class="owl-next" style="">
-					<i class="icon-chevron-thin-right"></i>
-				</div>
-			</div>
-			<div class="owl-dots" style="display: none;"></div>
-		</div>
+<section th:fragment="vice-header" class="probootstrap-section probootstrap-bg-white" style="height: 350px;">
+	<div class="owl-carousel owl-work probootstrap-animate"> 
+		<div class="item">
+          <a href="#">
+            <img th:src="@{/assets/frontend/images/work_1.jpg}" alt="_">
+          </a>
+        </div>
+        <div class="item">
+          <a href="#">
+            <img th:src="@{/assets/frontend/images/work_2.jpg}" alt="_">
+          </a>
+        </div>
+        <div class="item">
+          <a href="#">
+            <img th:src="@{/assets/frontend/images/work_3.jpg}" alt="_">
+          </a>
+        </div>
+        <div class="item">
+          <a href="#">
+            <img th:src="@{/assets/frontend/images/work_4.jpg}" alt="_">
+          </a>
+        </div>  
+        <div class="item">
+          <a href="#">
+            <img th:src="@{/assets/frontend/images/work_5.jpg}" alt="_">
+          </a>
+        </div>
+        <div class="item">
+          <a href="#">
+            <img th:src="@{/assets/frontend/images/work_6.jpg}" alt="_">
+          </a>
+        </div>
+        <div class="item">
+          <a href="#">
+            <img th:src="@{/assets/frontend/images/work_7.jpg}" alt="_">
+          </a>
+        </div>
 	</div>
 </section>
 
@@ -178,11 +97,15 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12 copyright text-center">
-				<p style="font-size: 3.7em;">
+				<h2 style="color: white;">
 <!-- 					网站头部耶稣基督肖像素材来源于《国家地理》杂志。<br/> -->
 					<strong>荣耀归主！阿门！</strong>
-				</p>
-				<p style="font-size: 2em;">本网站仅作宣扬基督福音之用途。</p>
+				</h2>
+				<h2 style="color: white; font-size: 23px; margin-right: 15px">
+					<strong>Glory Be to God! Amen!</strong>
+				</h2>
+				
+				<p style="font-size: 2em;">本网站仅作宣扬基督福音之用途，所有经文均引用自《圣经》中文和合本与ESV英文标准版。</p>
 				<p style="font-size: 2em;">
 					Copyright &copy; 2018. From the <a href="mailto:tunami@outlook.com">developer</a>.
 				</p>

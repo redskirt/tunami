@@ -2118,14 +2118,14 @@ a:hover, a:focus/* , a:active */ {
 
 .owl-theme .owl-controls .owl-nav [class*="owl-"] i {
   font-size: 24px;
-  background: #85c8dd !important;
+  background: rgba(62, 61, 61, 0.32) !important;
   padding: 12px;
   -webkit-transition: .5s all;
   transition: .5s all;
 }
 
 .owl-theme .owl-controls .owl-nav [class*="owl-"]:hover i, .owl-theme .owl-controls .owl-nav [class*="owl-"]:focus i {
-  background: #85c8dd !important;
+  background: #e75854 !important;
 }
 
 .owl-theme .owl-dots {
