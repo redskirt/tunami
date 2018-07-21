@@ -85,6 +85,13 @@ class Principal extends C {
 
 class Gospel extends C {
   
+  def this(content: String, date: java.sql.Date, chapter: String) = {
+    this()
+    setContent(content)
+    setDate(date)
+    setChapter(chapter)
+  }
+  
   @BeanProperty
   var content: String = _
   
@@ -95,13 +102,19 @@ class Gospel extends C {
   @BeanProperty
   var chapter: String = _
   
-  lazy val chapterO: Tuple3[String, Int, Int] =
-  if (chapter == null)
-    ("", 0, 0)
-  else {
+  @BeanProperty
+  lazy val chapterInfo: String = {
     val o = chapter.split('|')
-    (o(0), o(1) toInt, o(2) toInt)
+    s"${o(0)}，${o(1)}章${o(2)}节"
   }
+    
+//  lazy val chapterO: Tuple3[String, Int, Int] =
+//  if (chapter == null)
+//    ("", 0, 0)
+//  else {
+//    val o = chapter.split('|')
+//    (o(0), o(1) toInt, o(2) toInt)
+//  }
 }
 
 class Prayer extends C {

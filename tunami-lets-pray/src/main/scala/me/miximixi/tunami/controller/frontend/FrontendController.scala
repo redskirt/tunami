@@ -22,6 +22,7 @@ import me.miximixi.tunami.poso.Prayer
 import me.miximixi.tunami.service._
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
+import me.miximixi.tunami.poso.Gospel
 
 /**
  * @Author Sasaki
@@ -47,11 +48,11 @@ class FrontendController @Autowired() (
     val list = prayerService.bizBuildPrayerDTO(0)
     val list_ = scala.collection.JavaConversions.seqAsJavaList(list)
     model.addAttribute("prayers", list_)
-    model.addAttribute("gospelContent", {
+    model.addAttribute("gospel", {
       val o = gospelDao.query(TODAY)
       o match {
-        case Some(_) => o.get.getContent()
-        case _       => ""
+        case Some(_) => o.get
+        case _       => new Gospel("亚伯拉罕的后裔，大卫的子孙，耶稣基督...", TODAY, "马太福音|1|1")
       }
     })
     new ModelAndView("frontend/index")
