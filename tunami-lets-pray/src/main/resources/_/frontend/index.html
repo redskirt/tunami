@@ -261,8 +261,7 @@
 	<section class="probootstrap-section proboostrap-clients probootstrap-bg-white probootstrap-zindex-above-showcase">
 		<div class="container">
 			<div class="row">
-				<div
-					class="col-md-6 col-md-offset-3 text-center section-heading probootstrap-animate">
+				<div class="col-md-6 col-md-offset-3 text-center section-heading probootstrap-animate">
 					<h2>同心祷告<span style="font-size: 16px; font-family: Bellefair,serif;"> / Let's Pray</span></h2>
 				</div>
 			</div>
@@ -292,16 +291,27 @@
 		<button type="button">向主祷告</button>
 		<div class="morph-content" style="left: 335.609px; top: 419.234px;">
 			<div>
-				<div class="content-style-form content-style-form-1">
-					<span class="icon icon-close">Close the dialog</span>
-					<label>「你们当向圣所举手，称颂耶和华！」——诗篇134:2</label>
-					<p>
-						<label>内容</label>
-						<input type="text">
-					</p>
-					<p>
-						<button id="submit-button">提交</button>
-					</p>
+				<div class="col-md-10 probootstrap-animate">
+					<span class="icon icon-close"></span> 
+					<label>「你们当向圣所举手，称颂耶和华！」
+						<cite class="author">&mdash; 马太福音，6章9-13节</cite>
+					</label>
+					<div class="form-group">
+						<label for="message">内容</label>
+						<textarea cols="30" rows="10" class="form-control" id="message" name="message"></textarea>
+					</div>
+					<div class="form-group">
+						<label for="name">城市</label> 
+						<input type="text" class="form-control" id="name" name="name">
+					</div>
+					<div class="form-group">
+						<label for="name">性别</label> 
+						<input type="radio" class="form-control" id="male"> 弟兄
+						<input type="radio" class="form-control" id="female"> 姊妹
+					</div>
+					<div class="form-group">
+						<input type="submit" class="btn btn-primary btn-lg" id="submit-button" name="submit" value="提交">
+					</div>
 				</div>
 			</div>
 		</div>

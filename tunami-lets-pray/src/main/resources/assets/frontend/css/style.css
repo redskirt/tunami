@@ -767,28 +767,28 @@ a:hover, a:focus/* , a:active */ {
 }
 
 .btn.btn-primary {
-  border: 1px solid #85C8DD;
-  background: #85C8DD;
+  border: 1px solid #ea5455;
+  background: #ea5455;
   color: #ffffff;
 }
 
 .btn.btn-primary:hover, .btn.btn-primary:active, .btn.btn-primary:focus {
-  background: #8dccdf;
+  background: #e65e5f;
 }
 
 .btn.btn-primary:focus, .btn.btn-primary:active {
   outline: none;
-  border: 1px solid #85C8DD;
+  border: 1px solid #e65e5f;
 }
 
 .btn.btn-ghost {
   background: transparent;
-  border: 1px solid #85C8DD;
-  color: #85C8DD;
+  border: 1px solid #e65e5f;
+  color: #e65e5f;
 }
 
 .btn.btn-ghost:hover {
-  background: #85C8DD;
+  background: #e65e5f;
   color: #ffffff;
 }
 
@@ -796,7 +796,7 @@ a:hover, a:focus/* , a:active */ {
   outline: none;
   background: transparent;
   color: #85C8DD;
-  border: 1px solid #85C8DD;
+  border: 1px solid #e65e5f;
 }
 
 .probootstrap-section {
@@ -921,7 +921,7 @@ a:hover, a:focus/* , a:active */ {
 .probootstrap-footer {
   padding: 7em 0;
 /*   background: #85C8DD; */
-  background: #e95556;
+  background: #ea5455;
   color: rgba(255, 255, 255, 0.9);
 }
 
@@ -1493,8 +1493,8 @@ a:hover, a:focus/* , a:active */ {
 }
 
 .modal .probootstrap-modal-flex .btn-connect-google {
-  background: #ea4335;
-  border-color: #ea4335;
+  background: #ea5455;
+  border-color: #ea5455;
   color: #ffffff;
 }
 
