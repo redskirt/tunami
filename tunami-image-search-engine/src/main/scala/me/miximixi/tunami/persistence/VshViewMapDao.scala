@@ -24,7 +24,7 @@ class VshViewMapDao extends JdbcTemplateHandler with DB with ScalaEntity {
       ${ and(city) }
       """, city) { (rs, i) => rs.getInt(1) }.headOption
     
-  def list(city: String = __, limit: Tuple2[JInt, JInt]): JList[VshViewMap] =
+  def list(city: String = __, keyword: String = __, limit: Tuple2[JInt, JInt]): JList[VshViewMap] =
     queryJList(s"""
       select 
         id,
@@ -48,9 +48,18 @@ class VshViewMapDao extends JdbcTemplateHandler with DB with ScalaEntity {
       where true
       ${ and(city) }
       ${ not_null("image_id") }
+      ${
+        if (__ == keyword)
+          s"${ and_? }\n${ and_? }\n${ and_? }"
+        else """
+            	and original_title like ?
+            	or transliteration like ?
+            	or alternative_original_title like ?
+            """
+      }
       order by id asc
       ${ limit_? }
-      """, city, limit._1, limit._2) { (rs, i) =>
+      """, city, like(keyword), like(keyword), like(keyword), limit._1, limit._2) { (rs, i) =>
 
       val map = new VshViewMap
       map.setId(Int.box(rs.getInt(1)))

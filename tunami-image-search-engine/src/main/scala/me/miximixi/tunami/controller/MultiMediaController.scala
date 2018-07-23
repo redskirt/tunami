@@ -55,7 +55,7 @@ class MultiMediaController extends UsefulController with PaginationHandler {
     val count = vshViewMapDao.count().getOrElse(0)
     val page = new Pagination(count, current, size, countPage)
     val html_pagination = buildPaginateTag("/media/map_list", page)
-    val list = vshViewMapDao.list("__", page.limit)
+    val list = vshViewMapDao.list("__", "__", page.limit)
     
     model.addAttribute("list", list)  
     model.addAttribute("html_pagination", html_pagination)
@@ -67,8 +67,8 @@ class MultiMediaController extends UsefulController with PaginationHandler {
   def download(@PathVariable dir: String, @PathVariable filename: String): ResponseEntity[InputStreamResource] = 
       super.download(s"$repository/map/$dir/$filename")
       
-  @PostMapping(Array("/remark"))
-  def remark(@RequestBody body: JsonNode): JsonNode =
+  @PostMapping(Array("/ajaxRemark"))
+  def ajaxRemark(@RequestBody body: JsonNode): JsonNode =
     ajaxHandler(body) { json =>
       (json \ "id", json \ "remark", json \ "remark_") match {
         case (JInt(id), JString(remark), JString(remark_)) => {

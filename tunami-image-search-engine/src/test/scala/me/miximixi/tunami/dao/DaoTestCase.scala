@@ -27,15 +27,16 @@ class DaoTestCase extends PaginationHandler {
   var vshViewMapDao: VshViewMapDao = _
   
 
-  val page = new Pagination(100, 2, 18, 10)
+  val page = new Pagination(100, 1, 18, 10)
+  val __ = "__"
   
   @Test
   def testListImageContent: Unit = {
     //    imageContentDao.list() foreach println
-    //    vshViewMapDao.list("__", page.limit).asScala.foreach(o => println(o.id))
-    val o = new VshViewMap
-    o.id = 1
-    o.remark = "___"
-    vshViewMapDao.update(o)
+        vshViewMapDao.list(__, "上海", page.limit).asScala.foreach(o => println(o.id + " " + o.original_title))
+//    val o = new VshViewMap
+//    o.id = 1
+//    o.remark = "___"
+//    vshViewMapDao.update(o)
   }
 }
