@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import me.miximixi.tunami.poso.VshViewMap
 import org.json4s.JsonAST.JInt
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.servlet.ModelAndView
 
 
 /**
@@ -49,19 +51,22 @@ class MultiMediaController extends UsefulController with PaginationHandler {
   @GetMapping(Array("/photo_list"))
   def photo_list = dispatch("photo_list")
   
-  @GetMapping(Array("/map_list_{current}_{size}_{countPage}")) 
-  def map_list(model: Model, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int) = {
-     
+  @PostMapping(Array("/map_list_{current}_{size}_{countPage}/{city}")) 
+  def map_list(model: Model, @RequestParam keyword: String, @PathVariable city: String, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int): ModelAndView = {
     val count = vshViewMapDao.count().getOrElse(0)
     val page = new Pagination(count, current, size, countPage)
     val html_pagination = buildPaginateTag("/media/map_list", page)
-    val list = vshViewMapDao.list("__", "__", page.limit)
+    val list = vshViewMapDao.list(city, keyword, page.limit)
     
     model.addAttribute("list", list)  
     model.addAttribute("html_pagination", html_pagination)
     
     dispatch("map_list")
   }
+  
+  @GetMapping(Array("/map_list_{current}_{size}_{countPage}")) 
+  def map_list(model: Model, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int): ModelAndView = 
+    map_list(model, __, __, current, size, countPage)
   
   @GetMapping(Array("/download_{dir}_{filename}"))
   def download(@PathVariable dir: String, @PathVariable filename: String): ResponseEntity[InputStreamResource] = 

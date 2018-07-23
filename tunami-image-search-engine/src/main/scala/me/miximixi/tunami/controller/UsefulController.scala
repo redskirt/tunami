@@ -31,11 +31,12 @@ trait UsefulController { self =>
 //  final val PUT = RequestMethod.PUT
 //  final val DELETE = RequestMethod.DELETE
 
-  protected val $SESSION_PRINCIPAL = "SESSION_PRINCIPAL"
-  protected val $REDIRECT = "redirect:"
+  protected final val $SESSION_PRINCIPAL = "SESSION_PRINCIPAL"
+  protected final val $REDIRECT = "redirect:"
   
-  protected val $verify = "verify"
-  protected val $message = "message"
+  protected final val __ = "__"
+  protected final val $verify = "verify"
+  protected final val $message = "message"
   protected def reply(verify: Boolean, message: String): JsonNode = 
     ($verify -> verify) ~ ($message -> $message)
 
@@ -50,10 +51,8 @@ trait UsefulController { self =>
   // 提供一个隐式Session
   protected implicit var session: HttpSession = _
   
-  protected def ajaxHandler(body: JsonNode)(f_x: JValue => JsonNode): JsonNode = {
-    val json = org.json4s.jackson.JsonMethods.fromJsonNode(body)
-    f_x(json)
-  }
+  protected def ajaxHandler(body: JsonNode)(f_x: JValue => JsonNode): JsonNode = 
+    f_x(org.json4s.jackson.JsonMethods.fromJsonNode(body))
   
   // 运行时Session注入
   @Autowired
@@ -70,7 +69,7 @@ trait UsefulController { self =>
     headers.add("Pragma", "no-cache");
     headers.add("Expires", "0");
 
-    return ResponseEntity
+    ResponseEntity
       .ok()
       .headers(headers)
       .contentLength(file.contentLength())

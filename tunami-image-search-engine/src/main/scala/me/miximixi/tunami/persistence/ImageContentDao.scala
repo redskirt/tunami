@@ -24,7 +24,7 @@ class ImageContentDao extends JdbcTemplateHandler with DB with ScalaEntity {
         select id, dir, file_name, name, descript, city, type
         from $attr_image_content
         where true
-        ${ and(city); and(`type`) }
+        ${ and("city", city); and("type", `type`) }
       """
         
         

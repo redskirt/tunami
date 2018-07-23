@@ -83,7 +83,7 @@ class MockMvcControllerTestCase {
     //        .andDo(print())
 
         println(">> With mock session:")
-        mockMvc.perform(get("/media/map_list_0_10_0").session(mockSession))
+        mockMvc.perform(post("/media/map_list_0_10_0/SHI").session(mockSession).param("keyword", "南京"))
           .andExpect(status.isOk())
           .andDo(print)
   }
