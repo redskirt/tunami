@@ -6,10 +6,9 @@ import com.sasaki.packages.constant._
  * @Author Sasaki
  * @Mail redskirt@outlook.com
  * @Timestamp Jul 8, 2018 12:59:36 PM
- * @Description 
+ * @Description 分页工具类，使用时仅需构造 Pagination 后调用 buildPaginateTag
  */
 trait PaginationHandler {
-
   
   /**
       <ul>
@@ -40,11 +39,11 @@ trait PaginationHandler {
     val builder = new StringBuilder
     builder
       .append("<ul>\n")
-      .append(s"""\t<li class="footable-page-arrow${ if(page.current <= 1) " disabled" else "" }"><a href="${ if(page.current <= 1) "#" else first }">«</a></li>\n""")
-      .append(s"""\t<li class="footable-page-arrow${ if(page.current <= 1) " disabled" else "" }"><a href="${ if(page.current <= 1) "#" else previous }">‹</a></li>\n""")
+      .append(s"""\t<li class="footable-page-arrow${ if(page.current <= 1) " disabled" else "" }"><a${ if(page.current > 1) s" href=$first" else "" }>«</a></li>\n""")
+      .append(s"""\t<li class="footable-page-arrow${ if(page.current <= 1) " disabled" else "" }"><a${ if(page.current > 1) s" href=$previous" else "" }>‹</a></li>\n""")
       .append({
         val str_i = (current: Int, i: Int) => s"""\t<li class="footable-page${if (page.current == i) " active" else ""}"><a href="${to(i)}">$i</a></li>\n"""
-      		val str_~ = s"""\t<li class="footable-page active"}"><a href="#">...</a></li>\n"""
+      		val str_~ = s"""\t<li class="footable-page active"}"><a>...</a></li>\n"""
         
         var j = page.current
 
@@ -67,8 +66,8 @@ trait PaginationHandler {
           }
         }
       } mkString)
-      .append(s"""\t<li class="footable-page-arrow${ if(page.current == page.total) " disabled" else "" }"><a href="${ if(page.current == page.total) "#" else subsequent }">›</a></li>\n""")
-      .append(s"""\t<li class="footable-page-arrow${ if(page.current == page.total) " disabled" else "" }"><a href="${ if(page.current == page.total) "#" else last }">»</a></li>\n""")
+      .append(s"""\t<li class="footable-page-arrow${ if(page.current == page.total) " disabled" else "" }"><a${ if(page.current < page.total) s" href=$subsequent" else "" }>›</a></li>\n""")
+      .append(s"""\t<li class="footable-page-arrow${ if(page.current == page.total) " disabled" else "" }"><a${ if(page.current < page.total) s" href=$last" else "" }>»</a></li>\n""")
       .append("</ul>")
     
     builder toString
@@ -76,10 +75,10 @@ trait PaginationHandler {
   
   final class Pagination(val $count: Int, val $current: Int = 0, val $size: Int = 0, val $total: Int = 0, val $span: Int = 5) {
 
-    var count = $count
-    var current: Int = if (0 == $current) 1 else $current
-    var size: Int = if (0 == $size) 15 /*default size*/ else $size
-    var total: Int =
+    lazy val count = $count
+    lazy val current: Int = if (0 == $current) 1 else $current
+    lazy val size: Int = if (0 == $size) 15 /*default size*/ else $size
+    lazy val total: Int =
       if (0 == $total)
         if (0 == count % size)
           count / size
@@ -87,18 +86,18 @@ trait PaginationHandler {
           count / size + 1
       else
         $total
-    var from: Int = (current - 1) * size
-    var to: Int = size
-    var limit: Tuple2[JInt, JInt] = (from, to)
-    var span: Int = $span
+    lazy val span: Int = $span
+    lazy val from: Int = (current - 1) * size
+    lazy val to: Int = size
+    lazy val limit: Tuple2[JInt, JInt] = (from, to)
     
   }
 }
 
-object Main extends PaginationHandler {
-  
-  def main(args: Array[String]): Unit = {
-    val page = new Pagination(100, 3, 10, 0)
-    println(buildPaginateTag("/map_list", page))
-  }
-}
+//object Main extends PaginationHandler {
+//
+//  def main(args: Array[String]): Unit = {
+//    val page = new Pagination(100, 4, 10, 0)
+//    println(buildPaginateTag("/media/map_list", page))
+//  }
+//}

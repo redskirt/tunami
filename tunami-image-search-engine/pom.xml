@@ -25,19 +25,14 @@
 	</properties>
 
 	<dependencies>
+		
 <!-- 		<dependency> -->
-<!-- 			<groupId>com.sasaki.assist</groupId> -->
+<!-- 			<groupId>com.sasaki</groupId> -->
 <!-- 			<artifactId>working-helper-assist</artifactId> -->
 <!-- 			<version>1.1.3</version> -->
-<!-- 		</dependency> -->
-		
-		<dependency>
-			<groupId>com.sasaki</groupId>
-			<artifactId>working-helper-assist</artifactId>
-			<version>1.1.3</version>
-			<systemPath>/Users/sasaki/repo/com/sasaki/working-helper-assist/1.1.3/working-helper-assist-1.1.3.jar</systemPath>
-			<scope>system</scope>
-		</dependency> 
+<!-- 			<systemPath>/Users/sasaki/repo/com/sasaki/working-helper-assist/1.1.3/working-helper-assist-1.1.3.jar</systemPath> -->
+<!-- 			<scope>system</scope> -->
+<!-- 		</dependency>  -->
 	 
 		<dependency>
 			<groupId>org.scala-lang</groupId>
@@ -128,21 +123,13 @@
 		</dependency>
 	</dependencies>
 
-	<build>
+<build>
 		<sourceDirectory>src/main/scala</sourceDirectory>
 		<testSourceDirectory>src/test/scala</testSourceDirectory>
 		<plugins>
-
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>repackage</goal>
-						</goals>
-					</execution>
-				</executions>
 
 				<dependencies>
 					<dependency>
@@ -161,7 +148,6 @@
 					<execution>
 						<goals>
 							<goal>compile</goal>
-							<goal>testCompile</goal>
 						</goals>
 						<configuration>
 							<args>
@@ -173,7 +159,7 @@
 				</executions>
 				<configuration>
 					<launchers>
-						<launcher> 
+						<launcher>
 							<id>default</id>
 							<mainClass>me.miximixi.tunami.Launcher</mainClass>
 						</launcher>
@@ -187,15 +173,6 @@
 						<jvmArg>-Xms64m</jvmArg>
 						<jvmArg>-Xmx1024m</jvmArg>
 					</jvmArgs>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<!-- Tests will be run with scalatest-maven-plugin instead -->
-					<skipTests>true</skipTests>
 				</configuration>
 			</plugin>
 
@@ -216,84 +193,10 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
-
-			<plugin>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<outputDirectory>${project.build.directory}/lib</outputDirectory>
-				</configuration>
-			</plugin>
-
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<includeScope>system</includeScope>
-				</configuration>
-			</plugin>
-
-<!-- <plugin>
-				<groupId>org.scala-tools</groupId>
-				<artifactId>maven-scala-plugin</artifactId>
-				<version>${scala.version}</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>compile</goal>
-							<goal>testCompile</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<recompileMode>incremental</recompileMode>
-					<scalaVersion>${scala.minor.version}</scalaVersion>
-					<launchers>
-						<launcher>
-							<id>app</id>
-							<mainClass>me.miximixi.tunami.Launcher</mainClass>
-							<args>
-								<arg>-deprecation</arg>
-							</args>
-							<jvmArgs>
-								<jvmArg>-Xms256m</jvmArg>
-								<jvmArg>-Xmx2048m</jvmArg>
-							</jvmArgs>
-						</launcher>
-					</launchers>
-				</configuration>
-			</plugin> -->
-			
-			<!-- <plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-eclipse-plugin</artifactId>
-				<configuration>
-					<downloadSources>true</downloadSources>
-					<buildcommands>
-						<buildcommand>ch.epfl.lamp.sdt.core.scalabuilder</buildcommand>
-					</buildcommands>
-					<additionalProjectnatures>
-						<projectnature>ch.epfl.lamp.sdt.core.scalanature</projectnature>
-					</additionalProjectnatures>
-					<classpathContainers>
-						<classpathContainer>org.eclipse.jdt.launching.JRE_CONTAINER</classpathContainer>
-						<classpathContainer>ch.epfl.lamp.sdt.launching.SCALA_CONTAINER</classpathContainer>
-					</classpathContainers>
-				</configuration>
-			</plugin> -->
-			
+			</plugin> 
 		</plugins>
-	</build>
-
+	</build> 
+	
 	<reporting>
 		<plugins>
 			<plugin>

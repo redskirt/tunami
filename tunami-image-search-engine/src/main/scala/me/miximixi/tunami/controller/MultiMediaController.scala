@@ -54,11 +54,11 @@ class MultiMediaController extends UsefulController with PaginationHandler {
      
     val count = vshViewMapDao.count().getOrElse(0)
     val page = new Pagination(count, current, size, countPage)
-    val htmlFoot = buildPaginateTag("/map_list", page)
+    val html_pagination = buildPaginateTag("/media/map_list", page)
     val list = vshViewMapDao.list("__", page.limit)
     
     model.addAttribute("list", list)  
-    model.addAttribute("htmlFoot", htmlFoot)
+    model.addAttribute("html_pagination", html_pagination)
     
     dispatch("map_list")
   }

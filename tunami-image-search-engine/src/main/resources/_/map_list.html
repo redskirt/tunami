@@ -40,37 +40,6 @@
 							<span>图片库 </span>
 						</h2>
 					</div>
-
-					<div class="col-sm-7">
-						<div class="devider-vertical visible-lg"></div>
-						<div class="tittle-middle-header">
-							<div class="alert">
-								<button type="button" class="close" data-dismiss="alert">×</button>
-								<span class="tittle-alert entypo-info-circled"></span> Welcome
-								back,&nbsp; <strong>Dave mattew!</strong>&nbsp;&nbsp;这里可以显示一个通知栏，上一次更新照片?张，新增照片?张。
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-2">
-						<div class="devider-vertical visible-lg"></div>
-						<div class="btn-group btn-wigdet pull-right visible-lg">
-							<div class="btn">管理栏</div>
-							<button data-toggle="dropdown" class="btn dropdown-toggle" type="button">
-								<span class="caret"></span> 
-								<span class="sr-only">Toggle Dropdown</span>
-							</button>
-							<ul role="menu" class="dropdown-menu">
-								<li><a href="#"> <span
-										class="entypo-plus-circled margin-iconic"></span>照片管理
-								</a></li>
-								<li><a href="#"> <span
-										class="entypo-heart margin-iconic"></span>收藏夹
-								</a></li>
-								<li><a href="#"> <span class="entypo-cog margin-iconic"></span>设置
-								</a></li>
-							</ul>
-						</div>
-					</div>
 				</div>
 			</div>
 			<!--/ TITLE -->
@@ -82,7 +51,6 @@
 				<li><a href="#" title="Sample page 1">Extra Pages</a></li>
 				<li><i class="fa fa-lg fa-angle-right"></i></li>
 				<li><a href="#" title="Sample page 1">Blank Page</a></li>
-				<li class="pull-right">右边区域</li>
 			</ul>
 			<!-- END OF BREADCRUMB -->
 			
@@ -209,7 +177,7 @@
 									<tfoot>
 										<tr>
 											<td colspan="5">
-												<div id="htmlFoot" class="pagination pagination-centered">
+												<div id="html_pagination" class="pagination pagination-centered">
 												</div>
 											</td>
 										</tr> 
@@ -237,12 +205,10 @@
 	<script type="text/javascript" th:src="@{/assets/js/main.js}"></script>
 
 	<!-- /MAIN EFFECT -->
-	<!-- GAGE -->
 	<script type="text/javascript" th:src="@{/assets/js/toggle_close.js}"></script>
 	<script th:src="@{/assets/js/footable/js/footable.js?v=2-0-1}" type="text/javascript"></script>
 	<script th:src="@{/assets/js/footable/js/footable.sort.js?v=2-0-1}" type="text/javascript"></script>
 	<script th:src="@{/assets/js/footable/js/footable.filter.js?v=2-0-1}" type="text/javascript"></script>
-<!-- 	<script th:src="@{/assets/js/footable/js/footable.paginate.js}?v=2-0-1" type="text/javascript"></script> -->
     
 	<!-- viewport 图片焦点控件 -->    
 	<script th:src="@{/assets/viewport/js/jquery.bridget.js}"></script>
@@ -259,9 +225,9 @@
     
     <script th:inline="javascript">
     	/*<![CDATA[*/
-        var htmlFoot = [[${htmlFoot}]];
+        var html_pagination = [[${html_pagination}]];
 		$(document).ready(function () {
-			$("#htmlFoot").html(htmlFoot);
+			$("#html_pagination").html(html_pagination);
 		});
 		
 		function modifyRemark(id, city, remark) {
