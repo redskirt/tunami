@@ -43,7 +43,7 @@ class ControllerSpec extends FlatSpec with Matchers with MockFactory {
     mockExistUser.password = md5(password_)
     (loginService.bizCheckin _).when(accountName_).returns(Some(mockExistUser))
     
-    val result = pretty(fromJsonNode(entranceController.doLogin(body)))
+    val result = pretty(fromJsonNode(entranceController.ajaxLogin(body)))
     val expected = pretty(("verify" -> true) ~ ("message" -> JNull))
     
     assert(expected == result)

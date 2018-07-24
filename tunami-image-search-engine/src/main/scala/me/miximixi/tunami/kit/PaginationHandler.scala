@@ -6,7 +6,7 @@ import com.sasaki.packages.constant._
  * @Author Sasaki
  * @Mail redskirt@outlook.com
  * @Timestamp Jul 8, 2018 12:59:36 PM
- * @Description 分页工具类，使用时仅需构造 Pagination 后调用 buildPaginateTag
+ * @Description 后端渲染分页，使用时仅需构造 Pagination 后调用 buildPaginateTag
  */
 trait PaginationHandler {
   
@@ -42,7 +42,7 @@ trait PaginationHandler {
       .append(s"""\t<li class="footable-page-arrow${ if(page.current <= 1) " disabled" else "" }"><a${ if(page.current > 1) s" href=$first" else "" }>«</a></li>\n""")
       .append(s"""\t<li class="footable-page-arrow${ if(page.current <= 1) " disabled" else "" }"><a${ if(page.current > 1) s" href=$previous" else "" }>‹</a></li>\n""")
       .append({
-        val str_i = (current: Int, i: Int) => s"""\t<li class="footable-page${if (page.current == i) " active" else ""}"><a href="${to(i)}">$i</a></li>\n"""
+        val str_i = (current: Int, i: Int) => s"""\t<li class="footable-page${if (page.current == i) " active" else ""}"><a${ if(page.current == i) s" href=${to(i)}" else "" }>$i</a></li>\n"""
       		val str_~ = s"""\t<li class="footable-page active"}"><a>...</a></li>\n"""
         
         var j = page.current

@@ -85,24 +85,29 @@
 							</div>
 							<div class="body-nest" id="Filtering">
 								<div class="row" style="margin-bottom: 10px;">
-									<div class="col-sm-4">
-										<input class="form-control" id="filter"
-											placeholder="Search..." type="text">
-									</div>
-									<div class="col-sm-2">
-										<select class="filter-status form-control">
-											<option value="active">Active
-											<option value="disabled">Disabled
-											<option value="suspended">Suspended
-										</select>
-									</div>
-									<div class="col-sm-6">
-										<a href="#clear" style="margin-left: 10px;" class="pull-right btn btn-info clear-filter" title="clear filter">clear</a>
-									</div>
+									<form id="form-pagination" method="post">
+										<div class="col-sm-4">
+											<input class="form-control" id="filter" name="keyword" th:value="${keyword}" placeholder="Search..." type="text">
+										</div>
+										<div class="col-sm-2">
+											<select id="city" class="filter-status form-control">
+												<option value="__">所有城市
+												<option value="BJG">北京
+												<option value="SHI">上海
+												<option value="SZU">苏州
+												<option value="TJN">天津
+											</select>
+										</div>
+										<div class="col-sm-6">
+											<a id="btn-reset" style="margin-left: 10px;" class="pull-right btn btn-info clear-filter" title="">重置</a>
+											<a id="btn-search" style="margin-left: 10px;" class="pull-right btn btn-info clear-filter" title="">搜索</a>
+										</div>
+									</form>
 								</div>
 								
 								<!-- data-limit-navigation="12"  data-filter="#filter" data-filter-text-only="true"-->
 								<!-- id="footable-res2" 绑定搜索事件 -->
+								
 								
 								<table id="footable-res2" class="demo" data-filter="#filter" data-filter-text-only="true" data-page-size="15">
 									<thead>
@@ -125,11 +130,11 @@
 											<th data-hide="phone,tablet">publishers</th>
 											<th data-hide="phone,tablet">repository</th>
 											
-											<th data-hide="phone,tablet">remark</th>
+<!-- 											<th data-hide="phone,tablet">remark</th> -->
 										</tr>
 									</thead>
                                     	<tbody>
-										<tr th:each="o,iterStat : ${list}">
+										<tr th:id="${iterStat.count}" th:each="o,iterStat : ${list}">
 											<td>
 												<input id="id" th:value="@{${o.id}}" style="display: none;"/>
 												<span class="status-metro status-disabled" th:text="${iterStat.count}"></span>
@@ -163,15 +168,19 @@
 											<td th:text="${o.repository}"></td>
 											<td th:text="${o.publishers}"></td>
 											
-											<td>
-												<form role="form" class="form-inline">
-													<div class="form-group">
-														<input id="remark" value="@{${o.remark_}}" style="display: none;"/>
-														<textarea id="remark_" style="width: 300px;" th:placeholder="@{${o.remark}}" class="form-control" name="message"></textarea>
-													</div>
-													<button id="sumbit-modify" th:onclick="@{'javascript:modifyRemark(' + ${o.id} + ', \'' + ${o.city} + '\', \'' + ${o.remark} + '\');'}" class="btn btn-success" type="button">修改</button>
-												</form>
-											</td>
+<!-- 											<td> -->
+<!-- 												<form th:id="@{'form-'+${iterStat.count}}" role="form" class="form-inline"> -->
+<!-- 													<div class="form-group"> -->
+<!-- 														<textarea th:id="@{'remark_'+${o.id}}" style="width: 300px;" th:placeholder="@{${o.remark}}" class="form-control"></textarea> -->
+<!-- 														<input type="text" th:id="@{'remark'+${o.id}}" th:value="@{${o.remark}}" style="display: none;"/> -->
+<!-- 														<input type="text" th:id="@{'naming'+${o.id}}" th:value="@{${o.remark}}" style="display: none;"/> -->
+<!-- 														<input type="text" th:id="@{'remark_'+${o.id}}" th:name="@{'remark_'+${o.id}}" value="" /> -->
+<!-- 														<input th:id="@{'naming_'+${o.id}}" th:name="@{'naming_'+${o.id}}" th:value="@{${o.remark}}" /> -->
+<!-- 													</div> -->
+<!-- 													modifyRemark(' + ${o.id} + ', \'' + ${o.city} + '\', \'' + ${o.remark} + '\'); -->
+<!-- 													<button th:onclick="@{'javascript:show('+${o.id}+')'}" class="btn btn-success" type="button">修改</button> -->
+<!-- 												</form> -->
+<!-- 											</td> -->
                                      	</tr>
 									</tbody>
 									<tfoot>
@@ -205,10 +214,9 @@
 	<script type="text/javascript" th:src="@{/assets/js/main.js}"></script>
 
 	<!-- /MAIN EFFECT -->
-	<script type="text/javascript" th:src="@{/assets/js/toggle_close.js}"></script>
+	<script th:src="@{/assets/js/toggle_close.js}" type="text/javascript" ></script>
 	<script th:src="@{/assets/js/footable/js/footable.js?v=2-0-1}" type="text/javascript"></script>
 	<script th:src="@{/assets/js/footable/js/footable.sort.js?v=2-0-1}" type="text/javascript"></script>
-	<script th:src="@{/assets/js/footable/js/footable.filter.js?v=2-0-1}" type="text/javascript"></script>
     
 	<!-- viewport 图片焦点控件 -->    
 	<script th:src="@{/assets/viewport/js/jquery.bridget.js}"></script>
@@ -226,34 +234,58 @@
     <script th:inline="javascript">
     	/*<![CDATA[*/
         var html_pagination = [[${html_pagination}]];
+    	
+// 		function show(i) {
+// 			alert($("#"+i+">td:last").find("#remark_"+i).val());
+// 			alert($("#"+i+">td:last #remark_"+i).val());
+// 			alert($("#"+i+">td:last input:eq(0)").val());
+// 			alert($("#"+i+">td:last").find("#naming_"+i).val());
+// 		}
+
+
 		$(document).ready(function () {
 			$("#html_pagination").html(html_pagination);
+			
+// 			$("#sumbit-modify-1").on("click", function() {
+// 				alert($(this).val());
+// 			});
+
+			$("#btn-search").on("click", function() {
+				$("#form-pagination").attr("action", "/media/map_list_0_15_0/"+$("#city option:selected").val());
+				$("#form-pagination").submit();
+			});
+
+			$("#btn-reset").on("click", function() {
+			
+			});
 		});
 		
 		function modifyRemark(id, city, remark) {
+			alert($("#remark_1").val());
 			$.ajax({
-			    url: "/media/remark",
+			    url: "/media/ajaxRemark",
 			    data: JSON.stringify({
 			    		id: id,
 			    		city: city,
 			    		remark: remark,
-			    		remark_ : $("#remark_").val()
+			    		remark_ : $("#remark_" + id).val()
 			    }),
 			    	dataType: "json",
 			    	type: "POST",
-			    	contentType: "application/json",
-			    	success: function (data) {
-					if(data.verify) {
-// 						$("#message-true-text").html(data.message);  
-// 						$("#message-true").show();
-						$("#message-true").css("display", "inline-block");
-						setTimeout('$("#message-true").hide()', 2000);
-					} else {
-// 						$("#message-false-text").html(data.message);
-						$("#message-false").css("display", "inline-block"); 
-						setTimeout('$("#message-false").hide()', 2000);
-					}
-	       	 	}
+			    	contentType: "application/json"
+			    	//,
+// 			    	success: function (data) {
+// 					if(data.verify) {
+// // 						$("#message-true-text").html(data.message);  
+// // 						$("#message-true").show();
+// 						$("#message-true").css("display", "inline-block");
+// 						setTimeout('$("#message-true").hide()', 2000);
+// 					} else {
+// // 						$("#message-false-text").html(data.message);
+// 						$("#message-false").css("display", "inline-block"); 
+// 						setTimeout('$("#message-false").hide()', 2000);
+// 					}
+// 	       	 	}
 	    		}); 
 		}
 		
@@ -262,46 +294,8 @@
     
     <script type="text/javascript">
     $(function() {
-        $('.footable-res').footable();
-    });
-    
-    $(function() {
-        $('#footable-res2').footable().bind('footable_filtering', function(e) {
-            var selected = $('.filter-status').find(':selected').text();
-            if (selected && selected.length > 0) {
-                e.filter += (e.filter && e.filter.length > 0) ? ' ' + selected : selected;
-                e.clear = !e.filter;
-            }
-        });
+        $('#footable-res2').footable();
 
-        $('.clear-filter').click(function(e) {
-            e.preventDefault();
-            $('.filter-status').val('');
-            $('table.demo').trigger('footable_clear_filter');
-        });
-
-        $('.filter-status').change(function(e) {
-            e.preventDefault();
-            $('table.demo').trigger('footable_filter', {
-                filter: $('#filter').val()
-            });
-        });
-
-        $('.filter-api').click(function(e) {
-            e.preventDefault();
-
-            //get the footable filter object
-            var footableFilter = $('table').data('footable-filter');
-
-            alert('about to filter table by "tech"');
-            //filter by 'tech'
-            footableFilter.filter('tech');
-
-            //clear the filter
-            if (confirm('clear filter now?')) {
-                footableFilter.clearFilter();
-            }
-        });
     });
     </script>
 </body>

@@ -39,8 +39,8 @@ class EntranceController @Autowired() (loginService: LoginService) extends Usefu
    * 
    * @RequestParam username: String, @RequestParam password: String, 
    */
-  @PostMapping(Array("/doLogin"))
-  def doLogin(@RequestBody body: JsonNode): JsonNode =
+  @PostMapping(Array("/ajaxLogin"))
+  def ajaxLogin(@RequestBody body: JsonNode): JsonNode =
     ajaxHandler(body) { json =>
       (json \ "account_name", json \ "password") match {
         case (JString(account_name), JString(password)) =>

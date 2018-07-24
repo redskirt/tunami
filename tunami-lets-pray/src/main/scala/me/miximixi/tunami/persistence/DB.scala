@@ -25,4 +25,5 @@ trait DB {
   protected def and(column: String, value: String): String = if(__ != value) s"and $column = ?\n" else and_?
   protected def and(column: JInt): String = if(0 != column) s"and $column = ?\n" else and_?
   protected def not_null(column: String): String = s"and $column is not null\n"
+  protected def like(keyword: String): String = s"%$keyword%"
 }

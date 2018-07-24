@@ -16,13 +16,23 @@ import org.springframework.stereotype.Repository
 @Repository
 class VshViewMapDao extends JdbcTemplateHandler with DB with ScalaEntity {
 
-  def count(city: String = __): Option[Int] = 
+  def count(city: String = __, keyword: String = __): Option[Int] = 
     query(s"""
       $count_from
         $attr_vsh_view_map
       where true
       ${ and("city", city) }
-      """, city) { (rs, i) => rs.getInt(1) }.headOption
+      ${ not_null("image_id") }
+      ${
+        if (__ == keyword)
+          s"${ and_? }\n${ and_? }\n${ and_? }"
+        else """
+            	and original_title like ?
+            	or transliteration like ?
+            	or alternative_original_title like ?
+            """
+      }    
+      """, city, like(keyword), like(keyword), like(keyword)) { (rs, i) => rs.getInt(1) }.headOption
     
   def list(city: String = __, keyword: String = __, limit: Tuple2[JInt, JInt]): JList[VshViewMap] =
     queryJList(s"""
@@ -52,9 +62,11 @@ class VshViewMapDao extends JdbcTemplateHandler with DB with ScalaEntity {
         if (__ == keyword)
           s"${ and_? }\n${ and_? }\n${ and_? }"
         else """
-            	and original_title like ?
-            	or transliteration like ?
-            	or alternative_original_title like ?
+            	and (
+              	original_title like ?
+              	or transliteration like ?
+              	or alternative_original_title like ?
+            )
             """
       }
       order by id asc
