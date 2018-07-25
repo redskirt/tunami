@@ -28,6 +28,7 @@ import me.miximixi.tunami.poso.VshViewMap
 import org.json4s.JsonAST.JInt
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.servlet.ModelAndView
+import me.miximixi.tunami.persistence.VshViewDao
 
 
 /**
@@ -44,12 +45,25 @@ class MultiMediaController extends UsefulController with PaginationHandler {
   var vshViewMapService: VshViewMapService = _
   @Autowired
   var vshViewMapDao: VshViewMapDao = _
+  @Autowired
+  var vshViewDao: VshViewDao = _
   
   @GetMapping(Array("/photo_gallery"))
   def photo_gallery = dispatch("photo_gallery")
 
-  @GetMapping(Array("/photo_list"))
-  def photo_list = dispatch("photo_list")
+  @GetMapping(Array("/photo_list_{current}_{size}_{countPage}/{city}"))
+  def photo_list(model: Model, @RequestParam keyword: String, @PathVariable city: String, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int): ModelAndView = {
+    val count = vshViewDao.count(city, keyword).getOrElse(0)
+    val page = new Pagination(count, current, size, countPage)
+    val html_pagination = buildPaginateTag("/media/photo_list", page)
+    val list = vshViewDao.list(city, keyword, page.limit)
+    
+    model.addAttribute("keyword", if(__ == keyword) "" else keyword)
+    model.addAttribute("list", list)  
+    model.addAttribute("html_pagination", html_pagination)
+    
+    dispatch("photo_list")
+  } 
   
   @PostMapping(Array("/map_list_{current}_{size}_{countPage}/{city}")) 
   def map_list(model: Model, @RequestParam keyword: String, @PathVariable city: String, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int): ModelAndView = {

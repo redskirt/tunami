@@ -1,7 +1,6 @@
 package me.miximixi.tunami.poso
 
 import scala.beans.BeanProperty
-import com.sasaki.packages.constant._
 
 /**
  * @Author Sasaki
@@ -9,39 +8,6 @@ import com.sasaki.packages.constant._
  * @Timestamp May 30, 2018 4:25:12 PM
  * @Description
  */
-
-class C { 
-  
-  val self = this
-
-  def this($id: JInt) {
-    this()
-    this.id = $id
-  }
-
-  def this($id: Integer, $timestamp: JTimestamp) {
-    this($id)
-    this.timestamp = $timestamp
-  }
-
-  var id: JInt = _
-
-  var timestamp: JTimestamp = _
-
-  def getId: JInt = self.id
-  
-  def getTimestamp: JTimestamp = self.timestamp
-    
-  def setId($id: JInt): self.type = {
-    self.id = $id
-    self
-  }
-  
-  def setTimestamp($timestamp: JTimestamp): self.type = {
-    self.timestamp = $timestamp
-    self
-  }
-}
 
 class Metadata extends C {
   
@@ -64,8 +30,6 @@ class Principal extends C {
   @BeanProperty
   var `type`: String = _
 
-  @BeanProperty
-  var status: String = _
 }
 
 class ImageContent extends C {
@@ -94,6 +58,9 @@ class VshViewMap extends C {
   
   @BeanProperty
   var remark: String = _
+  
+  @BeanProperty
+  var naming: String = _
   
   @BeanProperty
   var image_name: String = _
@@ -146,4 +113,80 @@ class VshViewMap extends C {
   @BeanProperty
   var publishers: String = _
   
+}
+
+class VshView extends C {
+  
+  @BeanProperty
+  var remark: String = _
+  
+  @BeanProperty
+  var naming: String = _
+  
+  @BeanProperty
+  var page_id: String = _
+
+  @BeanProperty
+  var image_id: String = _
+
+  @BeanProperty
+  var image_name: String = _
+
+  @BeanProperty
+  var city: String = _
+
+  @BeanProperty
+  var title: String = _
+
+  @BeanProperty
+  var collection: String = _
+
+  @BeanProperty
+  var location: String = _
+
+  @BeanProperty
+  var extent: String = _
+
+  @BeanProperty
+  var year: String = _
+
+  @BeanProperty
+  var date: String = _
+
+  @BeanProperty
+  var photographer: String = _
+
+  @BeanProperty
+  var estimated_date: String = _
+
+  @BeanProperty
+  var image_type: String = _
+
+  @BeanProperty
+  var material_form_of_image: String = _
+
+  @BeanProperty
+  var private_repository: String = _
+
+  @BeanProperty
+  var notes: String = _
+
+  @BeanProperty
+  var keywords_en: String = _
+
+  @BeanProperty
+  var keywords_fr: String = _
+
+  @BeanProperty
+  var street_name: String = _
+
+  @BeanProperty
+  var repository: String = _
+
+  @BeanProperty
+  var building: String = _
+
+  @BeanProperty
+  var related_image: String = _
+
 }

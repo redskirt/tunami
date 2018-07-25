@@ -27,9 +27,11 @@ class VshViewMapDao extends JdbcTemplateHandler with DB with ScalaEntity {
         if (__ == keyword)
           s"${ and_? }\n${ and_? }\n${ and_? }"
         else """
-            	and original_title like ?
-            	or transliteration like ?
-            	or alternative_original_title like ?
+            	and (
+              	original_title like ?
+              	or transliteration like ?
+              	or alternative_original_title like ?
+            )
             """
       }    
       """, city, like(keyword), like(keyword), like(keyword)) { (rs, i) => rs.getInt(1) }.headOption
@@ -53,7 +55,8 @@ class VshViewMapDao extends JdbcTemplateHandler with DB with ScalaEntity {
         publishers,
         repository,
     		  place_of_publication,
-        remark
+        naming,
+      		remark
       from $attr_vsh_view_map
       where true
       ${ and("city", city) }
@@ -92,7 +95,8 @@ class VshViewMapDao extends JdbcTemplateHandler with DB with ScalaEntity {
         ("publishers", rs.getString(14), CLASS_STRING),
         ("repository", rs.getString(15), CLASS_STRING),
         ("place_of_publication", rs.getString(16), CLASS_STRING),
-        ("remark", rs.getString(17), CLASS_STRING)))
+        ("naming", rs.getString(16), CLASS_STRING),
+        ("remark", rs.getString(18), CLASS_STRING)))
     }
       
     def update(o: VshViewMap): Int = 

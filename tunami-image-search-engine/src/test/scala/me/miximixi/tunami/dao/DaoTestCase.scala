@@ -25,6 +25,8 @@ class DaoTestCase extends PaginationHandler {
   var imageContentDao: ImageContentDao = _
   @Autowired
   var vshViewMapDao: VshViewMapDao = _
+  @Autowired
+  var vshViewDao: VshViewMapDao = _
   
 
   val page = new Pagination(100, 1, 18, 10)
@@ -33,7 +35,8 @@ class DaoTestCase extends PaginationHandler {
   @Test
   def testListImageContent: Unit = {
     //    imageContentDao.list() foreach println
-        vshViewMapDao.list("TJN", "", page.limit).asScala.foreach(o => println(o.id + " " + o.city + " " + o.original_title))
+//        vshViewMapDao.list("TJN", "", page.limit).asScala.foreach(o => println(o.id + " " + o.city + " " + o.original_title))
+        vshViewDao.list("TJN", "", page.limit).asScala.foreach(o => println(o.id + " " + o.city + " " + o.original_title))
 //        println(vshViewMapDao.count("TJN"))
 //    val o = new VshViewMap
 //    o.id = 1
