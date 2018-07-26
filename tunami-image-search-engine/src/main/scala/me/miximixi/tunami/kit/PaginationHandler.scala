@@ -26,24 +26,35 @@ trait PaginationHandler {
         	<li class="footable-page-arrow"><a href="/map_list_4_10_10">›</a></li>
         	<li class="footable-page-arrow"><a href="/map_list_10_10_10">»</a></li>
       </ul>
+      
+    		function postPagination(url) {
+    			$("#form-pagination").attr("action", url);
+    			$("#form-pagination").submit();
+    		}
   */
   def buildPaginateTag(prefix: String, page: Pagination): String = {
     
     val to = (destnation: Int) => s"${ prefix }_${ destnation }_${ page.size }_${ page.total }"
-    
+
     val first = to(1)
     val last = to(page.total)
     val previous = to(page.current - 1)
     val subsequent = to(page.current + 1)
     
+    val href = (destnation: String) => s" href=$destnation"
+    val onclick = (destnation: String) => s""" onclick="javascript:postPagination('$destnation');""""
+    
     val builder = new StringBuilder
     builder
       .append("<ul>\n")
-      .append(s"""\t<li class="footable-page-arrow${ if(page.current <= 1) " disabled" else "" }"><a${ if(page.current > 1) s" href=$first" else "" }>«</a></li>\n""")
-      .append(s"""\t<li class="footable-page-arrow${ if(page.current <= 1) " disabled" else "" }"><a${ if(page.current > 1) s" href=$previous" else "" }>‹</a></li>\n""")
+//      .append(s"""\t<li class="footable-page-arrow${ if(page.current <= 1) " disabled" else "" }"><a${ if(page.current > 1) s" href=$first" else "" }>«</a></li>\n""")
+//      .append(s"""\t<li class="footable-page-arrow${ if(page.current <= 1) " disabled" else "" }"><a${ if(page.current > 1) s" href=$previous" else "" }>‹</a></li>\n""")
+      .append(s"""\t<li class="footable-page-arrow${ if(page.current <= 1) " disabled" else "" }"><a${ if(page.current > 1) onclick(first) else "" }>«</a></li>\n""")
+      .append(s"""\t<li class="footable-page-arrow${ if(page.current <= 1) " disabled" else "" }"><a${ if(page.current > 1) onclick(previous) else "" }>‹</a></li>\n""")
       .append({
-        val str_i = (current: Int, i: Int) => s"""\t<li class="footable-page${if (page.current == i) " active" else ""}"><a${ if(page.current == i) s" href=${to(i)}" else "" }>$i</a></li>\n"""
-      		val str_~ = s"""\t<li class="footable-page active"}"><a>...</a></li>\n"""
+//        val str_i = (current: Int, i: Int) => s"""\t<li class="footable-page${if (page.current == i) " active" else ""}"><a${ if(page.current != i) s" href=${to(i)}" else "" }>$i</a></li>\n"""
+      		val str_i = (current: Int, i: Int) => s"""\t<li class="footable-page${if (page.current == i) " active" else ""}"><a${ if(page.current != i) onclick(to(i)) else "" }>$i</a></li>\n"""
+      		val str_~ = s"""\t<li class="footable-page active"><a>...</a></li>\n"""
         
         var j = page.current
 
@@ -66,8 +77,10 @@ trait PaginationHandler {
           }
         }
       } mkString)
-      .append(s"""\t<li class="footable-page-arrow${ if(page.current == page.total) " disabled" else "" }"><a${ if(page.current < page.total) s" href=$subsequent" else "" }>›</a></li>\n""")
-      .append(s"""\t<li class="footable-page-arrow${ if(page.current == page.total) " disabled" else "" }"><a${ if(page.current < page.total) s" href=$last" else "" }>»</a></li>\n""")
+      .append(s"""\t<li class="footable-page-arrow${ if(page.current == page.total) " disabled" else "" }"><a${ if(page.current < page.total) onclick(subsequent) else "" }>›</a></li>\n""")
+      .append(s"""\t<li class="footable-page-arrow${ if(page.current == page.total) " disabled" else "" }"><a${ if(page.current < page.total) onclick(last) else "" }>»</a></li>\n""")
+//      .append(s"""\t<li class="footable-page-arrow${ if(page.current == page.total) " disabled" else "" }"><a${ if(page.current < page.total) s" href=$subsequent" else "" }>›</a></li>\n""")
+//      .append(s"""\t<li class="footable-page-arrow${ if(page.current == page.total) " disabled" else "" }"><a${ if(page.current < page.total) s" href=$last" else "" }>»</a></li>\n""")
       .append("</ul>")
     
     builder toString

@@ -51,13 +51,18 @@ class MultiMediaController extends UsefulController with PaginationHandler {
   @GetMapping(Array("/photo_gallery"))
   def photo_gallery = dispatch("photo_gallery")
 
-  @GetMapping(Array("/photo_list_{current}_{size}_{countPage}/{city}"))
-  def photo_list(model: Model, @RequestParam keyword: String, @PathVariable city: String, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int): ModelAndView = {
+  @GetMapping(Array("/photo_list_{current}_{size}_{countPage}")) 
+  def photo_list(model: Model, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int): ModelAndView = 
+    photo_list(model, __, __, current, size, countPage)
+    
+  @PostMapping(Array("/photo_list_{current}_{size}_{countPage}"))
+  def photo_list(model: Model, @RequestParam keyword: String, @RequestParam city: String, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int): ModelAndView = {
     val count = vshViewDao.count(city, keyword).getOrElse(0)
     val page = new Pagination(count, current, size, countPage)
     val html_pagination = buildPaginateTag("/media/photo_list", page)
     val list = vshViewDao.list(city, keyword, page.limit)
     
+    model.addAttribute("city", city)
     model.addAttribute("keyword", if(__ == keyword) "" else keyword)
     model.addAttribute("list", list)  
     model.addAttribute("html_pagination", html_pagination)
@@ -65,13 +70,14 @@ class MultiMediaController extends UsefulController with PaginationHandler {
     dispatch("photo_list")
   } 
   
-  @PostMapping(Array("/map_list_{current}_{size}_{countPage}/{city}")) 
-  def map_list(model: Model, @RequestParam keyword: String, @PathVariable city: String, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int): ModelAndView = {
+  @PostMapping(Array("/map_list_{current}_{size}_{countPage}")) 
+  def map_list(model: Model, @RequestParam keyword: String, @RequestParam city: String, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int): ModelAndView = {
     val count = vshViewMapDao.count(city, keyword).getOrElse(0)
     val page = new Pagination(count, current, size, countPage)
     val html_pagination = buildPaginateTag("/media/map_list", page)
     val list = vshViewMapDao.list(city, keyword, page.limit)
     
+    model.addAttribute("city", city)
     model.addAttribute("keyword", if(__ == keyword) "" else keyword)
     model.addAttribute("list", list)  
     model.addAttribute("html_pagination", html_pagination)
@@ -83,9 +89,9 @@ class MultiMediaController extends UsefulController with PaginationHandler {
   def map_list(model: Model, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int): ModelAndView = 
     map_list(model, __, __, current, size, countPage)
   
-  @GetMapping(Array("/download_{dir}_{filename}"))
-  def download(@PathVariable dir: String, @PathVariable filename: String): ResponseEntity[InputStreamResource] = 
-      super.download(s"$repository/map/$dir/$filename")
+  @GetMapping(Array("/{type}/download_{dir}_{filename}"))
+  def download(@PathVariable dir: String, @PathVariable filename: String, @PathVariable `type`: String): ResponseEntity[InputStreamResource] = 
+      super.download(s"$repository/${`type`}/$dir/$filename")
       
   @PostMapping(Array("/ajaxRemark"))
   def ajaxRemark(@RequestBody body: JsonNode): JsonNode =

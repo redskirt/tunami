@@ -92,12 +92,13 @@
 											<input class="form-control" id="filter" name="keyword" th:value="${keyword}" placeholder="Search..." type="text">
 										</div>
 										<div class="col-sm-2">
-											<select id="city" class="filter-status form-control">
-												<option value="__">所有城市
-												<option value="BJG">北京
-												<option value="SHI">上海
-												<option value="SZU">苏州
-												<option value="TJN">天津
+											<select id="city" name="city" class="filter-status form-control">
+												<option value="__" th:selected="${city=='__'}">所有城市</option>
+												<option value="BJG" th:selected="${city=='BJG'}">北京</option>
+												<option value="SHI" th:selected="${city=='SHI'}">上海</option>
+												<option value="SZU" th:selected="${city=='SZU'}">苏州</option>
+												<option value="TJN" th:selected="${city=='TJN'}">天津</option>
+												<option value="HKU" th:selected="${city=='HKU'}">汉口</option>
 											</select>
 										</div>
 										<div class="col-sm-6">
@@ -135,18 +136,18 @@
 											<td>
 												<input id="id" th:value="@{${o.id}}" style="display: none;" /> 
 												<span class="status-metro status-disabled" th:text="${iterStat.count}"></span> 
-												<a th:href="@{'/media/download_' + ${o.city} + '_' + ${o.image_name}}" class="pull-right btn btn-info">下载</a>
+												<a th:href="@{'/media/city/download_' + ${o.city} + '_' + ${o.image_name}}" class="pull-right btn btn-info">下载</a>
 											</td>
 											<td>
 												<div class="mag-eg-el-wrap">
 													<div class="img-thumbnail">
 														<div mag-thumb="inner-inline" mag-flow="inline" class="mag-eg-el">
 															<img 
-																th:src="@{'/assets/map/' + ${o.city}+'/' + ${o.image_name}}"
+																th:src="@{'/assets/city/' + ${o.city} +'/' + ${o.image_name}}"
 																style="width: 400px; max-width: 100%; height: auto;" />
 														</div>
 														<div mag-zoom="inner-inline" class="mag-eg-el">
-															<img th:src="@{'/assets/map/' + ${o.city} + '/' + ${o.image_name}}" />
+															<img th:src="@{'/assets/city/' + ${o.city} + '/' + ${o.image_name}}" />
 														</div>
 													</div>
 												</div>
@@ -215,12 +216,23 @@
 	<script th:src="@{/assets/viewport/js/mag-control.js}"></script>
 	<script th:src="@{/assets/viewport/js/index.js}"></script>
     
-	<script type="text/javascript">
-		var html_pagination = [[${html_pagination}]];
-		
+	<script th:inline="javascript">
 		$(function() {
+			var html_pagination = [[${html_pagination}]];
+			
+			$("#html_pagination").html(html_pagination);
+			
 			$('#footable-res2').footable();
+
+			$("#btn-search").on("click", function() {
+				postPagination("/media/photo_list_0_15_0");
+			});
 		});
+		
+		function postPagination(url) {
+			$("#form-pagination").attr("action", url);
+			$("#form-pagination").submit();
+		}
 	</script>
 </body>
 </html>

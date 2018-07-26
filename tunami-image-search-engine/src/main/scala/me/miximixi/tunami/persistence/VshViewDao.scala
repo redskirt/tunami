@@ -4,6 +4,7 @@ import com.sasaki.packages.constant._
 import me.miximixi.tunami.kit.JdbcTemplateHandler
 import me.miximixi.tunami.kit.JdbcTemplateHandler._
 import me.miximixi.tunami.poso.VshView
+import org.springframework.stereotype.Repository
 
 /**
  * @Author Sasaki
@@ -11,6 +12,7 @@ import me.miximixi.tunami.poso.VshView
  * @Timestamp Jul 25, 2018 1:06:19 PM
  * @Description 
  */
+@Repository
 class VshViewDao extends JdbcTemplateHandler with DB {
   
   def count(city: String = __, keyword: String = __): Option[Int] = 

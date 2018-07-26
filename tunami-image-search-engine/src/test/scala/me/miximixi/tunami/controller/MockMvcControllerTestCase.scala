@@ -83,7 +83,7 @@ class MockMvcControllerTestCase {
     //        .andDo(print())
 
         println(">> With mock session:")
-        mockMvc.perform(post("/media/map_list_0_10_0/SHI").session(mockSession).param("keyword", "南京"))
+        mockMvc.perform(post("/media/map_list_0_10_0").session(mockSession).param("keyword", "南京").param("city", ""))
           .andExpect(status.isOk())
           .andDo(print)
   }
@@ -91,7 +91,7 @@ class MockMvcControllerTestCase {
 //  @Test
 //  def text_download(): Unit = {
 //    println(">> With mock session:")
-//    mockMvc.perform(get("/media/download_SZU_SZU0001.jpg").session(mockSession))
+//    mockMvc.perform(get("/media/city/download_SZU_SZU0001.jpg").session(mockSession))
 //      .andExpect(status.isOk())
 //      .andDo(print)
 //  }
