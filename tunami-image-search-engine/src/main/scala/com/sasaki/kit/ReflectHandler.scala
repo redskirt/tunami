@@ -29,11 +29,13 @@ trait ReflectHandler {
 
 class ReflectHandlerImpl(val a: String, val b: Int) extends ReflectHandler
 
-//object Main extends App {
-//  
+object Main extends App {
+  
 //  val rh = new ReflectHandlerImpl("test", 111)
 //  println(rh.getSuccessorName)
 //  rh.getSuccessorPrimaryConstructorArgs foreach println
 //  
 //  println(rh.getClasspath)
-//}
+  
+  println(com.sasaki.packages.independent.md5("kj"))
+}

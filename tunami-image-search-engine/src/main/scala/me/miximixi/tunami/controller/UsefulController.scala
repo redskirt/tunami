@@ -6,7 +6,6 @@ import org.json4s.JsonDSL.pair2Assoc
 import org.json4s.JsonDSL.string2jvalue
 import org.json4s.jackson.JsonMethods.asJsonNode
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.FileSystemResource
 import org.springframework.core.io.InputStreamResource
 import org.springframework.http.HttpHeaders
@@ -34,6 +33,7 @@ trait UsefulController { self =>
   protected final val $SESSION_PRINCIPAL = "SESSION_PRINCIPAL"
   protected final val $REDIRECT = "redirect:"
   
+  protected final val | = java.io.File.separator
   protected final val __ = "__"
   protected final val $verify = "verify"
   protected final val $message = "message"
@@ -57,9 +57,6 @@ trait UsefulController { self =>
   // 运行时Session注入
   @Autowired
   protected def setSession(session: HttpSession) = self.session = session
-  
-  @Value("${value.repository}")
-  protected var repository: String = _
   
   protected def download(fullPath: String): ResponseEntity[InputStreamResource] = {
     val file = new FileSystemResource(fullPath);

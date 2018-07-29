@@ -25,7 +25,7 @@ class VshViewMapDao extends JdbcTemplateHandler with DB with ScalaEntity {
       ${ not_null("image_id") }
       ${
         if (__ == keyword)
-          s"${ and_? }\n${ and_? }\n${ and_? }"
+          s"${ and_? }\n${ and_? }\n${ and_? }\n${ and_? }"
         else """
             	and (
               	original_title like ?
@@ -64,7 +64,7 @@ class VshViewMapDao extends JdbcTemplateHandler with DB with ScalaEntity {
       ${ not_null("image_id") }
       ${
         if (__ == keyword || "" == keyword)
-          s"${ and_? }\n${ and_? }\n${ and_? }"
+          s"${ and_? }\n${ and_? }\n${ and_? }\n${ and_? }"
         else """
             	and (
               	original_title like ?

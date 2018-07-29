@@ -1,35 +1,21 @@
 package me.miximixi.tunami.controller
 
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RestController
-import org.json4s.JsonAST.JNull
-import org.json4s.JsonAST.JString
-import org.json4s.JsonDSL.boolean2jvalue
-import org.json4s.JsonDSL.pair2Assoc
-import org.json4s.JsonDSL.string2jvalue
-import org.json4s.jackson.JsonMethods.fromJsonNode
-import javax.servlet.http.HttpSession
-import org.springframework.beans.factory.annotation.Autowired
-import com.fasterxml.jackson.databind.JsonNode
-import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.PathVariable
-import me.miximixi.tunami.service.VshViewMapService
-import me.miximixi.tunami.persistence.VshViewMapDao
-import me.miximixi.tunami.kit.PaginationHandler
-import org.springframework.core.io .InputStreamResource
-import org.springframework.core.io.FileSystemResource
-import org.springframework.http.HttpHeaders
-import org.springframework.http.ResponseEntity
-import org.springframework.http.MediaType
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import me.miximixi.tunami.poso.VshViewMap
 import org.json4s.JsonAST.JInt
-import org.springframework.web.bind.annotation.RequestParam
+import org.json4s.JsonAST.JString
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.ResponseEntity
+import org.springframework.ui.Model
+import org.springframework.web.bind.annotation._
 import org.springframework.web.servlet.ModelAndView
-import me.miximixi.tunami.persistence.VshViewDao
 
+import com.fasterxml.jackson.databind.JsonNode
+
+import me.miximixi.tunami.kit.PaginationHandler
+import me.miximixi.tunami.persistence.VshViewDao
+import me.miximixi.tunami.persistence.VshViewMapDao
+import me.miximixi.tunami.poso.VshViewMap
+import me.miximixi.tunami.service.VshViewMapService
+import org.springframework.core.io.InputStreamResource
 
 /**
  * @Author Sasaki
@@ -89,9 +75,15 @@ class MultiMediaController extends UsefulController with PaginationHandler {
   def map_list(model: Model, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int): ModelAndView = 
     map_list(model, __, __, current, size, countPage)
   
+  @org.springframework.beans.factory.annotation.Value("${value.repository}")
+  private var repository: String = _
+  
   @GetMapping(Array("/{type}/download_{dir}_{filename}"))
-  def download(@PathVariable dir: String, @PathVariable filename: String, @PathVariable `type`: String): ResponseEntity[InputStreamResource] = 
-      super.download(s"$repository/${`type`}/$dir/$filename")
+  def download(
+      @PathVariable dir: String, 
+      @PathVariable filename: String, 
+      @PathVariable `type`: String): ResponseEntity[InputStreamResource] = 
+        download(s"$repository${|}${`type`}${|}$dir${|}$filename")
       
   @PostMapping(Array("/ajaxRemark"))
   def ajaxRemark(@RequestBody body: JsonNode): JsonNode =
