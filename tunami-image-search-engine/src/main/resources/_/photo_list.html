@@ -85,7 +85,7 @@
 									<strong>Oh snap!</strong>
 								</div>
 							</div>	
-<div class="body-nest" id="Filtering">
+							<div class="body-nest" id="Filtering">
 								<div class="row" style="margin-bottom: 10px;">
 									<form id="form-pagination" method="post">
 										<div class="col-sm-4">
@@ -132,6 +132,16 @@
 										</tr>
 									</thead>
 									<tbody>
+										<tr>
+											<td colspan="5">
+												<div id="html_pagination_" class="pagination pagination-centered">
+												</div>
+												<div style="color: black; width: 200px; display: inline-block; bottom: 10px; position: relative;">
+													前往第<input style="width:50px; display: inline-block;" class="form-control" id="to_page1" type="text">页
+													<button id="go1" class="btn btn-success" type="button">Go</button>
+												</div>
+											</td>
+										</tr> 
 										<tr th:id="${iterStat.count}" th:each="o,iterStat : ${list}">
 											<td>
 												<input id="id" th:value="@{${o.id}}" style="display: none;" /> 
@@ -173,6 +183,10 @@
 										<tr>
 											<td colspan="5">
 												<div id="html_pagination" class="pagination pagination-centered"></div>
+												<div style="color: black; width: 200px; display: inline-block; bottom: 10px; position: relative;">
+													前往第<input style="width:50px; display: inline-block;" class="form-control" id="to_page2" name="to_page2" type="text">页
+													<button id="go2" name="go2" class="btn btn-success" type="button">Go</button>
+												</div>
 											</td>
 										</tr>
 									</tfoot>
@@ -221,12 +235,21 @@
 			var html_pagination = [[${html_pagination}]];
 			
 			$("#html_pagination").html(html_pagination);
+			$("#html_pagination_").html(html_pagination);
 			
 			$('#footable-res2').footable();
 
 			$("#btn-search").on("click", function() {
 				postPagination("/media/photo_list_0_15_0");
 			});
+			
+			$("#go1").on("click", function() {
+				postPagination("/media/photo_list_" + $("#to_page1").val() + "_15_0");
+			});
+			
+			$("#go2").on("click", function() {
+				postPagination("/media/photo_list_" + $("#to_page2").val() + "_15_0");
+			});		
 		});
 		
 		function postPagination(url) {

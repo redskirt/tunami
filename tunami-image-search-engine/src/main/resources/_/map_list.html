@@ -71,18 +71,6 @@
 									</a>
 								</div>
 							</div>
-							<div class="body-nest">
-								<div id="message-true" class="alert alert-success" style="display: block;">
-									<button data-dismiss="alert" class="close" type="button">×</button>
-									<span class="entypo-thumbs-up"></span> 
-									<strong>Well done!</strong>
-								</div>
-								<div id="message-false" class="alert alert-danger" style="display: none;">
-									<button data-dismiss="alert" class="close" type="button">×</button>
-									<span class="entypo-attention"></span> 
-									<strong>Oh snap!</strong>
-								</div>
-							</div>
 							<div class="body-nest" id="Filtering">
 								<div class="row" style="margin-bottom: 10px;">
 									<form id="form-pagination" method="post">
@@ -100,14 +88,11 @@
 											</select>
 										</div>
 										<div class="col-sm-6">
-											<a id="btn-reset" style="margin-left: 10px;" class="pull-right btn btn-info clear-filter" title="">重置</a>
-											<a id="btn-search" style="margin-left: 10px;" class="pull-right btn btn-info clear-filter" title="">搜索</a>
+<!-- 											<a id="btn-reset" style="margin-left: 10px;" class="pull-right btn btn-info clear-filter" title="">重置</a> -->
+											<a id="btn-search" style="margin-left: 10px;" class="pull-right btn btn-info clear-filter">搜索</a>
 										</div>
 									</form>
 								</div>
-								
-								<!-- data-limit-navigation="12"  data-filter="#filter" data-filter-text-only="true"-->
-								<!-- id="footable-res2" 绑定搜索事件 -->
 								
 								<table id="footable-res2" class="demo" data-filter="#filter" data-filter-text-only="true" data-page-size="15">
 									<thead>
@@ -117,6 +102,7 @@
 											<th>image id</th>
 											<th>city</th>
 											<th>year</th>
+											<th>remark</th>
 											
 											<th data-hide="phone,tablet">original title</th>
 											<th data-hide="phone,tablet">transliteration</th>
@@ -129,12 +115,21 @@
 											<th data-hide="phone,tablet">map type</th>
 											<th data-hide="phone,tablet">publishers</th>
 											<th data-hide="phone,tablet">repository</th>
-											
-<!-- 											<th data-hide="phone,tablet">remark</th> -->
 										</tr>
 									</thead>
                                     	<tbody>
-										<tr th:id="${iterStat.count}" th:each="o,iterStat : ${list}">
+										<tr>
+											<td colspan="6">
+												<div id="html_pagination_" class="pagination pagination-centered">
+												</div>
+												
+												<div style="color: black; width: 200px; display: inline-block; bottom: 10px; position: relative;">
+													前往第<input style="width:50px; display: inline-block;" class="form-control" id="to_page1" name="to_page1" type="text">页
+													<button id="go1" name="go1" class="btn btn-success" type="button">Go</button>
+												</div>
+											</td>
+										</tr> 
+										<tr th:each="o,iterStat : ${list}">
 											<td>
 												<input id="id" th:value="@{${o.id}}" style="display: none;"/>
 												<span class="status-metro status-disabled" th:text="${iterStat.count}"></span>
@@ -144,7 +139,7 @@
 												<div class="mag-eg-el-wrap">
 													<div class="img-thumbnail">
 														<div mag-thumb="inner-inline" mag-flow="inline" class="mag-eg-el">
-															<img th:src="@{'/assets/map/' + ${o.city}+'/' + ${o.image_name}}" style="width: 400px; max-width: 100%; height: auto;" />
+															<img th:src="@{'/assets/map/' + ${o.city}+'/' + ${o.image_name}}" style="width: 300px; max-width: 100%; height: auto;" />
 														</div>
 														<div mag-zoom="inner-inline" class="mag-eg-el">
 															<img th:src="@{'/assets/map/' + ${o.city} + '/' + ${o.image_name}}" />
@@ -155,6 +150,21 @@
 											<td th:text="${o.image_id}"></td>
 											<td th:text="${o.city}"></td>
 											<td th:text="${o.year}"></td>
+											<td>
+												<form role="form" class="form-inline">
+													<input type="text" th:value="@{${o.remark}}" style="display: none;"/>
+													<textarea style="width: 300px;" th:placeholder="@{${o.remark}}" class="form-control"></textarea>
+													<button name="btn-remark" class="btn btn-success" type="button">修改</button>
+												</form>
+												<div id="message-true" class="alert alert-success" style="display: block; width: 150px; margin-top: 10px;">
+													<span class="entypo-thumbs-up"></span> 
+													<strong>修改成功!</strong>
+												</div>
+												<div id="message-false" class="alert alert-danger" style="display: none; width: 150px; margin-top: 10px;">
+													<span class="entypo-attention"></span> 
+													<strong>有问题!</strong>
+												</div>
+											</td>
 											
 											<td th:text="${o.original_title}"></td>
 											<td th:text="${o.transliteration}"></td>
@@ -165,28 +175,18 @@
 											<td th:text="${o.collection}"></td>
 											<td th:text="${o.place_of_publication}"></td>
 											<td th:text="${o.map_type}"></td>
-											<td th:text="${o.repository}"></td>
 											<td th:text="${o.publishers}"></td>
-											
-<!-- 											<td> -->
-<!-- 												<form th:id="@{'form-'+${iterStat.count}}" role="form" class="form-inline"> -->
-<!-- 													<div class="form-group"> -->
-<!-- 														<textarea th:id="@{'remark_'+${o.id}}" style="width: 300px;" th:placeholder="@{${o.remark}}" class="form-control"></textarea> -->
-<!-- 														<input type="text" th:id="@{'remark'+${o.id}}" th:value="@{${o.remark}}" style="display: none;"/> -->
-<!-- 														<input type="text" th:id="@{'naming'+${o.id}}" th:value="@{${o.remark}}" style="display: none;"/> -->
-<!-- 														<input type="text" th:id="@{'remark_'+${o.id}}" th:name="@{'remark_'+${o.id}}" value="" /> -->
-<!-- 														<input th:id="@{'naming_'+${o.id}}" th:name="@{'naming_'+${o.id}}" th:value="@{${o.remark}}" /> -->
-<!-- 													</div> -->
-<!-- 													modifyRemark(' + ${o.id} + ', \'' + ${o.city} + '\', \'' + ${o.remark} + '\'); -->
-<!-- 													<button th:onclick="@{'javascript:show('+${o.id}+')'}" class="btn btn-success" type="button">修改</button> -->
-<!-- 												</form> -->
-<!-- 											</td> -->
+											<td th:text="${o.repository}"></td>
                                      	</tr>
 									</tbody>
 									<tfoot>
 										<tr>
-											<td colspan="5">
+											<td colspan="6">
 												<div id="html_pagination" class="pagination pagination-centered">
+												</div>
+												<div style="color: black; width: 200px; display: inline-block; bottom: 10px; position: relative;">
+													前往第<input style="width:50px; display: inline-block;" class="form-control" id="to_page2" name="to_page2" type="text">页
+													<button id="go2" name="go2" class="btn btn-success" type="button">Go</button>
 												</div>
 											</td>
 										</tr> 
@@ -202,6 +202,7 @@
 			<!-- FOOTER -->
 			<div th:include="~{_scaffold_ :: footer}"></div>
 			<!-- / END OF FOOTER -->
+			
 		</div>
 	</div>
 	<!--  END OF PAPER WRAP -->
@@ -235,28 +236,29 @@
     	/*<![CDATA[*/
         var html_pagination = [[${html_pagination}]];
     	
-// 		function show(i) {
-// 			alert($("#"+i+">td:last").find("#remark_"+i).val());
-// 			alert($("#"+i+">td:last #remark_"+i).val());
-// 			alert($("#"+i+">td:last input:eq(0)").val());
-// 			alert($("#"+i+">td:last").find("#naming_"+i).val());
-// 		}
-
-
 		$(document).ready(function () {
 			$("#html_pagination").html(html_pagination);
+			$("#html_pagination_").html(html_pagination);
 			
-// 			$("#sumbit-modify-1").on("click", function() {
-// 				alert($(this).val());
-// 			});
+			$('#footable-res2').footable();
 
 			$("#btn-search").on("click", function() {
 				postPagination("/media/map_list_0_15_0");
 			});
 
-// 			$("#btn-reset").on("click", function() {
+			$("#go1").on("click", function() {
+				postPagination("/media/map_list_" + $("#to_page1").val() + "_15_0");
+			});
 			
-// 			});
+			$("#go2").on("click", function() {
+				postPagination("/media/map_list_" + $("#to_page2").val() + "_15_0");
+			});
+			
+    			$("[name='btn-remark']").on("click", function(){
+    				var source = $(this).prev().prev().val();
+    				var current = $(this).prev().val();
+    				
+	    		});
 		});
 		
 		function postPagination(url) {
@@ -296,10 +298,5 @@
 		/*]]>*/
     </script>
     
-    <script type="text/javascript">
-    $(function() {
-        $('#footable-res2').footable();
-    });
-    </script>
 </body>
 </html>

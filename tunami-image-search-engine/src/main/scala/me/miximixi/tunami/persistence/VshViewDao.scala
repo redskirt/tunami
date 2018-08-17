@@ -78,7 +78,7 @@ class VshViewDao extends JdbcTemplateHandler with DB {
             )
             """
       }
-      order by id asc
+      order by SUBSTR(image_id, 4) + 0 asc
       ${ limit_? } 
       """, city, like(keyword), like(keyword), like(keyword), limit._1, limit._2) { (rs, i) =>
 

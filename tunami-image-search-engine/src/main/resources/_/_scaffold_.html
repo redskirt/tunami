@@ -26,19 +26,23 @@
 <!-- TOP NAVBAR -->
 	<nav role="navigation" class="navbar navbar-static-top">
 		<div class="container-fluid">
-			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
-				<button data-target="#bs-example-navbar-collapse-1"
-					data-toggle="collapse" class="navbar-toggle" type="button">
+				<button data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" class="navbar-toggle" type="button">
 					<span class="entypo-menu"></span>
 				</button>
-				<button class="navbar-toggle toggle-menu-mobile toggle-left"
-					type="button">
+				
+				<button class="navbar-toggle toggle-menu-mobile toggle-left" type="button">
 					<span class="entypo-list-add"></span>
 				</button>
-
+				
+				<div id="logo" style="top: 0px; left: -200px; font-style: italic;">
+					<h1 style="width: 1000px;">
+						TUNAMI<span>v1.0</span>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						欢迎使用开卷文化图片库管理系统
+					</h1>
+				</div>
 			</div>
-
 		</div>
 		<!-- /.container-fluid -->
 	</nav>
@@ -48,14 +52,10 @@
 <div th:fragment="side_menu">
 	<!-- SIDE MENU -->
 	<div id="skin-select">
-		<div id="logo">
-			<h1>
-				TUNAMI<span>v1.0</span>
-			</h1>
-		</div>
-
-		<a id="toggle"> <span class="entypo-menu"></span>
+		<a id="toggle"> 
+			<span class="entypo-menu"></span>
 		</a>
+		
 		<div class="dark">
 			<form action="#">
 				<span> <input type="text" name="search" value=""
