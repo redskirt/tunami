@@ -60,7 +60,7 @@ class VshViewMap extends C {
   var remark: String = _
   
   @BeanProperty
-  var naming: String = _
+  var retitle: String = _
   
   @BeanProperty
   var image_name: String = _
@@ -121,7 +121,7 @@ class VshView extends C {
   var remark: String = _
   
   @BeanProperty
-  var naming: String = _
+  var retitle: String = _
   
   @BeanProperty
   var page_id: String = _

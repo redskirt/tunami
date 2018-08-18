@@ -38,7 +38,7 @@ trait UsefulController { self =>
   protected final val $verify = "verify"
   protected final val $message = "message"
   protected def reply(verify: Boolean, message: String): JsonNode = 
-    ($verify -> verify) ~ ($message -> $message)
+    ($verify -> verify) ~ ($message -> message)
 
   protected implicit def autoAsJsonNode(value: JValue): JsonNode = asJsonNode(value)
   

@@ -1,5 +1,9 @@
 package me.miximixi.tunami.controller
 
+import org.json4s.JsonAST.JNull
+import org.json4s.JsonAST.JValue
+import org.json4s.JsonDSL._
+import org.json4s.jackson.JsonMethods._
 import org.junit.runner.RunWith
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.boot.test.context.SpringBootTest
@@ -83,9 +87,10 @@ class MockMvcControllerTestCase {
     //        .andDo(print())
 
         println(">> With mock session:")
-        mockMvc.perform(post("/media/map_list_0_10_0").session(mockSession).param("keyword", "南京").param("city", ""))
-          .andExpect(status.isOk())
-          .andDo(print)
+//        mockMvc.perform(post("/media/map_list_0_10_0").session(mockSession).param("keyword", "南京").param("city", ""))
+//          .andExpect(status.isOk())
+//          .andDo(print)
+        
   }
   
 //  @Test

@@ -40,7 +40,7 @@ class VshViewDao extends JdbcTemplateHandler with DB {
       select 
         id,
         remark,
-        naming,
+        retitle,
         page_id,
         image_id,
         image_name,
@@ -85,7 +85,7 @@ class VshViewDao extends JdbcTemplateHandler with DB {
       val map = new VshView
       map.setId(Int.box(rs.getInt(1)))
       map.setRemark(rs.getString(2))
-      map.setNaming(rs.getString(3))
+      map.setRetitle(rs.getString(3))
       map.setPage_id(rs.getString(4))
       map.setImage_id(rs.getString(5))
       map.setImage_name(rs.getString(6))
@@ -110,4 +110,12 @@ class VshViewDao extends JdbcTemplateHandler with DB {
       map.setRelated_image(rs.getString(25))
       map
     }
+
+  def update(o: VshView): Int =
+    jdbcTemplate.update(s"""
+        update $attr_vsh_view
+        set remark=?
+        where true
+        and id=?
+        """, o.remark, o.id)
 }

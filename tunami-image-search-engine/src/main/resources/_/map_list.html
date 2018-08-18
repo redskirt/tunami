@@ -131,7 +131,6 @@
 										</tr> 
 										<tr th:each="o,iterStat : ${list}">
 											<td>
-												<input id="id" th:value="@{${o.id}}" style="display: none;"/>
 												<span class="status-metro status-disabled" th:text="${iterStat.count}"></span>
 												<a th:href="@{'/media/map/download_' + ${o.city} + '_' + ${o.image_name}}" class="pull-right btn btn-info">下载</a>
 											</td> 
@@ -152,17 +151,18 @@
 											<td th:text="${o.year}"></td>
 											<td>
 												<form role="form" class="form-inline">
-													<input type="text" th:value="@{${o.remark}}" style="display: none;"/>
-													<textarea style="width: 300px;" th:placeholder="@{${o.remark}}" class="form-control"></textarea>
+													<input th:value="@{${o.id}}" style="display: none;"/>
+													<input th:value="@{${o.remark}}" style="display: none;"/>
+													<textarea style="width: 300px;" th:text="${o.remark}" class="form-control"></textarea>
 													<button name="btn-remark" class="btn btn-success" type="button">修改</button>
 												</form>
-												<div id="message-true" class="alert alert-success" style="display: block; width: 150px; margin-top: 10px;">
+												<div id="message-true" class="alert alert-success" style="display: none; width: 150px; margin-top: 10px;">
 													<span class="entypo-thumbs-up"></span> 
-													<strong>修改成功!</strong>
+													<strong></strong>
 												</div>
 												<div id="message-false" class="alert alert-danger" style="display: none; width: 150px; margin-top: 10px;">
 													<span class="entypo-attention"></span> 
-													<strong>有问题!</strong>
+													<strong></strong>
 												</div>
 											</td>
 											
@@ -255,44 +255,40 @@
 			});
 			
     			$("[name='btn-remark']").on("click", function(){
-    				var source = $(this).prev().prev().val();
-    				var current = $(this).prev().val();
+    				var trigger = $(this);
+    				var id = trigger.siblings(":eq(0)").val();
+    				var remark = trigger.siblings(":eq(1)").val();
+    				var remark_ = trigger.siblings(":eq(2)").val();
     				
-	    		});
+    				$.ajax({
+    				    url: "/media/ajaxRemark",
+    				    data: JSON.stringify({
+    				    		id: parseInt(id),
+    				    		type: "map",
+    				    		remark: remark,
+    				    		remark_ : remark_
+    				    }),
+    				    	dataType: "json",
+    				    	type: "POST",
+    				    	contentType: "application/json",
+   	 			    	success: function (data) {
+   	 			    		var dialog;
+   	 					if(data.verify) {
+   	 						dialog = trigger.parent().siblings(".alert-success")
+   	 					} else {
+   	 						dialog = trigger.parent().siblings(".alert-danger")
+   	 					}
+						dialog.children("strong").html(data.message);
+						dialog.show();
+						setTimeout(function(){ dialog.hide(); }, 2000);
+   	 	       	 	}
+    		    		}); 
+    			});
 		});
 		
 		function postPagination(url) {
 			$("#form-pagination").attr("action", url);
 			$("#form-pagination").submit();
-		}
-		
-		function modifyRemark(id, city, remark) {
-			alert($("#remark_1").val());
-			$.ajax({
-			    url: "/media/ajaxRemark",
-			    data: JSON.stringify({
-			    		id: id,
-			    		city: city,
-			    		remark: remark,
-			    		remark_ : $("#remark_" + id).val()
-			    }),
-			    	dataType: "json",
-			    	type: "POST",
-			    	contentType: "application/json"
-			    	//,
-// 			    	success: function (data) {
-// 					if(data.verify) {
-// // 						$("#message-true-text").html(data.message);  
-// // 						$("#message-true").show();
-// 						$("#message-true").css("display", "inline-block");
-// 						setTimeout('$("#message-true").hide()', 2000);
-// 					} else {
-// // 						$("#message-false-text").html(data.message);
-// 						$("#message-false").css("display", "inline-block"); 
-// 						setTimeout('$("#message-false").hide()', 2000);
-// 					}
-// 	       	 	}
-	    		}); 
 		}
 		
 		/*]]>*/

@@ -56,7 +56,7 @@ class VshViewMapDao extends JdbcTemplateHandler with DB with ScalaEntity {
         publishers,
         repository,
     		  place_of_publication,
-        naming,
+        retitle,
       		remark
       from $attr_vsh_view_map
       where true
@@ -97,7 +97,7 @@ class VshViewMapDao extends JdbcTemplateHandler with DB with ScalaEntity {
         ("publishers", rs.getString(14), CLASS_STRING),
         ("repository", rs.getString(15), CLASS_STRING),
         ("place_of_publication", rs.getString(16), CLASS_STRING),
-        ("naming", rs.getString(16), CLASS_STRING),
+        ("retitle", rs.getString(16), CLASS_STRING),
         ("remark", rs.getString(18), CLASS_STRING)))
     }
       

@@ -48,5 +48,9 @@ class ControllerSpec extends FlatSpec with Matchers with MockFactory {
     
     assert(expected == result)
   }
+  
+  "POST /ajaxRemark" should "return ture" in {
+    
+  }
 
 }

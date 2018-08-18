@@ -16,6 +16,7 @@ import me.miximixi.tunami.persistence.VshViewMapDao
 import me.miximixi.tunami.poso.VshViewMap
 import me.miximixi.tunami.service.VshViewMapService
 import org.springframework.core.io.InputStreamResource
+import me.miximixi.tunami.poso.VshView
 
 /**
  * @Author Sasaki
@@ -88,15 +89,28 @@ class MultiMediaController extends UsefulController with PaginationHandler {
   @PostMapping(Array("/ajaxRemark"))
   def ajaxRemark(@RequestBody body: JsonNode): JsonNode =
     ajaxHandler(body) { json =>
-      (json \ "id", json \ "remark", json \ "remark_") match {
-        case (JInt(id), JString(remark), JString(remark_)) => {
-          if (remark != remark_) {
-            val o = new VshViewMap
-            o.id = id.toInt
-            o.remark = remark
-            vshViewMapDao.update(o)
-          }
-          reply(true, "修改成功。")
+      (json \ "id", json \ "remark", json \ "remark_", json \ "type") match {
+        case (JInt(id), JString(remark), JString(remark_), JString(tipe)) => {
+          val result = if (remark != remark_) {
+            if("map" == tipe) {
+              val o = new VshViewMap
+              o.setId(id.toInt)
+              o.setRemark(remark_)
+              vshViewMapDao.update(o)
+            } else if ("city" == tipe) {
+              val o = new VshView
+              o.setId(id.toInt)
+              o.setRemark(remark_)
+              vshViewDao.update(o)
+            } else 
+              0
+          } else
+            1
+
+          if (0 != result)
+            reply(true, "修改成功。")
+          else
+            reply(false, "修改异常！")
         }
         case _ => reply(false, "修改异常！")
       }
