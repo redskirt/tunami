@@ -102,7 +102,6 @@
 											</select>
 										</div>
 										<div class="col-sm-6">
-											<a id="btn-reset" style="margin-left: 10px;" class="pull-right btn btn-info clear-filter" title="">重置</a>
 											<a id="btn-search" style="margin-left: 10px;" class="pull-right btn btn-info clear-filter" title="">搜索</a>
 										</div>
 									</form>
@@ -116,6 +115,7 @@
 											<th>image id</th>
 											<th>city</th>
 											<th>year</th>
+											<th>remark</th>
 
 											<th data-hide="phone,tablet">title</th>
 											<th data-hide="phone,tablet">extent</th>
@@ -133,7 +133,7 @@
 									</thead>
 									<tbody>
 										<tr>
-											<td colspan="5">
+											<td colspan="6">
 												<div id="html_pagination_" class="pagination pagination-centered">
 												</div>
 												<div style="color: black; width: 200px; display: inline-block; bottom: 10px; position: relative;">
@@ -154,7 +154,7 @@
 														<div mag-thumb="inner-inline" mag-flow="inline" class="mag-eg-el">
 															<img 
 																th:src="@{'/assets/city/' + ${o.city} +'/' + ${o.image_name}}"
-																style="width: 400px; max-width: 100%; height: auto;" />
+																style="width: 300px; max-width: 100%; height: auto;" />
 														</div>
 														<div mag-zoom="inner-inline" class="mag-eg-el">
 															<img th:src="@{'/assets/city/' + ${o.city} + '/' + ${o.image_name}}" />
@@ -165,6 +165,22 @@
 											<td th:text="${o.image_id}"></td>
 											<td th:text="${o.city}"></td>
 											<td th:text="${o.year}"></td>
+											<td>
+												<form role="form" class="form-inline">
+													<input th:value="@{${o.id}}" style="display: none;"/>
+													<input th:value="@{${o.remark}}" style="display: none;"/>
+													<textarea style="width: 300px;" th:text="${o.remark}" class="form-control"></textarea>
+													<button name="btn-remark" class="btn btn-success" type="button">修改</button>
+												</form>
+												<div id="message-true" class="alert alert-success" style="display: none; width: 150px; margin-top: 10px;">
+													<span class="entypo-thumbs-up"></span> 
+													<strong></strong>
+												</div>
+												<div id="message-false" class="alert alert-danger" style="display: none; width: 150px; margin-top: 10px;">
+													<span class="entypo-attention"></span> 
+													<strong></strong>
+												</div>
+											</td>
 											
 											<td th:text="${o.title}"></td>
 											<td th:text="${o.extent}"></td>
@@ -181,7 +197,7 @@
 									</tbody>
 									<tfoot>
 										<tr>
-											<td colspan="5">
+											<td colspan="6">
 												<div id="html_pagination" class="pagination pagination-centered"></div>
 												<div style="color: black; width: 200px; display: inline-block; bottom: 10px; position: relative;">
 													前往第<input style="width:50px; display: inline-block;" class="form-control" id="to_page2" name="to_page2" type="text">页
@@ -250,6 +266,38 @@
 			$("#go2").on("click", function() {
 				postPagination("/media/photo_list_" + $("#to_page2").val() + "_15_0");
 			});		
+			
+			$("[name='btn-remark']").on("click", function(){
+				var trigger = $(this);
+				var id = trigger.siblings(":eq(0)").val();
+				var remark = trigger.siblings(":eq(1)").val();
+				var remark_ = trigger.siblings(":eq(2)").val();
+				
+				$.ajax({
+				    url: "/media/ajaxRemark",
+				    data: JSON.stringify({
+				    		id: parseInt(id),
+				    		type: "city",
+				    		remark: remark,
+				    		remark_ : remark_
+				    }),
+				    	dataType: "json",
+				    	type: "POST",
+				    	contentType: "application/json",
+	 			    	success: function (data) {
+	 			    		var dialog;
+	 					if(data.verify) {
+	 						dialog = trigger.parent().siblings(".alert-success")
+	 					} else {
+	 						dialog = trigger.parent().siblings(".alert-danger")
+	 					}
+					dialog.children("strong").html(data.message);
+					dialog.show();
+					setTimeout(function(){ dialog.hide(); }, 2000);
+	 	       	 	}
+		    		}); 
+			});
+			
 		});
 		
 		function postPagination(url) {
