@@ -7,6 +7,7 @@ import me.miximixi.tunami.persistence.ImageContentDao
 import org.springframework.beans.factory.annotation.Autowired
 import org.junit.Test
 import me.miximixi.tunami.persistence.VshViewMapDao
+import me.miximixi.tunami.persistence.VshViewDao
 import scala.collection.JavaConverters._
 import me.miximixi.tunami.kit.PaginationHandler
 import me.miximixi.tunami.poso.VshViewMap
@@ -26,7 +27,7 @@ class DaoTestCase extends PaginationHandler {
   @Autowired
   var vshViewMapDao: VshViewMapDao = _
   @Autowired
-  var vshViewDao: VshViewMapDao = _
+  var vshViewDao: VshViewDao = _
   
 
   val page = new Pagination(100, 1, 18, 10)
@@ -35,12 +36,12 @@ class DaoTestCase extends PaginationHandler {
   @Test
   def testListImageContent: Unit = {
     //    imageContentDao.list() foreach println
-//        vshViewMapDao.list("TJN", "", page.limit).asScala.foreach(o => println(o.id + " " + o.city + " " + o.original_title))
-//        vshViewMapDao.list("__", "__", page.limit).asScala.foreach(o => println(o.id + " " + o.city + " " + o.original_title))
+//        vshViewMapDao.list("__", "上海", page.limit).asScala.foreach(o => println(o.id + " " + o.city + " " + o.original_title))
+        vshViewDao.list("__", "标记", page.limit).asScala.foreach(o => println(o.id + " " + o.city))
 //        println(vshViewMapDao.count("TJN"))
-    val o = new VshViewMap
-    o.id = 1
-    o.remark = "___aa"
-    vshViewMapDao.update(o)
+//    val o = new VshViewMap
+//    o.id = 1
+//    o.remark = "___aa"
+//    vshViewMapDao.update(o)
   }
 }

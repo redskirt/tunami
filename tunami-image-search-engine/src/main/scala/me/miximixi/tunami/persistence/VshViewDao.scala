@@ -24,16 +24,24 @@ class VshViewDao extends JdbcTemplateHandler with DB {
       ${ not_null("image_id") }
       ${
         if (__ == keyword)
-          s"${ and_? }\n${ and_? }\n${ and_? }"
+          s"${ and_? }\n${ and_? }\n${ and_? }\n${ and_? }\n${ and_? }"
         else """
-            and(
-              title like ?
+            	and (
+              	title like ?
               	or notes like ?
               	or year like ?
+              	or image_id like ?
+              	or remark like ?
             )
             """
       }    
-      """, city, like(keyword), like(keyword), like(keyword)) { (rs, i) => rs.getInt(1) }.headOption
+      """, 
+      city, 
+      like(keyword), 
+      like(keyword), 
+      like(keyword), 
+      like(keyword), 
+      like(keyword)) { (rs, i) => rs.getInt(1) }.headOption
     
   def list(city: String = __, keyword: String = __, limit: Tuple2[JInt, JInt]): JList[VshView] =
     queryJList(s"""
@@ -69,18 +77,28 @@ class VshViewDao extends JdbcTemplateHandler with DB {
       ${ not_null("image_id") }
       ${
         if (__ == keyword)
-          s"${ and_? }\n${ and_? }\n${ and_? }"
+          s"${ and_? }\n${ and_? }\n${ and_? }\n${ and_? }\n${ and_? }"
         else """
             	and (
               	title like ?
               	or notes like ?
               	or year like ?
+              	or image_id like ?
+              	or remark like ?
             )
             """
       }
       order by SUBSTR(image_id, 4) + 0 asc
       ${ limit_? } 
-      """, city, like(keyword), like(keyword), like(keyword), limit._1, limit._2) { (rs, i) =>
+      """, 
+      city, 
+      like(keyword), 
+      like(keyword), 
+      like(keyword), 
+      like(keyword), 
+      like(keyword), 
+      limit._1, 
+      limit._2) { (rs, i) =>
 
       val map = new VshView
       map.setId(Int.box(rs.getInt(1)))

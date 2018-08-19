@@ -40,7 +40,7 @@ class MultiMediaController extends UsefulController with PaginationHandler {
 
   @GetMapping(Array("/photo_list_{current}_{size}_{countPage}")) 
   def photo_list(model: Model, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int): ModelAndView = 
-    photo_list(model, __, __, current, size, countPage)
+    photo_list(model, __ trim, __ trim, current, size, countPage)
     
   @PostMapping(Array("/photo_list_{current}_{size}_{countPage}"))
   def photo_list(model: Model, @RequestParam keyword: String, @RequestParam city: String, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int): ModelAndView = {
@@ -74,7 +74,7 @@ class MultiMediaController extends UsefulController with PaginationHandler {
   
   @GetMapping(Array("/map_list_{current}_{size}_{countPage}")) 
   def map_list(model: Model, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int): ModelAndView = 
-    map_list(model, __, __, current, size, countPage)
+    map_list(model, __ trim, __ trim, current, size, countPage)
   
   @org.springframework.beans.factory.annotation.Value("${value.repository}")
   private var repository: String = _
