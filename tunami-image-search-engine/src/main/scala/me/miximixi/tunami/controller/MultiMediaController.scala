@@ -57,6 +57,25 @@ class MultiMediaController extends UsefulController with PaginationHandler {
     dispatch("photo_list")
   } 
   
+  @GetMapping(Array("/photo_list2_{current}_{size}_{countPage}")) 
+  def photo_list2(model: Model, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int): ModelAndView = 
+    photo_list2(model, __ trim, __ trim, current, size, countPage)
+  
+  @PostMapping(Array("/photo_list2_{current}_{size}_{countPage}"))
+  def photo_list2(model: Model, @RequestParam keyword: String, @RequestParam city: String, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int): ModelAndView = {
+    val count = vshViewDao.count(city, keyword).getOrElse(0)
+    val page = new Pagination(count, current, size, countPage)
+    val html_pagination = buildPaginateTag("/media/photo_list2", page)
+    val list = vshViewDao.list(city, keyword, page.limit)
+
+    model.addAttribute("city", city)
+    model.addAttribute("keyword", if (__ == keyword) "" else keyword)
+    model.addAttribute("list", list)
+    model.addAttribute("html_pagination", html_pagination)
+
+    dispatch("photo_list2")
+  } 
+  
   @PostMapping(Array("/map_list_{current}_{size}_{countPage}")) 
   def map_list(model: Model, @RequestParam keyword: String, @RequestParam city: String, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int): ModelAndView = {
     val count = vshViewMapDao.count(city, keyword).getOrElse(0)

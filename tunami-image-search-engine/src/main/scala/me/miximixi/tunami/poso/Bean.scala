@@ -113,6 +113,9 @@ class VshViewMap extends C {
   @BeanProperty
   var publishers: String = _
   
+  @BeanProperty
+  var source: String = _
+  
 }
 
 class VshView extends C {
@@ -188,5 +191,55 @@ class VshView extends C {
 
   @BeanProperty
   var related_image: String = _
+  
+  @BeanProperty
+  var source: String = _
+  
+  @BeanProperty
+  var indentifier: String = _
+  
+  @BeanProperty
+  var copyright: String = _
+  
+  @BeanProperty
+  var dimensions: String = _
+  
+  @BeanProperty
+  var media: String = _
+  
+  @BeanProperty
+  var tags: String = _
+}
 
+class Bristol extends C {
+  
+  @BeanProperty
+  var original_image_name: String = _
+  
+  @BeanProperty
+  var title: String = _
+  
+  @BeanProperty
+  var collection: String = _
+  
+  @BeanProperty
+  var estimated_date: String = _
+  
+  @BeanProperty
+  var identifier: String = _
+  
+  @BeanProperty
+  var copyright: String = _
+  
+  @BeanProperty
+  var media: String = _
+  
+  @BeanProperty
+  var tag: String = _
+  
+  @BeanProperty
+  var note: String = _
+  
+  @BeanProperty
+  var remark: String = _
 }

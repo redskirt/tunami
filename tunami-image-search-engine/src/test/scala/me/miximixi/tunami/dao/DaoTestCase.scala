@@ -11,6 +11,7 @@ import me.miximixi.tunami.persistence.VshViewDao
 import scala.collection.JavaConverters._
 import me.miximixi.tunami.kit.PaginationHandler
 import me.miximixi.tunami.poso.VshViewMap
+import me.miximixi.tunami.poso.VshView
 
 /**
  * @Author Sasaki
@@ -43,5 +44,22 @@ class DaoTestCase extends PaginationHandler {
 //    o.id = 1
 //    o.remark = "___aa"
 //    vshViewMapDao.update(o)
+  }
+  
+  @Test
+  def testLoad: Unit = {
+   scala.io.Source.fromFile("/Users/sasaki/Desktop/t.txt").getLines()
+   .foreach { o =>
+     println(o)
+     val array = o.split("\t")
+//     println(array)
+     if(2 == array.size) {
+       val v = new VshView
+     v.setImage_id(array(0))
+     v.setRemark(array(1))
+     vshViewDao.update(v)
+     }
+     
+   }
   }
 }

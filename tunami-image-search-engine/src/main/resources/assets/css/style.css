@@ -448,12 +448,12 @@ input:-webkit-autofill, textarea:-webkit-autofill {
 .form-control {
     background-color: #FFFFFF;
     background-image: none;
-    border: 1px solid !important;
+/*     border: 1px solid !important; */
     border-radius: 4px;
     box-shadow: none !important;
-    color: #C7D5E0 !important;
+/*     color: #C7D5E0 !important; */
     font-size: 13px !important;
-    height: 31px !important;
+/*     height: 31px !important; */
 }
 .form-update {
     background-color: #FFFFFF;
