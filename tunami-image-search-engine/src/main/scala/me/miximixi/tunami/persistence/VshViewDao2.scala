@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository
 @Repository
 class VshViewDao2 extends JdbcTemplateHandler with DB {
   
-  def count(city: String = __, keyword: String = __): Option[Int] = 
+  def count(keyword: String = __): Option[Int] = 
     query(s"""
       $count_from
         $attr_bristol
@@ -40,7 +40,7 @@ class VshViewDao2 extends JdbcTemplateHandler with DB {
       like(keyword), 
       like(keyword)) { (rs, i) => rs.getInt(1) }.headOption
     
-  def list(city: String = __, keyword: String = __, limit: Tuple2[JInt, JInt]): JList[Bristol] =
+  def list(keyword: String = __, limit: Tuple2[JInt, JInt]): JList[Bristol] =
     queryJList(s"""
       select 
         id,
@@ -72,7 +72,6 @@ class VshViewDao2 extends JdbcTemplateHandler with DB {
       order by id asc
       ${ limit_? } 
       """, 
-      city, 
       like(keyword), 
       like(keyword), 
       like(keyword), 
@@ -82,17 +81,17 @@ class VshViewDao2 extends JdbcTemplateHandler with DB {
       limit._2) { (rs, i) =>
 
       val o = new Bristol
-      o.setId(rs.getInt(0))
-      o.setOriginal_image_name(rs.getString(1))
-      o.setTitle(rs.getString(2))
-      o.setCollection(rs.getString(3))
-      o.setEstimated_date(rs.getString(4))
-      o.setNote(rs.getString(5))
-      o.setIdentifier(rs.getString(6))
-      o.setCopyright(rs.getString(7))
-      o.setMedia(rs.getString(8))
-      o.setTag(rs.getString(9))
-      o.setRemark(rs.getString(10))
+      o.setId(rs.getInt(1))
+      o.setOriginal_image_name(rs.getString(2))
+      o.setTitle(rs.getString(3))
+      o.setCollection(rs.getString(4))
+      o.setEstimated_date(rs.getString(5))
+      o.setNote(rs.getString(6))
+      o.setIdentifier(rs.getString(7))
+      o.setCopyright(rs.getString(8))
+      o.setMedia(rs.getString(9))
+      o.setTag(rs.getString(10))
+      o.setRemark(rs.getString(11))
       o
     }
 

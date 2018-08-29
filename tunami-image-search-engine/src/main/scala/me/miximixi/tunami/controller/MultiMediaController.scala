@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.JsonNode
 
 import me.miximixi.tunami.kit.PaginationHandler
 import me.miximixi.tunami.persistence.VshViewDao
+import me.miximixi.tunami.persistence.VshViewDao2
 import me.miximixi.tunami.persistence.VshViewMapDao
 import me.miximixi.tunami.poso.VshViewMap
 import me.miximixi.tunami.service.VshViewMapService
@@ -34,6 +35,8 @@ class MultiMediaController extends UsefulController with PaginationHandler {
   var vshViewMapDao: VshViewMapDao = _
   @Autowired
   var vshViewDao: VshViewDao = _
+  @Autowired
+  var vshViewDao2: VshViewDao2 = _
   
   @GetMapping(Array("/photo_gallery"))
   def photo_gallery = dispatch("photo_gallery")
@@ -59,16 +62,15 @@ class MultiMediaController extends UsefulController with PaginationHandler {
   
   @GetMapping(Array("/photo_list2_{current}_{size}_{countPage}")) 
   def photo_list2(model: Model, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int): ModelAndView = 
-    photo_list2(model, __ trim, __ trim, current, size, countPage)
+    photo_list2(model, __ trim, current, size, countPage)
   
   @PostMapping(Array("/photo_list2_{current}_{size}_{countPage}"))
-  def photo_list2(model: Model, @RequestParam keyword: String, @RequestParam city: String, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int): ModelAndView = {
-    val count = vshViewDao.count(city, keyword).getOrElse(0)
+  def photo_list2(model: Model, @RequestParam keyword: String, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int): ModelAndView = {
+    val count = vshViewDao2.count(keyword).getOrElse(0)
     val page = new Pagination(count, current, size, countPage)
     val html_pagination = buildPaginateTag("/media/photo_list2", page)
-    val list = vshViewDao.list(city, keyword, page.limit)
+    val list = vshViewDao2.list(keyword, page.limit)
 
-    model.addAttribute("city", city)
     model.addAttribute("keyword", if (__ == keyword) "" else keyword)
     model.addAttribute("list", list)
     model.addAttribute("html_pagination", html_pagination)
@@ -98,12 +100,11 @@ class MultiMediaController extends UsefulController with PaginationHandler {
   @org.springframework.beans.factory.annotation.Value("${value.repository}")
   private var repository: String = _
   
-  @GetMapping(Array("/{type}/download_{dir}_{filename}"))
+  @GetMapping(Array("/download_{dir}_{filename}"))
   def download(
       @PathVariable dir: String, 
-      @PathVariable filename: String, 
-      @PathVariable `type`: String): ResponseEntity[InputStreamResource] = 
-        download(s"$repository${|}${`type`}${|}$dir${|}$filename")
+      @PathVariable filename: String): ResponseEntity[InputStreamResource] = 
+        download(s"$repository${|}${ dir.replace("|", "/") }${|}$filename")
       
   @PostMapping(Array("/ajaxRemark"))
   def ajaxRemark(@RequestBody body: JsonNode): JsonNode =

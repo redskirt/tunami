@@ -132,16 +132,16 @@
 										<tr th:each="o,iterStat : ${list}">
 											<td>
 												<span class="status-metro status-disabled" th:text="${iterStat.count}"></span>
-												<a th:href="@{'/media/map/download_' + ${o.city} + '_' + ${o.image_name}}" class="pull-right btn btn-info">下载</a>
+												<a th:href="@{'/media/download_vsh|map|' + ${o.city} + '_' + ${o.image_name}}" class="pull-right btn btn-info">下载</a>
 											</td> 
 											<td>
 												<div class="mag-eg-el-wrap">
 													<div class="img-thumbnail">
 														<div mag-thumb="inner-inline" mag-flow="inline" class="mag-eg-el">
-															<img th:src="@{'/assets/map/' + ${o.city}+'/' + ${o.image_name}}" style="width: 300px; height: auto;" />
+															<img th:src="@{'/assets/vsh/map/' + ${o.city}+'/' + ${o.image_name}}" style="width: 300px; height: auto;" />
 														</div>
 														<div mag-zoom="inner-inline" class="mag-eg-el">
-															<img th:src="@{'/assets/map/' + ${o.city} + '/' + ${o.image_name}}" />
+															<img th:src="@{'/assets/vsh/map/' + ${o.city} + '/' + ${o.image_name}}" />
 														</div>
 													</div>
 												</div>

@@ -134,14 +134,14 @@
 											<td>
 												<input id="id" th:value="@{${o.id}}" style="display: none;" /> 
 												<span class="status-metro status-disabled" th:text="${iterStat.count}"></span> 
-												<a th:href="@{'/media/city/download_' + ${o.city} + '_' + ${o.image_name}}" class="pull-right btn btn-info">下载</a>
+												<a th:href="@{'/media/download_vsh|city|' + ${o.city} + '_' + ${o.image_name}}" class="pull-right btn btn-info">下载</a>
 											</td>
 											<td>
 												<div class="mag-eg-el-wrap">
 													<div class="img-thumbnail">
 														<div mag-thumb="inner-inline" mag-flow="inline" class="mag-eg-el">
 															<img 
-																th:src="@{'/assets/city/' + ${o.city} +'/' + ${o.image_name}}"
+																th:src="@{'/assets/vsh/city/' + ${o.city} +'/' + ${o.image_name}}"
 																style="width: 300px; height: auto;" />
 														</div>
 														<div mag-zoom="inner-inline" class="mag-eg-el">

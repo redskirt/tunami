@@ -79,17 +79,17 @@
 										<div class="col-sm-4">
 											<input class="form-control" id="filter" name="keyword" th:value="${keyword}" placeholder="Search..." type="text">
 										</div>
-										<div class="col-sm-2">
-											<select id="city" name="city" class="filter-status form-control">
-												<option value="__" th:selected="${city=='__'}">所有城市</option>
-												<option value="BJG" th:selected="${city=='BJG'}">北京</option>
-												<option value="SHI" th:selected="${city=='SHI'}">上海</option>
-												<option value="SZU" th:selected="${city=='SZU'}">苏州</option>
-												<option value="TJN" th:selected="${city=='TJN'}">天津</option>
-												<option value="HKU" th:selected="${city=='HKU'}">汉口</option>
-											</select>
-										</div>
-										<div class="col-sm-6">
+<!-- 										<div class="col-sm-2"> -->
+<!-- 											<select id="city" name="city" class="filter-status form-control"> -->
+<!-- 												<option value="__" th:selected="${city=='__'}">所有城市</option> -->
+<!-- 												<option value="BJG" th:selected="${city=='BJG'}">北京</option> -->
+<!-- 												<option value="SHI" th:selected="${city=='SHI'}">上海</option> -->
+<!-- 												<option value="SZU" th:selected="${city=='SZU'}">苏州</option> -->
+<!-- 												<option value="TJN" th:selected="${city=='TJN'}">天津</option> -->
+<!-- 												<option value="HKU" th:selected="${city=='HKU'}">汉口</option> -->
+<!-- 											</select> -->
+<!-- 										</div> -->
+										<div class="col-sm-5">
 											<a id="btn-search" style="margin-left: 10px;" class="pull-right btn btn-info clear-filter" title="">搜索</a>
 										</div>
 									</form>
@@ -100,28 +100,23 @@
 										<tr>
 											<th>index</th>
 											<th>thumbnail</th>
-											<th>image id</th>
-											<th>city</th>
-											<th>year</th>
+											<th>original image name</th>
+											<th>estimated date</th>
 											<th>remark</th>
 
 											<th data-hide="phone,tablet">title</th>
-											<th data-hide="phone,tablet">extent</th>
-											<th data-hide="phone,tablet">image type</th>
-											<th data-hide="phone,tablet">material form of image</th>
-											<th data-hide="phone,tablet">photographer</th>
+											<th data-hide="phone,tablet">collection</th>
+											<th data-hide="phone,tablet">identifier</th>
+											<th data-hide="phone,tablet">copyright</th>
+											<th data-hide="phone,tablet">media</th>
 
-											<th data-hide="phone,tablet">keywords en</th>
-											<th data-hide="phone,tablet">building</th>
-											<th data-hide="phone,tablet">private repository</th>
-											<th data-hide="phone,tablet">notes</th>
-											<th data-hide="phone,tablet">repository</th>
-
+											<th data-hide="phone,tablet">tag</th>
+											<th data-hide="phone,tablet">note</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr>
-											<td colspan="6">
+											<td colspan="5">
 												<div id="html_pagination_" class="pagination pagination-centered">
 												</div>
 												<div style="color: black; width: 200px; display: inline-block; bottom: 10px; position: relative;">
@@ -134,25 +129,24 @@
 											<td>
 												<input id="id" th:value="@{${o.id}}" style="display: none;" /> 
 												<span class="status-metro status-disabled" th:text="${iterStat.count}"></span> 
-												<a th:href="@{'/media/city/download_' + ${o.city} + '_' + ${o.image_name}}" class="pull-right btn btn-info">下载</a>
+												<a th:href="@{'/media/download_bristol_' + ${o.original_image_name}}" class="pull-right btn btn-info">下载</a>
 											</td>
 											<td>
 												<div class="mag-eg-el-wrap">
 													<div class="img-thumbnail">
 														<div mag-thumb="inner-inline" mag-flow="inline" class="mag-eg-el">
 															<img 
-																th:src="@{'/assets/city/' + ${o.city} +'/' + ${o.image_name}}"
+																th:src="@{'/assets/bristol/' + ${o.original_image_name}}"
 																style="width: 300px; height: auto;" />
 														</div>
 														<div mag-zoom="inner-inline" class="mag-eg-el">
-															<img th:src="@{'/assets/city/' + ${o.city} + '/' + ${o.image_name}}" />
+															<img th:src="@{'/assets/bristol/' + ${o.original_image_name}}" />
 														</div>
 													</div>
 												</div>
 											</td>
-											<td th:text="${o.image_id}"></td>
-											<td th:text="${o.city}"></td>
-											<td th:text="${o.year}"></td>
+											<td th:text="${o.original_image_name}"></td>
+											<td th:text="${o.estimated_date}"></td>
 											<td>
 												<form role="form" class="form-inline">
 													<input th:value="@{${o.id}}" style="display: none;"/>
@@ -169,30 +163,28 @@
 													<strong></strong>
 												</div>
 											</td>
-											
-											<td th:text="${o.title}"></td>
-											<td th:text="${o.extent}"></td>
-											<td th:text="${o.image_type}"></td>
-											<td th:text="${o.material_form_of_image}"></td>
-											<td th:text="${o.photographer}"></td>
 
-											<td th:text="${o.keywords_en}"></td>
-											<td th:text="${o.building}"></td>
-											<td th:text="${o.private_repository}"></td>
-											<td th:text="${o.notes}"></td>
-											<td th:text="${o.repository}"></td>
+											<td th:text="${o.title}"></td>
+											<td th:text="${o.collection}"></td>
+											<td th:text="${o.identifier}"></td>
+											<td th:text="${o.copyright}"></td>
+											<td th:text="${o.media}"></td>
+
+											<td th:text="${o.tag}"></td>
+											<td th:text="${o.note}"></td>
 										</tr>
 									</tbody>
 									<tfoot>
 										<tr>
-											<td colspan="6">
-												<div id="html_pagination" class="pagination pagination-centered"></div>
+											<td colspan="5">
+												<div id="html_pagination" class="pagination pagination-centered">
+												</div>
 												<div style="color: black; width: 200px; display: inline-block; bottom: 10px; position: relative;">
-													前往第<input style="width:50px; display: inline-block;" class="form-control" id="to_page2" name="to_page2" type="text">页
-													<button id="go2" name="go2" class="btn btn-success" type="button">Go</button>
+													前往第<input style="width:50px; display: inline-block;" class="form-control" id="to_page1" type="text">页
+													<button id="go1" class="btn btn-success" type="button">Go</button>
 												</div>
 											</td>
-										</tr>
+										</tr> 
 									</tfoot>
 								</table>
 							</div>							
@@ -244,15 +236,15 @@
 			$('#footable-res2').footable();
 
 			$("#btn-search").on("click", function() {
-				postPagination("/media/photo_list_0_15_0");
+				postPagination("/media/photo_list2_0_15_0");
 			});
 			
 			$("#go1").on("click", function() {
-				postPagination("/media/photo_list_" + $("#to_page1").val() + "_15_0");
+				postPagination("/media/photo_list2_" + $("#to_page1").val() + "_15_0");
 			});
 			
 			$("#go2").on("click", function() {
-				postPagination("/media/photo_list_" + $("#to_page2").val() + "_15_0");
+				postPagination("/media/photo_list2_" + $("#to_page2").val() + "_15_0");
 			});		
 			
 			$("[name='btn-remark']").on("click", function(){
@@ -265,7 +257,6 @@
 				    url: "/media/ajaxRemark",
 				    data: JSON.stringify({
 				    		id: parseInt(id),
-				    		type: "city",
 				    		remark: remark,
 				    		remark_ : remark_
 				    }),
@@ -285,7 +276,6 @@
 	 	       	 	}
 		    		}); 
 			});
-			
 		});
 		
 		function postPagination(url) {
