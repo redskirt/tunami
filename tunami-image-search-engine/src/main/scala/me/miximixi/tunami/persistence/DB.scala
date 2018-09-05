@@ -22,6 +22,7 @@ trait DB {
   val attr_vsh_view_map = "attr_vsh_view_map"
   
   val attr_bristol = "attr_bristol"
+  val attr_joseph = "attr_joseph"
 
   protected def and(column: String, value: String): String = if(__ != value) s"and $column = ?\n" else and_?
   protected def and(column: JInt): String = if(0 != column) s"and $column = ?\n" else and_?

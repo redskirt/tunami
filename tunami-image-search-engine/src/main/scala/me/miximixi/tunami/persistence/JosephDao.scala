@@ -5,6 +5,7 @@ import me.miximixi.tunami.kit.JdbcTemplateHandler
 import me.miximixi.tunami.kit.JdbcTemplateHandler._
 import me.miximixi.tunami.poso.Bristol
 import org.springframework.stereotype.Repository
+import me.miximixi.tunami.poso.Joseph
 
 /**
  * @Author Sasaki
@@ -13,12 +14,12 @@ import org.springframework.stereotype.Repository
  * @Description 
  */
 @Repository
-class VshViewDao2 extends JdbcTemplateHandler with DB {
+class JosephDao extends JdbcTemplateHandler with DB {
   
   def count(keyword: String = __): Option[Int] = 
     query(s"""
       $count_from
-        $attr_bristol
+        $attr_joseph
       where true
       ${
         if (__ == keyword)
@@ -26,9 +27,9 @@ class VshViewDao2 extends JdbcTemplateHandler with DB {
         else """
             	and (
               	title like ?
-              	or original_image_name like ?
-              	or note like ?
-              	or tag like ?
+              	or location like ?
+              	or date like ?
+              	or original_caption_by_joseph_needham like ?
               	or remark like ?
             )
             """
@@ -40,21 +41,18 @@ class VshViewDao2 extends JdbcTemplateHandler with DB {
       like(keyword), 
       like(keyword)) { (rs, i) => rs.getInt(1) }.headOption
     
-  def list(keyword: String = __, limit: Tuple2[JInt, JInt]): JList[Bristol] =
+  def list(keyword: String = __, limit: Tuple2[JInt, JInt]): JList[Joseph] =
     queryJList(s"""
       select 
         id,
-        original_image_name,
       		title,
-      		collection,
-      		estimated_date,
-      		note,
-      		identifier,
-      		copyright,
-      		media,
-      		tag,
+      		location,
+      		date,
+      		original_caption_by_joseph_needham,
+      		photographer,
+      		classmark,
       		remark
-      from $attr_bristol
+      from $attr_joseph
       where true
       ${
         if (__ == keyword)
@@ -62,9 +60,9 @@ class VshViewDao2 extends JdbcTemplateHandler with DB {
         else """
             	and (
               title like ?
-              	or original_image_name like ?
-              	or note like ?
-              	or tag like ?
+              	or location like ?
+              	or date like ?
+              	or original_caption_by_joseph_needham like ?
               	or remark like ?
             )
             """
@@ -80,24 +78,21 @@ class VshViewDao2 extends JdbcTemplateHandler with DB {
       limit._1, 
       limit._2) { (rs, i) =>
 
-      val o = new Bristol
+      val o = new Joseph
       o.setId(rs.getInt(1))
-      o.setOriginal_image_name(rs.getString(2))
-      o.setTitle(rs.getString(3))
-      o.setCollection(rs.getString(4))
-      o.setEstimated_date(rs.getString(5))
-      o.setNote(rs.getString(6))
-      o.setIdentifier(rs.getString(7))
-      o.setCopyright(rs.getString(8))
-      o.setMedia(rs.getString(9))
-      o.setTag(rs.getString(10))
-      o.setRemark(rs.getString(11))
+      o.setTitle(rs.getString(2))
+      o.setLocation(rs.getString(3))
+      o.setDate(rs.getString(4))
+      o.setOriginal_caption_by_joseph_needham(rs.getString(5))
+      o.setPhotographer(rs.getString(6))
+      o.setClassmark(rs.getString(7))
+      o.setRemark(rs.getString(8))
       o
     }
 
-  def update(o: Bristol): Int =
+  def update(o: Joseph): Int =
     jdbcTemplate.update(s"""
-        update $attr_bristol
+        update $attr_joseph
         set remark=?
         where true
         and id=?

@@ -18,6 +18,9 @@ import me.miximixi.tunami.poso.VshViewMap
 import me.miximixi.tunami.service.VshViewMapService
 import org.springframework.core.io.InputStreamResource
 import me.miximixi.tunami.poso.VshView
+import me.miximixi.tunami.persistence.JosephDao
+import me.miximixi.tunami.poso.Bristol
+import me.miximixi.tunami.poso.Joseph
 
 /**
  * @Author Sasaki
@@ -37,6 +40,8 @@ class MultiMediaController extends UsefulController with PaginationHandler {
   var vshViewDao: VshViewDao = _
   @Autowired
   var vshViewDao2: VshViewDao2 = _
+  @Autowired
+  var josephDao: JosephDao = _
   
   @GetMapping(Array("/photo_gallery"))
   def photo_gallery = dispatch("photo_gallery")
@@ -60,22 +65,40 @@ class MultiMediaController extends UsefulController with PaginationHandler {
     dispatch("photo_list")
   } 
   
-  @GetMapping(Array("/photo_list2_{current}_{size}_{countPage}")) 
-  def photo_list2(model: Model, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int): ModelAndView = 
-    photo_list2(model, __ trim, current, size, countPage)
+  @GetMapping(Array("/photo_list_bristol_{current}_{size}_{countPage}")) 
+  def photo_list_bristol(model: Model, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int): ModelAndView = 
+    photo_list_bristol(model, __ trim, current, size, countPage)
   
-  @PostMapping(Array("/photo_list2_{current}_{size}_{countPage}"))
-  def photo_list2(model: Model, @RequestParam keyword: String, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int): ModelAndView = {
+  @PostMapping(Array("/photo_list_bristol_{current}_{size}_{countPage}"))
+  def photo_list_bristol(model: Model, @RequestParam keyword: String, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int): ModelAndView = {
     val count = vshViewDao2.count(keyword).getOrElse(0)
     val page = new Pagination(count, current, size, countPage)
-    val html_pagination = buildPaginateTag("/media/photo_list2", page)
+    val html_pagination = buildPaginateTag("/media/photo_list_bristol", page)
     val list = vshViewDao2.list(keyword, page.limit)
 
     model.addAttribute("keyword", if (__ == keyword) "" else keyword)
     model.addAttribute("list", list)
     model.addAttribute("html_pagination", html_pagination)
 
-    dispatch("photo_list2")
+    dispatch("photo_list_bristol")
+  } 
+  
+  @GetMapping(Array("/photo_list_joseph_{current}_{size}_{countPage}")) 
+  def photo_list_joseph(model: Model, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int): ModelAndView = 
+    photo_list_joseph(model, __ trim, current, size, countPage)
+  
+  @PostMapping(Array("/photo_list_joseph_{current}_{size}_{countPage}"))
+  def photo_list_joseph(model: Model, @RequestParam keyword: String, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int): ModelAndView = {
+    val count = josephDao.count(keyword).getOrElse(0)
+    val page = new Pagination(count, current, size, countPage)
+    val html_pagination = buildPaginateTag("/media/photo_list_joseph", page)
+    val list = josephDao.list(keyword, page.limit)
+
+    model.addAttribute("keyword", if (__ == keyword) "" else keyword)
+    model.addAttribute("list", list)
+    model.addAttribute("html_pagination", html_pagination)
+
+    dispatch("photo_list_joseph")
   } 
   
   @PostMapping(Array("/map_list_{current}_{size}_{countPage}")) 
@@ -112,18 +135,52 @@ class MultiMediaController extends UsefulController with PaginationHandler {
       (json \ "id", json \ "remark", json \ "remark_", json \ "type") match {
         case (JInt(id), JString(remark), JString(remark_), JString(tipe)) => {
           val result = if (remark != remark_) {
-            if("map" == tipe) {
-              val o = new VshViewMap
-              o.setId(id.toInt)
-              o.setRemark(remark_)
-              vshViewMapDao.update(o)
-            } else if ("city" == tipe) {
-              val o = new VshView
-              o.setId(id.toInt)
-              o.setRemark(remark_)
-              vshViewDao.update(o)
-            } else 
-              0
+          tipe match {
+              case "map" =>
+                val o = new VshViewMap
+                o.setId(id.toInt)
+                o.setRemark(remark_)
+                vshViewMapDao.update(o)
+              case "city" =>
+                val o = new VshView
+                o.setId(id.toInt)
+                o.setRemark(remark_)
+                vshViewDao.update(o)
+              case "bristol" =>
+                val o = new Bristol
+                o.setId(id.toInt)
+                o.setRemark(remark_)
+                vshViewDao2.update(o)
+              case "joseph" =>
+                val o = new Joseph
+                o.setId(id.toInt)
+                o.setRemark(remark_)
+                josephDao.update(o)
+              case _ => 0
+            }
+            
+//            if ("map" == tipe) {
+//              val o = new VshViewMap
+//              o.setId(id.toInt)
+//              o.setRemark(remark_)
+//              vshViewMapDao.update(o)
+//            } else if ("city" == tipe) {
+//              val o = new VshView
+//              o.setId(id.toInt)
+//              o.setRemark(remark_)
+//              vshViewDao.update(o)
+//            } else if ("bristol" == tipe) {
+//              val o = new Bristol
+//              o.setId(id.toInt)
+//              o.setRemark(remark_)
+//              vshViewDao2.update(o)
+//            } else if ("joseph" == tipe) {
+//              val o = new Joseph
+//              o.setId(id.toInt)
+//              o.setRemark(remark_)
+//              josephDao.update(o)
+//            } else
+//              0
           } else
             1
 
@@ -135,4 +192,5 @@ class MultiMediaController extends UsefulController with PaginationHandler {
         case _ => reply(false, "修改异常！")
       }
     }
+  
 }

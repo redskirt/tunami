@@ -9,14 +9,14 @@ import scala.beans.BeanProperty
  * @Description
  */
 
-class Metadata extends C {
+class Metadata extends Class {
   
   @BeanProperty // -> image_repo
   var imageRepo: String = _
   
 }
 
-class Principal extends C {
+class Principal extends Class {
 
   @BeanProperty
   var account_name: String = _
@@ -32,7 +32,7 @@ class Principal extends C {
 
 }
 
-class ImageContent extends C {
+class ImageContent extends Class {
 
   @BeanProperty
   var dir: String = _
@@ -54,7 +54,7 @@ class ImageContent extends C {
 
 }
 
-class VshViewMap extends C {
+class VshViewMap extends Class {
   
   @BeanProperty
   var remark: String = _
@@ -118,7 +118,7 @@ class VshViewMap extends C {
   
 }
 
-class VshView extends C {
+class VshView extends Class {
   
   @BeanProperty
   var remark: String = _
@@ -211,7 +211,7 @@ class VshView extends C {
   var tags: String = _
 }
 
-class Bristol extends C {
+class Bristol extends Class {
   
   @BeanProperty
   var original_image_name: String = _
@@ -242,4 +242,29 @@ class Bristol extends C {
   
   @BeanProperty
   var remark: String = _
+}
+
+class Joseph extends Class {
+
+  @BeanProperty
+  var title: String = _
+
+  @BeanProperty
+  var location: String = _
+
+  @BeanProperty
+  var date: String = _
+
+  @BeanProperty
+  var original_caption_by_joseph_needham: String = _
+
+  @BeanProperty
+  var photographer: String = _
+
+  @BeanProperty
+  var classmark: String = _
+  
+  @BeanProperty
+  var remark: String = _
+
 }

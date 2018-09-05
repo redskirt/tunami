@@ -11,10 +11,7 @@
 <link rel="stylesheet" th:href="@{/assets/js/dataTable/lib/jquery.dataTables/css/DT_bootstrap.css}">
 <link rel="stylesheet" th:href="@{/assets/js/dataTable/css/datatables.responsive.css}">
 
-<!-- viewport -->
-<link rel="stylesheet" th:href="@{/assets/viewport/css/mag.css}" />
-<link rel="stylesheet" th:href="@{/assets/viewport/css/default.css}" />
-<link rel="stylesheet" th:href="@{/assets/viewport/css/index.css}" />
+<link rel="stylesheet" th:href="@{/assets/css/viewer.min.css}">
 </head>
 <body>
 	<!-- Preloader -->
@@ -117,7 +114,7 @@
 											<th data-hide="phone,tablet">repository</th>
 										</tr>
 									</thead>
-                                    	<tbody>
+                                    	<tbody id="galley">
 										<tr>
 											<td colspan="6">
 												<div id="html_pagination_" class="pagination pagination-centered">
@@ -135,16 +132,10 @@
 												<a th:href="@{'/media/download_vsh|map|' + ${o.city} + '_' + ${o.image_name}}" class="pull-right btn btn-info">下载</a>
 											</td> 
 											<td>
-												<div class="mag-eg-el-wrap">
-													<div class="img-thumbnail">
-														<div mag-thumb="inner-inline" mag-flow="inline" class="mag-eg-el">
-															<img th:src="@{'/assets/vsh/map/' + ${o.city}+'/' + ${o.image_name}}" style="width: 300px; height: auto;" />
-														</div>
-														<div mag-zoom="inner-inline" class="mag-eg-el">
-															<img th:src="@{'/assets/vsh/map/' + ${o.city} + '/' + ${o.image_name}}" />
-														</div>
-													</div>
-												</div>
+												<img 
+													th:data-original="@{'/assets/vsh/map/' + ${o.city}+'/' + ${o.image_name}}"
+													th:src="@{'/assets/vsh/map/' + ${o.city}+'/' + ${o.image_name}}"
+													style="width: 300px; height: auto;" />
 											</td>
 											<td th:text="${o.image_id}"></td>
 											<td th:text="${o.city}"></td>
@@ -219,19 +210,9 @@
 	<script th:src="@{/assets/js/footable/js/footable.js?v=2-0-1}" type="text/javascript"></script>
 	<script th:src="@{/assets/js/footable/js/footable.sort.js?v=2-0-1}" type="text/javascript"></script>
     
-	<!-- viewport 图片焦点控件 -->    
-	<script th:src="@{/assets/viewport/js/jquery.bridget.js}"></script>
-	<script th:src="@{/assets/viewport/js/jquery.mousewheel.min.js}"></script>
-	<script th:src="@{/assets/viewport/js/jquery.event.drag.js}"></script>
-	<script th:src="@{/assets/viewport/js/screenfull.js}"></script>
-	<script th:src="@{/assets/viewport/js/hammer.min.js}"></script>
-	<script th:src="@{/assets/viewport/js/mag-analytics.js}"></script>
-	<script th:src="@{/assets/viewport/js/mag.js}"></script>
-	<script th:src="@{/assets/viewport/js/PreventGhostClick.js}"></script>
-	<script th:src="@{/assets/viewport/js/mag-jquery.js}"></script>
-	<script th:src="@{/assets/viewport/js/mag-control.js}"></script>
-	<script th:src="@{/assets/viewport/js/index.js}"></script>
-    
+	<!-- viewer图片放大浏览控件 -->
+	<script th:src="@{/assets/js/viewer.min.js}"></script>
+	    
     <script th:inline="javascript">
     	/*<![CDATA[*/
         var html_pagination = [[${html_pagination}]];
@@ -284,6 +265,24 @@
    	 	       	 	}
     		    		}); 
     			});
+    			
+			var galley = document.getElementById('galley');
+	      	var viewer = new Viewer(galley, {
+		        url: 'data-original',
+		        toolbar: {
+		          oneToOne: true,
+	
+		          prev: function() {
+		            viewer.prev(true);
+		          },
+	
+		          play: true,
+	
+		          next: function() {
+		            viewer.next(true);
+		          },
+		        },
+	    		});
 		});
 		
 		function postPagination(url) {
