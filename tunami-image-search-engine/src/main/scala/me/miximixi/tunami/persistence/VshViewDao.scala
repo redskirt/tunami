@@ -13,8 +13,12 @@ import org.springframework.stereotype.Repository
  * @Description 
  */
 @Repository
-class VshViewDao extends JdbcTemplateHandler with DB {
+class VshViewDao extends JdbcTemplateHandler with QueryHelper[VshView] {
   
+  def count(keyword: String): Option[Int] = None
+  
+  def list(keyword: String, limit: Tuple2[JInt, JInt]): JList[VshView] = null
+    
   def count(city: String = __, keyword: String = __): Option[Int] = 
     query(s"""
       $count_from
@@ -42,7 +46,7 @@ class VshViewDao extends JdbcTemplateHandler with DB {
       like(keyword), 
       like(keyword), 
       like(keyword)) { (rs, i) => rs.getInt(1) }.headOption
-    
+      
   def list(city: String = __, keyword: String = __, limit: Tuple2[JInt, JInt]): JList[VshView] =
     queryJList(s"""
       select 

@@ -14,8 +14,12 @@ import org.springframework.stereotype.Repository
  * @Description 
  */
 @Repository
-class VshViewMapDao extends JdbcTemplateHandler with DB with ScalaEntity {
+class VshViewMapDao extends JdbcTemplateHandler with QueryHelper[VshViewMap] with ScalaEntity {
 
+  def count(keyword: String): Option[Int] = None
+  
+  def list(keyword: String, limit: Tuple2[JInt, JInt]): JList[VshViewMap] = null
+  
   def count(city: String = __, keyword: String = __): Option[Int] = 
     query(s"""
       $count_from

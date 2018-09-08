@@ -3,7 +3,6 @@ package me.miximixi.tunami.dao
 import org.junit.runner.RunWith
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit4.SpringRunner
-import me.miximixi.tunami.persistence.ImageContentDao
 import org.springframework.beans.factory.annotation.Autowired
 import org.junit.Test
 import me.miximixi.tunami.persistence.VshViewMapDao
@@ -24,8 +23,6 @@ import me.miximixi.tunami.persistence.JosephDao
 @SpringBootTest
 class DaoTestCase extends PaginationHandler {
 
-  @Autowired
-  var imageContentDao: ImageContentDao = _
   @Autowired
   var vshViewMapDao: VshViewMapDao = _
   @Autowired

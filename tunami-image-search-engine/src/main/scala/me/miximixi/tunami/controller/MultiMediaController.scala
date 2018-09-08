@@ -32,6 +32,8 @@ import me.miximixi.tunami.poso.Joseph
 @RequestMapping(Array("/media"))
 class MultiMediaController extends UsefulController with PaginationHandler {
   
+  final val class_mapping = "/media"
+  
   @Autowired
   var vshViewMapService: VshViewMapService = _
   @Autowired
@@ -43,57 +45,75 @@ class MultiMediaController extends UsefulController with PaginationHandler {
   @Autowired
   var josephDao: JosephDao = _
   
-  @GetMapping(Array("/photo_gallery"))
-  def photo_gallery = dispatch("photo_gallery")
+  @GetMapping(Array("/photo_list_{current}_{size}_{total}")) 
+  def photo_list(model: Model, @PathVariable current: Int, @PathVariable size: Int, @PathVariable total: Int): ModelAndView = 
+    photo_list(model, __ trim, __ trim, current, size, total)
+    
+  @PostMapping(Array("/photo_list_{current}_{size}_{total}"))
+  def photo_list(model: Model, @RequestParam keyword: String, @RequestParam city: String, @PathVariable current: Int, @PathVariable size: Int, @PathVariable total: Int): ModelAndView = {
+    //    val count = vshViewDao.count(city, keyword).getOrElse(0)
+    //    val page = new Pagination(count, current, size, total)
+    //    val html_pagination = buildPaginateTag("/media/photo_list", page)
+    //    val list = vshViewDao.list(city, keyword, page.limit)
+    //
+    //    model.addAttribute("size", size)
+    //    model.addAttribute("city", city)
+    //    model.addAttribute("keyword", if(__ == keyword) "" else keyword)
+    //    model.addAttribute("list", list)
+    //    model.addAttribute("html_pagination", html_pagination)
+    //
+    //    dispatch("photo_list")
 
-  @GetMapping(Array("/photo_list_{current}_{size}_{countPage}")) 
-  def photo_list(model: Model, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int): ModelAndView = 
-    photo_list(model, __ trim, __ trim, current, size, countPage)
-    
-  @PostMapping(Array("/photo_list_{current}_{size}_{countPage}"))
-  def photo_list(model: Model, @RequestParam keyword: String, @RequestParam city: String, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int): ModelAndView = {
-    val count = vshViewDao.count(city, keyword).getOrElse(0)
-    val page = new Pagination(count, current, size, countPage)
-    val html_pagination = buildPaginateTag("/media/photo_list", page)
-    val list = vshViewDao.list(city, keyword, page.limit)
-    
-    model.addAttribute("city", city)
-    model.addAttribute("keyword", if(__ == keyword) "" else keyword)
-    model.addAttribute("list", list)  
-    model.addAttribute("html_pagination", html_pagination)
-    
-    dispatch("photo_list")
+    defaultMapping[VshView](
+      vshViewDao,
+      "photo_list",
+      model,
+      current,
+      size,
+      total,
+      keyword) { () => model.addAttribute("city", city) }
   } 
   
-  @GetMapping(Array("/photo_list_bristol_{current}_{size}_{countPage}")) 
-  def photo_list_bristol(model: Model, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int): ModelAndView = 
-    photo_list_bristol(model, __ trim, current, size, countPage)
+  @GetMapping(Array("/photo_list_bristol_{current}_{size}_{total}")) 
+  def photo_list_bristol(model: Model, @PathVariable current: Int, @PathVariable size: Int, @PathVariable total: Int): ModelAndView = 
+    photo_list_bristol(model, __ trim, current, size, total)
   
-  @PostMapping(Array("/photo_list_bristol_{current}_{size}_{countPage}"))
-  def photo_list_bristol(model: Model, @RequestParam keyword: String, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int): ModelAndView = {
-    val count = vshViewDao2.count(keyword).getOrElse(0)
-    val page = new Pagination(count, current, size, countPage)
-    val html_pagination = buildPaginateTag("/media/photo_list_bristol", page)
-    val list = vshViewDao2.list(keyword, page.limit)
-
-    model.addAttribute("keyword", if (__ == keyword) "" else keyword)
-    model.addAttribute("list", list)
-    model.addAttribute("html_pagination", html_pagination)
-
-    dispatch("photo_list_bristol")
+  @PostMapping(Array("/photo_list_bristol_{current}_{size}_{total}"))
+  def photo_list_bristol(model: Model, @RequestParam keyword: String, @PathVariable current: Int, @PathVariable size: Int, @PathVariable total: Int): ModelAndView = {
+//    val count = vshViewDao2.count(keyword).getOrElse(0)
+//    val page = new Pagination(count, current, size, total)
+//    val html_pagination = buildPaginateTag("/media/photo_list_bristol", page)
+//    val list = vshViewDao2.list(keyword, page.limit)
+//
+//    model.addAttribute("size", size)
+//    model.addAttribute("keyword", if (__ == keyword) "" else keyword)
+//    model.addAttribute("list", list)
+//    model.addAttribute("html_pagination", html_pagination)
+//
+//    dispatch("photo_list_bristol")
+    
+    defaultMapping[VshView](
+      vshViewDao,
+      "photo_list_bristol",
+      model,
+      current,
+      size,
+      total,
+      keyword)()
   } 
   
-  @GetMapping(Array("/photo_list_joseph_{current}_{size}_{countPage}")) 
-  def photo_list_joseph(model: Model, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int): ModelAndView = 
-    photo_list_joseph(model, __ trim, current, size, countPage)
+  @GetMapping(Array("/photo_list_joseph_{current}_{size}_{total}")) 
+  def photo_list_joseph(model: Model, @PathVariable current: Int, @PathVariable size: Int, @PathVariable total: Int): ModelAndView = 
+    photo_list_joseph(model, __ trim, current, size, total)
   
-  @PostMapping(Array("/photo_list_joseph_{current}_{size}_{countPage}"))
-  def photo_list_joseph(model: Model, @RequestParam keyword: String, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int): ModelAndView = {
+  @PostMapping(Array("/photo_list_joseph_{current}_{size}_{total}"))
+  def photo_list_joseph(model: Model, @RequestParam keyword: String, @PathVariable current: Int, @PathVariable size: Int, @PathVariable total: Int): ModelAndView = {
     val count = josephDao.count(keyword).getOrElse(0)
-    val page = new Pagination(count, current, size, countPage)
+    val page = new Pagination(count, current, size, total)
     val html_pagination = buildPaginateTag("/media/photo_list_joseph", page)
     val list = josephDao.list(keyword, page.limit)
 
+    model.addAttribute("size", size)
     model.addAttribute("keyword", if (__ == keyword) "" else keyword)
     model.addAttribute("list", list)
     model.addAttribute("html_pagination", html_pagination)
@@ -101,13 +121,38 @@ class MultiMediaController extends UsefulController with PaginationHandler {
     dispatch("photo_list_joseph")
   } 
   
-  @PostMapping(Array("/map_list_{current}_{size}_{countPage}")) 
-  def map_list(model: Model, @RequestParam keyword: String, @RequestParam city: String, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int): ModelAndView = {
+  protected def defaultMapping[T](
+      dao: me.miximixi.tunami.persistence.QueryHelper[T],
+      forwardOrRedirect: String,
+      model: Model, 
+      current: Int, 
+      size: Int, 
+      total: Int,
+      keyword: String = __)
+      (fx: () => Unit = () => Unit): ModelAndView = {
+    
+    val count = dao.count(keyword).getOrElse(0)
+    val page = new Pagination(count, current, size, total)
+    val html_pagination = buildPaginateTag(s"$class_mapping/$forwardOrRedirect", page)
+    val list = dao.list(keyword, page.limit)
+
+    model.addAttribute("size", size)
+    model.addAttribute("keyword", if (__ == keyword) "" else keyword)
+    model.addAttribute("list", list)
+    model.addAttribute("html_pagination", html_pagination)
+    fx()
+
+    dispatch(forwardOrRedirect)
+  }
+  
+  @PostMapping(Array("/map_list_{current}_{size}_{total}")) 
+  def map_list(model: Model, @RequestParam keyword: String, @RequestParam city: String, @PathVariable current: Int, @PathVariable size: Int, @PathVariable total: Int): ModelAndView = {
     val count = vshViewMapDao.count(city, keyword).getOrElse(0)
-    val page = new Pagination(count, current, size, countPage)
-    val html_pagination = buildPaginateTag("/media/map_list", page)
+    val page = new Pagination(count, current, size, total)
+    val html_pagination = buildPaginateTag(s"$class_mapping/map_list", page)
     val list = vshViewMapDao.list(city, keyword, page.limit)
     
+    model.addAttribute("size", size)
     model.addAttribute("city", city)
     model.addAttribute("keyword", if(__ == keyword) "" else keyword)
     model.addAttribute("list", list)  
@@ -116,9 +161,9 @@ class MultiMediaController extends UsefulController with PaginationHandler {
     dispatch("map_list")
   }
   
-  @GetMapping(Array("/map_list_{current}_{size}_{countPage}")) 
-  def map_list(model: Model, @PathVariable current: Int, @PathVariable size: Int, @PathVariable countPage: Int): ModelAndView = 
-    map_list(model, __ trim, __ trim, current, size, countPage)
+  @GetMapping(Array("/map_list_{current}_{size}_{total}")) 
+  def map_list(model: Model, @PathVariable current: Int, @PathVariable size: Int, @PathVariable total: Int): ModelAndView = 
+    map_list(model, __ trim, __ trim, current, size, total)
   
   @org.springframework.beans.factory.annotation.Value("${value.repository}")
   private var repository: String = _

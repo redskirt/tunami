@@ -1,6 +1,7 @@
 package me.miximixi.tunami.persistence
 
 import com.sasaki.packages.constant.JInt
+import com.sasaki.packages.constant.JList
 
 /**
  * @Author Sasaki
@@ -8,8 +9,11 @@ import com.sasaki.packages.constant.JInt
  * @Timestamp Jun 18, 2018 11:15:36 PM
  * @Description 
  */
-trait DB {
+trait QueryHelper[T] {
 
+  def count(keyword: String): Option[Int]
+  def list(keyword: String, limit: Tuple2[JInt, JInt]): JList[T]
+  
   final val __ = "__"
   final val and_? = " and ? is false " // 若有多余参数但不需要赋值，则用该变量占位
   final val count_from = "select count(0) from "

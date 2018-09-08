@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository
  * @Description 
  */
 @Repository
-class VshViewDao2 extends JdbcTemplateHandler with DB {
+class VshViewDao2 extends JdbcTemplateHandler with QueryHelper[Bristol] {
   
   def count(keyword: String = __): Option[Int] = 
     query(s"""

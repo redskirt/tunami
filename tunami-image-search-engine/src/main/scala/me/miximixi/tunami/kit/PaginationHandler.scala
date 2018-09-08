@@ -47,18 +47,14 @@ trait PaginationHandler {
     val builder = new StringBuilder
     builder
       .append("<ul>\n")
-//      .append(s"""\t<li class="footable-page-arrow${ if(page.current <= 1) " disabled" else "" }"><a${ if(page.current > 1) s" href=$first" else "" }>«</a></li>\n""")
-//      .append(s"""\t<li class="footable-page-arrow${ if(page.current <= 1) " disabled" else "" }"><a${ if(page.current > 1) s" href=$previous" else "" }>‹</a></li>\n""")
       .append(s"""\t<li class="footable-page-arrow${ if(page.current <= 1) " disabled" else "" }"><a${ if(page.current > 1) onclick(first) else "" }>«</a></li>\n""")
       .append(s"""\t<li class="footable-page-arrow${ if(page.current <= 1) " disabled" else "" }"><a${ if(page.current > 1) onclick(previous) else "" }>‹</a></li>\n""")
       .append({
-//        val str_i = (current: Int, i: Int) => s"""\t<li class="footable-page${if (page.current == i) " active" else ""}"><a${ if(page.current != i) s" href=${to(i)}" else "" }>$i</a></li>\n"""
-      		val str_i = (current: Int, i: Int) => s"""\t<li class="footable-page${if (page.current == i) " active" else ""}"><a${ if(page.current != i) onclick(to(i)) else "" }>$i</a></li>\n"""
-      		val str_~ = s"""\t<li class="footable-page active"><a>...</a></li>\n"""
-        
-        var j = page.current
+        val str_i = (current: Int, i: Int) => s"""\t<li class="footable-page${if (page.current == i) " active" else ""}"><a${if (page.current != i) onclick(to(i)) else ""}>$i</a></li>\n"""
+        val str_~ = s"""\t<li class="footable-page active"><a>...</a></li>\n"""
 
-        for (i <- 1 to page.total) yield {
+        var j = page.current
+        for (i <- 1 to page.total) yield 
           if (i == 1)
             str_i(page.current, i)
           else if ((i >= j && j < page.span + page.current) /*游标前部*/ ||
@@ -67,26 +63,26 @@ trait PaginationHandler {
             str_i(page.current, i)
           } else if (i == page.total)
             str_i(page.current, i)
-          else {
-            if (i == 2 && page.current >= 2 && page.count > page.span)
-              str_~
-            else if (i == j && page.count > page.span)
-              str_~
-            else
-              ""
-          }
-        }
+          else if (i == 2 && page.current >= 2 && page.count > page.span)
+            str_~
+          else if (i == j && page.count > page.span)
+            str_~
+          else
+            ""
       } mkString)
       .append(s"""\t<li class="footable-page-arrow${ if(page.current == page.total) " disabled" else "" }"><a${ if(page.current < page.total) onclick(subsequent) else "" }>›</a></li>\n""")
       .append(s"""\t<li class="footable-page-arrow${ if(page.current == page.total) " disabled" else "" }"><a${ if(page.current < page.total) onclick(last) else "" }>»</a></li>\n""")
-//      .append(s"""\t<li class="footable-page-arrow${ if(page.current == page.total) " disabled" else "" }"><a${ if(page.current < page.total) s" href=$subsequent" else "" }>›</a></li>\n""")
-//      .append(s"""\t<li class="footable-page-arrow${ if(page.current == page.total) " disabled" else "" }"><a${ if(page.current < page.total) s" href=$last" else "" }>»</a></li>\n""")
       .append("</ul>")
     
     builder toString
   }
   
-  final class Pagination(val $count: Int, val $current: Int = 0, val $size: Int = 0, val $total: Int = 0, val $span: Int = 5) {
+  final class Pagination(
+      val $count: Int, // Record number
+      val $current: Int = 0, 
+      val $size: Int = 0, 
+      val $total: Int = 0, // Page number
+      val $span: Int = 5) {
 
     lazy val count = $count
     lazy val current: Int = if (0 == $current) 1 else $current

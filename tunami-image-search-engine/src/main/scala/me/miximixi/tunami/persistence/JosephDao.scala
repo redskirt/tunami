@@ -14,7 +14,7 @@ import me.miximixi.tunami.poso.Joseph
  * @Description 
  */
 @Repository
-class JosephDao extends JdbcTemplateHandler with DB {
+class JosephDao extends JdbcTemplateHandler with QueryHelper[Joseph] {
   
   def count(keyword: String = __): Option[Int] = 
     query(s"""
