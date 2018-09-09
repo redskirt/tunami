@@ -34,7 +34,7 @@ trait PaginationHandler {
   */
   def buildPaginateTag(prefix: String, page: Pagination): String = {
     
-    val to = (destnation: Int) => s"${ prefix }_${ destnation }_${ page.size }_${ page.total }"
+    val to = (destnation: Int) => s"${ prefix }_${ destnation }_${ page.size }"
 
     val first = to(1)
     val last = to(page.total)
@@ -81,25 +81,17 @@ trait PaginationHandler {
       val $count: Int, // Record number
       val $current: Int = 0, 
       val $size: Int = 0, 
-      val $total: Int = 0, // Page number
+//      val $total: Int = 0, // Page number
       val $span: Int = 5) {
 
     lazy val count = $count
     lazy val current: Int = if (0 == $current) 1 else $current
     lazy val size: Int = if (0 == $size) 15 /*default size*/ else $size
-    lazy val total: Int =
-      if (0 == $total)
-        if (0 == count % size)
-          count / size
-        else
-          count / size + 1
-      else
-        $total
+    lazy val total: Int = if (0 == count % size) count / size else count / size + 1
     lazy val span: Int = $span
     lazy val from: Int = (current - 1) * size
     lazy val to: Int = size
     lazy val limit: Tuple2[JInt, JInt] = (from, to)
-    
   }
 }
 

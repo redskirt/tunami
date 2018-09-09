@@ -76,17 +76,15 @@
 										<div class="col-sm-4">
 											<input class="form-control" id="filter" name="keyword" th:value="${keyword}" placeholder="Search..." type="text">
 										</div>
-<!-- 										<div class="col-sm-2"> -->
-<!-- 											<select id="city" name="city" class="filter-status form-control"> -->
-<!-- 												<option value="__" th:selected="${city=='__'}">所有城市</option> -->
-<!-- 												<option value="BJG" th:selected="${city=='BJG'}">北京</option> -->
-<!-- 												<option value="SHI" th:selected="${city=='SHI'}">上海</option> -->
-<!-- 												<option value="SZU" th:selected="${city=='SZU'}">苏州</option> -->
-<!-- 												<option value="TJN" th:selected="${city=='TJN'}">天津</option> -->
-<!-- 												<option value="HKU" th:selected="${city=='HKU'}">汉口</option> -->
-<!-- 											</select> -->
-<!-- 										</div> -->
-										<div class="col-sm-5">
+										<div class="col-sm-1">
+											<select id="size" name="size" class="filter-status form-control">
+												<option value="15" th:selected="${size==15}">15</option>
+												<option value="30" th:selected="${size==30}">30</option>
+												<option value="50" th:selected="${size==50}">50</option>
+												<option value="100" th:selected="${size==100}">100</option>
+											</select>
+										</div>
+										<div class="col-sm-1">
 											<a id="btn-search" style="margin-left: 10px;" class="pull-right btn btn-info clear-filter" title="">搜索</a>
 										</div>
 									</form>
@@ -205,81 +203,17 @@
 	<!-- viewer图片放大浏览控件 -->
 	<script th:src="@{/assets/js/viewer.min.js}"></script>
 	    
+	<script th:src="@{/assets/js/custom.js}"></script>
+	
 	<script th:inline="javascript">
+	
+		var html_pagination = [[${html_pagination}]];
+	
 		$(function() {
-			var html_pagination = [[${html_pagination}]];
-			
-			$("#html_pagination").html(html_pagination);
-			$("#html_pagination_").html(html_pagination);
-			
-			$('#footable-res2').footable();
-
-			$("#btn-search").on("click", function() {
-				postPagination("/media/photo_list_bristol_0_15_0");
-			});
-			
-			$("#go1").on("click", function() {
-				postPagination("/media/photo_list_bristol_" + $("#to_page1").val() + "_15_0");
-			});
-			
-			$("#go2").on("click", function() {
-				postPagination("/media/photo_list_bristol_" + $("#to_page2").val() + "_15_0");
-			});		
-			
-			$("[name='btn-remark']").on("click", function(){
-				var trigger = $(this);
-				var id = trigger.siblings(":eq(0)").val();
-				var remark = trigger.siblings(":eq(1)").val();
-				var remark_ = trigger.siblings(":eq(2)").val();
-				
-				$.ajax({
-				    url: "/media/ajaxRemark",
-				    data: JSON.stringify({
-				    		id: parseInt(id),
-				    		type: "bristol",
-				    		remark: remark,
-				    		remark_ : remark_
-				    }),
-				    	dataType: "json",
-				    	type: "POST",
-				    	contentType: "application/json",
-	 			    	success: function (data) {
-	 			    		var dialog;
-	 					if(data.verify) {
-	 						dialog = trigger.parent().siblings(".alert-success")
-	 					} else {
-	 						dialog = trigger.parent().siblings(".alert-danger")
-	 					}
-						dialog.children("strong").html(data.message);
-						dialog.show();
-						setTimeout(function(){ dialog.hide(); }, 2000);
-	 	       	 	}
-		    		}); 
-			});
-			
-		var galley = document.getElementById('galley');
-      	var viewer = new Viewer(galley, {
-	        url: 'data-original',
-	        toolbar: {
-	          oneToOne: true,
-
-	          prev: function() {
-	            viewer.prev(true);
-	          },
-
-	          play: true,
-
-	          next: function() {
-	            viewer.next(true);
-	          },
-	        },
-	      });
+			remark("bristol");
+			bindingPagination("photo_list_bristol");
 		});
-		
-		function postPagination(url) {
-			$("#form-pagination").attr("action", url);
-			$("#form-pagination").submit();
-		}
+		  
 	</script>
 </body>
 </html>

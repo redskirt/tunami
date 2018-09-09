@@ -38,8 +38,8 @@ class DaoTestCase extends PaginationHandler {
   def testListImageContent: Unit = {
     //    imageContentDao.list() foreach println
 //        vshViewMapDao.list("__", "上海", page.limit).asScala.foreach(o => println(o.id + " " + o.city + " " + o.original_title))
-//        vshViewDao.list("__", "标记", page.limit).asScala.foreach(o => println(o.id + " " + o.city))
-        josephDao.list("__", page.limit).asScala.take(3).foreach(o => println(o.id + " " + o.original_caption_by_joseph_needham))
+        vshViewDao.list("__", "__", page.limit).asScala.foreach(o => println(o.id + " " + o.city))
+//        josephDao.list("__", page.limit).asScala.take(3).foreach(o => println(o.id + " " + o.original_caption_by_joseph_needham))
 //        println(vshViewMapDao.count("TJN"))
 //    val o = new VshViewMap
 //    o.id = 1
@@ -47,20 +47,19 @@ class DaoTestCase extends PaginationHandler {
 //    vshViewMapDao.update(o)
   }
   
-  @Test
-  def testLoad: Unit = {
-   scala.io.Source.fromFile("/Users/sasaki/Desktop/t.txt").getLines()
-   .foreach { o =>
-     println(o)
-     val array = o.split("\t")
-//     println(array)
-     if(2 == array.size) {
-       val v = new VshView
-     v.setImage_id(array(0))
-     v.setRemark(array(1))
-//     vshViewDao.update(v)
-     }
-     
-   }
-  }
+//  @Test
+//  def testLoad: Unit = {
+//   scala.io.Source.fromFile("/Users/sasaki/Desktop/t.txt").getLines()
+//   .foreach { o =>
+//     println(o)
+//     val array = o.split("\t")
+////     println(array)
+//     if(2 == array.size) {
+//       val v = new VshView
+//     v.setImage_id(array(0))
+//     v.setRemark(array(1))
+////     vshViewDao.update(v)
+//     }
+//   }
+//  }
 }
