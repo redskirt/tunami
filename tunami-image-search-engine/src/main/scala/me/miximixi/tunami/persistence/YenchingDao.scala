@@ -5,6 +5,8 @@ import com.sasaki.packages.constant._
 import me.miximixi.tunami.kit.JdbcTemplateHandler
 import me.miximixi.tunami.kit.JdbcTemplateHandler._
 import org.springframework.stereotype.Repository
+import me.miximixi.tunami.kit.QueryHelper
+import me.miximixi.tunami.persistence.QueryProperty._
 
 /**
  * @Author Sasaki

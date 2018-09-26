@@ -7,6 +7,8 @@ import me.miximixi.tunami.poso.Bristol
 import org.springframework.stereotype.Repository
 import me.miximixi.tunami.poso.Joseph
 import me.miximixi.tunami.poso.WeiChat
+import me.miximixi.tunami.kit.QueryHelper
+import me.miximixi.tunami.persistence.QueryProperty._
 
 /**
  * @Author Sasaki

@@ -9,8 +9,9 @@ import me.miximixi.tunami.kit.JdbcTemplateHandler
 import me.miximixi.tunami.poso.Principal
 import me.miximixi.tunami.kit.JdbcTemplateHandler._
 import com.sasaki.chain.ScalaEntity
-
-
+import me.miximixi.tunami.kit.QueryHelper
+import me.miximixi.tunami.persistence.QueryProperty._
+ 
 /**
  * @Author Sasaki
  * @Mail redskirt@outlook.com

@@ -153,7 +153,7 @@ package object independent {
     def name(o: TimePattern.Value) = o.toString()
   }
   
-  /**
+  /** 
    * // TODO 方法未测试！
    */
   import TimePattern._
