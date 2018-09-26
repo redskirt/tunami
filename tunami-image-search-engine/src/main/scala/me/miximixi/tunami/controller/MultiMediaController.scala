@@ -18,10 +18,14 @@ import me.miximixi.tunami.poso.VshViewMap
 import me.miximixi.tunami.service.VshViewMapService
 import org.springframework.core.io.InputStreamResource
 import me.miximixi.tunami.poso.VshView
-import me.miximixi.tunami.persistence.JosephDao
 import me.miximixi.tunami.poso.Bristol
 import me.miximixi.tunami.poso.Joseph
-
+import me.miximixi.tunami.persistence.YenchingDao
+import me.miximixi.tunami.poso.Yenching
+import me.miximixi.tunami.persistence.WeiChatDao
+import me.miximixi.tunami.persistence.JosephDao
+import me.miximixi.tunami.poso.WeiChat
+ 
 /**
  * @Author Sasaki
  * @Mail redskirt@outlook.com
@@ -37,11 +41,15 @@ class MultiMediaController extends UsefulController with PaginationHandler {
   final val $mapping_photo_list           = "/photo_list_{current}_{size}"
   final val $mapping_photo_list_bristol   = "/photo_list_bristol_{current}_{size}"
   final val $mapping_photo_list_joseph    = "/photo_list_joseph_{current}_{size}"
+  final val $mapping_photo_list_yenching  = "/photo_list_yenching_{current}_{size}"
+  final val $mapping_photo_list_weichat   = "/photo_list_weichat_{current}_{size}"
   final val $mapping_map_list             = "/map_list_{current}_{size}"
   
   final val photo_list                    = "photo_list"
   final val photo_list_bristol            = "photo_list_bristol"
   final val photo_list_joseph             = "photo_list_joseph"
+  final val photo_list_yenching           = "photo_list_yenching"
+  final val photo_list_weichat            = "photo_list_weichat"
   final val map_list                      = "map_list"
 
   @Autowired
@@ -54,7 +62,11 @@ class MultiMediaController extends UsefulController with PaginationHandler {
   var vshViewDao2: VshViewDao2 = _
   @Autowired
   var josephDao: JosephDao = _
-
+  @Autowired
+  var yenchingDao: YenchingDao = _
+  @Autowired 
+  var weichatDao: WeiChatDao = _
+ 
   @GetMapping(Array($mapping_photo_list))
   def photo_list(model: Model, @PathVariable current: Int, @PathVariable size: Int): ModelAndView =
     photo_list(model, __ trim, __ trim, current, size)
@@ -134,6 +146,60 @@ class MultiMediaController extends UsefulController with PaginationHandler {
 
     dispatch(photo_list_joseph)
   }
+  
+  @GetMapping(Array($mapping_photo_list_yenching))
+  def photo_list_yenching(
+		  model:                 Model,
+		  @PathVariable current: Int,
+		  @PathVariable size:    Int): ModelAndView =
+		  photo_list_yenching(model, __ trim, current, size)
+		  
+  @PostMapping(Array($mapping_photo_list_yenching))
+  def photo_list_yenching(
+		  model:                 Model,
+		  @RequestParam keyword: String,
+		  @PathVariable current: Int,
+		  @PathVariable size:    Int): ModelAndView = {
+				  
+		  val count = yenchingDao.count(keyword).getOrElse(0)
+		  val page = new Pagination(count, current, size)
+		  val list = yenchingDao.list(keyword, page.limit)
+		  val html_pagination = buildPaginateTag(s"$class_mapping/$photo_list_yenching", page)
+		  
+		  model.addAttribute("size", size)
+		  model.addAttribute("keyword", if (__ == keyword) "" else keyword)
+		  model.addAttribute("list", list)
+		  model.addAttribute("html_pagination", html_pagination)
+		  
+		  dispatch(photo_list_yenching)
+  }
+  
+  @GetMapping(Array($mapping_photo_list_weichat))
+  def photo_list_weichat(
+		  model:                 Model,
+		  @PathVariable current: Int,
+		  @PathVariable size:    Int): ModelAndView =
+		  photo_list_weichat(model, __ trim, current, size)
+
+  @PostMapping(Array($mapping_photo_list_weichat))
+  def photo_list_weichat(
+    model:                 Model,
+    @RequestParam keyword: String,
+    @PathVariable current: Int,
+    @PathVariable size:    Int): ModelAndView = {
+
+    val count = weichatDao.count(keyword).getOrElse(0)
+    val page = new Pagination(count, current, size)
+    val list = weichatDao.list(keyword, page.limit)
+    val html_pagination = buildPaginateTag(s"$class_mapping/$photo_list_weichat", page)
+
+    model.addAttribute("size", size)
+    model.addAttribute("keyword", if (__ == keyword) "" else keyword)
+    model.addAttribute("list", list)
+    model.addAttribute("html_pagination", html_pagination)
+
+    dispatch(photo_list_weichat)
+  }
 
   @PostMapping(Array($mapping_map_list))
   def map_list(
@@ -199,6 +265,16 @@ class MultiMediaController extends UsefulController with PaginationHandler {
                 o.setId(id.toInt)
                 o.setRemark(remark_)
                 josephDao.update(o)
+              case "yenching" =>
+                val o = new Yenching
+                o.setId(id.toInt)
+                o.setRemark(remark_)
+                yenchingDao.update(o)
+              case "weichat" =>
+                val o = new WeiChat
+                o.setId(id.toInt)
+                o.setRemark(remark_)
+                weichatDao.update(o)
               case _ => 0
             }
           } else

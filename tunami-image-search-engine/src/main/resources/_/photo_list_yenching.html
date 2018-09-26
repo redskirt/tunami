@@ -95,14 +95,17 @@
 										<tr>
 											<th>index</th>
 											<th>thumbnail</th>
-											<th>classmark</th>
-											<th>date</th>
+											<th>title</th>
+											<th>creation date</th>
 											<th>remark</th>
 
-											<th data-hide="phone,tablet">title</th>
-											<th data-hide="phone,tablet">location</th>
-											<th data-hide="phone,tablet">original caption by joseph needham</th>
-											<th data-hide="phone,tablet">photographer</th>
+											<th data-hide="phone,tablet">image name</th>
+											<th data-hide="phone,tablet">author or creator</th>
+											<th data-hide="phone,tablet">description</th>
+											<th data-hide="phone,tablet">dimensions</th>
+											<th data-hide="phone,tablet">notes</th>
+											<th data-hide="phone,tablet">repository</th>
+											<th data-hide="phone,tablet">permalink</th>
 										</tr>
 									</thead>
 									<tbody id="galley">
@@ -120,17 +123,16 @@
 											<td>
 												<input id="id" th:value="@{${o.id}}" style="display: none;" /> 
 												<span class="status-metro status-disabled" th:text="${iterStat.count}"></span> 
-												<!-- classmark中含下划线 -->
-<!-- 												<a th:href="@{'/media/download_joseph_' + ${o.classmark} + '.jpg'}" class="pull-right btn btn-info">下载</a> -->
+												<a th:href="@{'/media/download_harvard-yenching|default_' + ${o.image_name}}" class="pull-right btn btn-info">下载</a>
 											</td>
 											<td>
 												<img 
-													th:data-original="@{'/assets/joseph/' + ${o.classmark} + '.jpg'}"
-													th:src="@{'/assets/joseph/' + ${o.classmark} + '.jpg'}"
+													th:data-original="@{'/assets/harvard-yenching/default/' + ${o.image_name}}"
+													th:src="@{'/assets/harvard-yenching/default/' + ${o.image_name}}"
 													style="width: 300px; height: auto;" />
 											</td>
-											<td th:text="${o.classmark}"></td>
-											<td th:text="${o.date}"></td>
+											<td th:text="${o.title}"></td>
+											<td th:text="${o.creation_date}"></td>
 											<td>
 												<form role="form" class="form-inline">
 													<input th:value="@{${o.id}}" style="display: none;"/>
@@ -148,10 +150,13 @@
 												</div>
 											</td>
 
-											<td th:text="${o.title}"></td>
-											<td th:text="${o.location}"></td>
-											<td th:text="${o.original_caption_by_joseph_needham}"></td>
-											<td th:text="${o.photographer}"></td>
+											<td th:text="${o.image_name}"></td>
+											<td th:text="${o.author_or_creator}"></td>
+											<td th:text="${o.description}"></td>
+											<td th:text="${o.dimensions}"></td>
+											<td th:text="${o.notes}"></td>
+											<td th:text="${o.repository}"></td>
+											<td th:text="${o.permalink}"></td>
 										</tr>
 									</tbody>
 									<tfoot>
@@ -196,15 +201,15 @@
 	<!-- viewer图片放大浏览控件 -->
 	<script th:src="@{/assets/js/viewer.min.js}"></script>
 	    
-		<script th:src="@{/assets/js/custom.js}"></script>
+	<script th:src="@{/assets/js/custom.js}"></script>
 	
 	<script th:inline="javascript">
 	
 		var html_pagination = [[${html_pagination}]];
 	
 		$(function() {
-			remark("joseph");
-			bindingPagination("photo_list_joseph");
+			remark("yenching");
+			bindingPagination("photo_list_yenching");
 		});
 		  
 	</script>

@@ -76,19 +76,7 @@ class JosephDao extends JdbcTemplateHandler with QueryHelper[Joseph] {
       like(keyword), 
       like(keyword), 
       limit._1, 
-      limit._2) { (rs, i) =>
-
-      val o = new Joseph
-      o.setId(rs.getInt(1))
-      o.setTitle(rs.getString(2))
-      o.setLocation(rs.getString(3))
-      o.setDate(rs.getString(4))
-      o.setOriginal_caption_by_joseph_needham(rs.getString(5))
-      o.setPhotographer(rs.getString(6))
-      o.setClassmark(rs.getString(7))
-      o.setRemark(rs.getString(8))
-      o
-    }
+      limit._2) { (rs, i) => buildBean(classOf[Joseph], rs).setId(rs.getInt("id")) }
 
   def update(o: Joseph): Int =
     jdbcTemplate.update(s"""

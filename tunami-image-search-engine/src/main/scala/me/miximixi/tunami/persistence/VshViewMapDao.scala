@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository
  * @Description 
  */
 @Repository
-class VshViewMapDao extends JdbcTemplateHandler with QueryHelper[VshViewMap] with ScalaEntity {
+class VshViewMapDao extends JdbcTemplateHandler with QueryHelper[VshViewMap] {
 
   def count(keyword: String): Option[Int] = None
   
@@ -100,30 +100,7 @@ class VshViewMapDao extends JdbcTemplateHandler with QueryHelper[VshViewMap] wit
       like(keyword), 
       like(keyword), 
       limit._1, 
-      limit._2) { (rs, i) =>
-
-      val map = new VshViewMap
-      map.setId(Int.box(rs.getInt(1)))
-
-      setMultiple_3(map, Array(
-        ("image_name", rs.getString(2), CLASS_STRING),
-        ("image_id", rs.getString(3), CLASS_STRING),
-        ("city", rs.getString(4), CLASS_STRING),
-        ("original_title", rs.getString(5), CLASS_STRING),
-        ("transliteration", rs.getString(6), CLASS_STRING),
-        ("alternative_original_title", rs.getString(7), CLASS_STRING),
-        ("collection", rs.getString(8), CLASS_STRING),
-        ("map_type", rs.getString(9), CLASS_STRING),
-        ("year", rs.getString(10), CLASS_STRING),
-        ("size", rs.getString(11), CLASS_STRING),
-        ("map_support", rs.getString(12), CLASS_STRING),
-        ("authors", rs.getString(13), CLASS_STRING),
-        ("publishers", rs.getString(14), CLASS_STRING),
-        ("repository", rs.getString(15), CLASS_STRING),
-        ("place_of_publication", rs.getString(16), CLASS_STRING),
-        ("retitle", rs.getString(16), CLASS_STRING),
-        ("remark", rs.getString(18), CLASS_STRING)))
-    }
+      limit._2) { (rs, i) => buildBean(classOf[VshViewMap], rs).setId(rs.getInt("id")) }
       
     def update(o: VshViewMap): Int = 
       jdbcTemplate.update(s"""

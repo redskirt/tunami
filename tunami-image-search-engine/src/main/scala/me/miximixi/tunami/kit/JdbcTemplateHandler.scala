@@ -5,6 +5,7 @@ import java.time.{ ZoneId, Instant, LocalDateTime }
 
 import com.sasaki.packages.constant._
 import scala.collection.JavaConverters._
+import reflect.runtime.universe._
 
 import org.springframework.jdbc.core.{ RowMapper, JdbcTemplate }
 
@@ -49,6 +50,35 @@ trait JdbcTemplateHandler { self =>
 //  protected implicit def list2JavaList[T](list: List[T]): com.sasaki.packages.constant.JList[T] = 
 //    list.asJava
 
+  /**
+   * 
+   */
+  protected def buildBean[T: TypeTag](clazz: Class[T], rs: ResultSet, attrs: String*): T = {
+    val constructor = clazz.getConstructor()
+    val objT = constructor.newInstance()
+    val fields_ = clazz.getDeclaredFields
+    val fields =
+      if (null == attrs || attrs.isEmpty || fields_.size == attrs.size)
+        fields_
+      else
+        fields_.filter(o => attrs.contains(o.getName))
+
+    fields
+      .map { o => (o.getName, o.getType) }
+      .foreach { o =>
+        val attr = o._1
+        val field = clazz.getDeclaredField(attr)
+        field.setAccessible(true)
+
+        o._2 match {
+          case _type if _type.equals(classOf[Int])    => field.set(objT, Int.box(rs.getInt(attr)))
+          case _type if _type.equals(classOf[String]) => field.set(objT, rs.getString(attr))
+          case _ => ???
+        }
+      }
+      
+    objT
+  }
 }
 
 object JdbcTemplateHandler {

@@ -18,19 +18,14 @@ import com.sasaki.chain.ScalaEntity
  * @Description
  */
 @Repository
-class PrincipalDao extends JdbcTemplateHandler with QueryHelper[Principal] with ScalaEntity {
+class PrincipalDao extends JdbcTemplateHandler with QueryHelper[Principal] {
   
   def count(keyword: String = __): Option[Int] = None
   
   def list(keyword: String = __, limit: Tuple2[JInt, JInt]): JList[Principal] = null
 
   def query(accountName: String): Option[Principal] =
-    query(s"select id, account_name, password from $attr_principal where account_name = ?", accountName) { (rs, i) =>
-
-      setMultiple(new Principal, Array(
-        ("id", Int.box(rs.getInt(1))),
-        ("account_name", rs.getString(2)),
-        ("password", rs.getString(3))))
-    }.headOption
+    query(s"select id, account_name, password from $attr_principal where account_name = ?", accountName) 
+      {  (rs, i) => buildBean(classOf[Principal], rs).setId(rs.getInt("id")) }.headOption
 
 }

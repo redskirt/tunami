@@ -1,24 +1,24 @@
 package me.miximixi.tunami.persistence
 
+import me.miximixi.tunami.poso.Yenching
 import com.sasaki.packages.constant._
 import me.miximixi.tunami.kit.JdbcTemplateHandler
 import me.miximixi.tunami.kit.JdbcTemplateHandler._
-import me.miximixi.tunami.poso.Bristol
 import org.springframework.stereotype.Repository
 
 /**
  * @Author Sasaki
  * @Mail redskirt@outlook.com
- * @Timestamp Jul 25, 2018 1:06:19 PM
+ * @Timestamp Sep 25, 2018 8:45:57 AM
  * @Description 
  */
 @Repository
-class VshViewDao2 extends JdbcTemplateHandler with QueryHelper[Bristol] {
+class YenchingDao extends JdbcTemplateHandler with QueryHelper[Yenching] {
   
-  def count(keyword: String = __): Option[Int] = 
+    def count(keyword: String = __): Option[Int] = 
     query(s"""
       $count_from
-        $attr_bristol
+        $attr_harvard_yenching
       where true
       ${
         if (__ == keyword)
@@ -26,9 +26,9 @@ class VshViewDao2 extends JdbcTemplateHandler with QueryHelper[Bristol] {
         else """
             	and (
               	title like ?
-              	or original_image_name like ?
-              	or note like ?
-              	or tag like ?
+              	or image_name like ?
+              	or author_or_creator like ?
+              	or notes like ?
               	or remark like ?
             )
             """
@@ -40,21 +40,21 @@ class VshViewDao2 extends JdbcTemplateHandler with QueryHelper[Bristol] {
       like(keyword), 
       like(keyword)) { (rs, i) => rs.getInt(1) }.headOption
     
-  def list(keyword: String = __, limit: Tuple2[JInt, JInt]): JList[Bristol] =
+  def list(keyword: String = __, limit: Tuple2[JInt, JInt]): JList[Yenching] =
     queryJList(s"""
       select 
         id,
-        original_image_name,
+      		image_name,
       		title,
-      		collection,
-      		estimated_date,
-      		note,
-      		identifier,
-      		copyright,
-      		media,
-      		tag,
+      		author_or_creator,
+      		description,
+      		dimensions,
+      		notes,
+      		creation_date,
+      		repository,
+      		permalink,
       		remark
-      from $attr_bristol
+      from $attr_harvard_yenching
       where true
       ${
         if (__ == keyword)
@@ -62,9 +62,9 @@ class VshViewDao2 extends JdbcTemplateHandler with QueryHelper[Bristol] {
         else """
             	and (
               title like ?
-              	or original_image_name like ?
-              	or note like ?
-              	or tag like ?
+              	or image_name like ?
+              	or author_or_creator like ?
+              	or notes like ?
               	or remark like ?
             )
             """
@@ -77,14 +77,15 @@ class VshViewDao2 extends JdbcTemplateHandler with QueryHelper[Bristol] {
       like(keyword), 
       like(keyword), 
       like(keyword), 
-      limit._1, 
-      limit._2) { (rs, i) => buildBean(classOf[Bristol], rs).setId(rs.getInt("id")) }
+      limit._1,
+      limit._2) ((rs, i) => buildBean(classOf[Yenching], rs).setId(Int.box(rs.getInt(0))))
 
-  def update(o: Bristol): Int =
+  def update(o: Yenching): Int =
     jdbcTemplate.update(s"""
-        update $attr_bristol
+        update $attr_harvard_yenching
         set remark=?
         where true
         and id=?
         """, o.remark, o.id)
+  
 }

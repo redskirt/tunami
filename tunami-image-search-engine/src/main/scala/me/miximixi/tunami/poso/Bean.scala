@@ -268,3 +268,95 @@ class Joseph extends Class {
   var remark: String = _
 
 }
+
+class HarvardYenching extends Class {
+
+  @BeanProperty
+  var title: String = _
+
+  @BeanProperty
+  var author_or_creator: String = _
+
+  @BeanProperty
+  var description: String = _
+
+  @BeanProperty
+  var notes: String = _
+
+  @BeanProperty
+  var related_work: String = _
+
+  @BeanProperty
+  var use_restrictions: String = _
+
+  @BeanProperty
+  var create_date: String = _
+
+  @BeanProperty
+  var hollis_number: String = _
+
+  @BeanProperty
+  var permalink: String = _
+
+  @BeanProperty
+  var source: String = _
+}
+
+class Yenching extends Class {
+  
+  @BeanProperty
+  var page: Int = _
+  
+  @BeanProperty
+  var work_id: Int = _
+  
+  @BeanProperty
+  var source_id: Int = _
+  
+  @BeanProperty
+  var image_name: String = _
+  
+  @BeanProperty
+  var title: String = _
+  
+  @BeanProperty
+  var author_or_creator: String = _
+  
+  @BeanProperty
+  var description: String = _
+  
+  @BeanProperty
+  var dimensions: String = _
+  
+  @BeanProperty
+  var notes: String = _
+  
+  @BeanProperty
+  var creation_date: String = _
+  
+  @BeanProperty
+  var repository: String = _
+  
+  @BeanProperty
+  var permalink: String = _
+  
+  @BeanProperty
+  var remark: String = _
+  
+}
+
+class WeiChat extends Class {
+
+  @BeanProperty
+  var original_title: String = _
+  
+  @BeanProperty
+  var image_name: String = _
+  
+  @BeanProperty
+  var source: String = _
+  
+  @BeanProperty
+  var remark: String = _
+  
+}

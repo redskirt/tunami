@@ -102,36 +102,7 @@ class VshViewDao extends JdbcTemplateHandler with QueryHelper[VshView] {
       like(keyword), 
       like(keyword), 
       limit._1, 
-      limit._2) { (rs, i) =>
-
-      val map = new VshView
-      map.setId(Int.box(rs.getInt(1)))
-      map.setRemark(rs.getString(2))
-      map.setRetitle(rs.getString(3))
-      map.setPage_id(rs.getString(4))
-      map.setImage_id(rs.getString(5))
-      map.setImage_name(rs.getString(6))
-      map.setCity(rs.getString(7))
-      map.setTitle(rs.getString(8))
-      map.setCollection(rs.getString(9))
-      map.setLocation(rs.getString(10))
-      map.setExtent(rs.getString(11))
-      map.setYear(rs.getString(12))
-      map.setDate(rs.getString(13))
-      map.setPhotographer(rs.getString(14))
-      map.setEstimated_date(rs.getString(15))
-      map.setImage_type(rs.getString(16))
-      map.setMaterial_form_of_image(rs.getString(17))
-      map.setPrivate_repository(rs.getString(18))
-      map.setNotes(rs.getString(19))
-      map.setKeywords_en(rs.getString(20))
-      map.setKeywords_fr(rs.getString(21))
-      map.setStreet_name(rs.getString(22))
-      map.setRepository(rs.getString(23))
-      map.setBuilding(rs.getString(24))
-      map.setRelated_image(rs.getString(25))
-      map
-    }
+      limit._2) { (rs, i) => buildBean(classOf[VshView], rs).setId(rs.getInt("id")) }
 
   def update(o: VshView): Int =
     jdbcTemplate.update(s"""
