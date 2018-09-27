@@ -15,7 +15,7 @@ import me.miximixi.tunami.persistence.QueryProperty.mappingTable
  * @Description
  */
 
-private[me] abstract class QueryDao[T: TypeTag] extends JdbcTemplateHandler with QueryHelper { self =>
+private[me] abstract class QueryDao[T: TypeTag] extends JdbcTemplateHandler with QueryFragmentHelper { self =>
    
   protected lazy val table = mappingTable[T]
 

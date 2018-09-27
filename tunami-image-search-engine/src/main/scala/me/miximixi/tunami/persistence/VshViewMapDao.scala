@@ -6,7 +6,7 @@ import me.miximixi.tunami.kit.JdbcTemplateHandler
 import me.miximixi.tunami.kit.JdbcTemplateHandler._
 import me.miximixi.tunami.poso.VshViewMap
 import org.springframework.stereotype.Repository
-import me.miximixi.tunami.kit.QueryHelper
+import me.miximixi.tunami.kit.QueryFragmentHelper
 import me.miximixi.tunami.persistence.QueryProperty._
 import me.miximixi.tunami.kit.QueryDao
 

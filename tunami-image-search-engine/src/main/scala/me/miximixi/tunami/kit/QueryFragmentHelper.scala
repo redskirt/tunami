@@ -8,7 +8,7 @@ import com.sasaki.packages.constant._
  * @Timestamp Jun 18, 2018 11:15:36 PM
  * @Description 
  */
-trait QueryHelper { 
+trait QueryFragmentHelper { 
 
   protected final val __ = "__"
   protected final val and_? = " and ? is false " // 若有多余参数但不需要赋值，则用该变量占位
