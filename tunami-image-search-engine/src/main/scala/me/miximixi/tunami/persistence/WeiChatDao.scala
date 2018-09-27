@@ -6,7 +6,7 @@ import com.sasaki.packages.constant.JInt
 import com.sasaki.packages.constant.JList
 
 import me.miximixi.tunami.kit.JdbcTemplateHandler.mapRow
-import me.miximixi.tunami.kit.QueryDao
+import me.miximixi.tunami.kit.AbstractQueryDao
 import me.miximixi.tunami.persistence.QueryProperty.attr_weichat
 import me.miximixi.tunami.poso.WeiChat
 
@@ -17,12 +17,12 @@ import me.miximixi.tunami.poso.WeiChat
  * @Description 
  */
 @Repository
-class WeiChatDao extends QueryDao[WeiChat] {
+class WeiChatDao extends AbstractQueryDao[WeiChat] {
 
   def count(keyword: String = __): Option[Int] = 
     query(s"""
       $from_count
-        $attr_weichat
+        $table
       where true
       ${
         if (__ == keyword)
@@ -48,7 +48,7 @@ class WeiChatDao extends QueryDao[WeiChat] {
       		image_name,
       		source,
       		remark
-      from $attr_weichat
+      from $table
       where true
       ${
         if (__ == keyword)
@@ -72,7 +72,7 @@ class WeiChatDao extends QueryDao[WeiChat] {
 
   def update(o: WeiChat): Int =
     jdbcTemplate.update(s"""
-        update $attr_weichat
+        update $table
         set remark=?
         where true
         and id=?

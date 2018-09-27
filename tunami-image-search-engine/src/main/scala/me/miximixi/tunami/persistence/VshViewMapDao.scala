@@ -8,7 +8,7 @@ import me.miximixi.tunami.poso.VshViewMap
 import org.springframework.stereotype.Repository
 import me.miximixi.tunami.kit.QueryFragmentHelper
 import me.miximixi.tunami.persistence.QueryProperty._
-import me.miximixi.tunami.kit.QueryDao
+import me.miximixi.tunami.kit.AbstractQueryDao
 
 /**
  * @Author Sasaki
@@ -17,7 +17,7 @@ import me.miximixi.tunami.kit.QueryDao
  * @Description 
  */
 @Repository
-class VshViewMapDao extends QueryDao[VshViewMap] {
+class VshViewMapDao extends AbstractQueryDao[VshViewMap] {
 
   def count(keyword: String): Option[Int] = None
   

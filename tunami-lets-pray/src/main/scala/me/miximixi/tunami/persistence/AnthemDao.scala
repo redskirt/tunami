@@ -1,14 +1,11 @@
 package me.miximixi.tunami.persistence
 
-import com.sasaki.chain.ScalaEntity
-import me.miximixi.tunami.kit.AbstractQueryHander
 import org.springframework.stereotype.Repository
-import me.miximixi.tunami.kit.JdbcTemplateHandler
+
+import com.sasaki.packages.constant.JList
+
+import me.miximixi.tunami.kit.AbstractQueryDao
 import me.miximixi.tunami.kit.JdbcTemplateHandler.mapRow
-import me.miximixi.tunami.poso.Prophet
-import com.sasaki.packages.constant.{ JInt, JList }
-import org.springframework.jdbc.core.BatchPreparedStatementSetter
-import java.sql.PreparedStatement
 import me.miximixi.tunami.poso.Anthem
 
 
@@ -19,15 +16,9 @@ import me.miximixi.tunami.poso.Anthem
  * @Description
  */
 @Repository
-class AnthemDao extends JdbcTemplateHandler with DB {
+class AnthemDao extends AbstractQueryDao[Anthem] {
 
-  def list: JList[Anthem] = 
-    queryJList(s"""select `name`, artist, `order` from $attr_anthem order by `order`""") { (rs, i) =>
-      val o = new Anthem
-      o.setName(rs.getString(1))
-      o.setArtist(rs.getString(2))
-      o.setOrder(rs.getInt(3))
-      o
-    }
+  override def list: JList[Anthem] = 
+    queryJList(s"""select `name`, artist, `order` from $table order by `order`""") { (rs, i) => buildBean(classOf[Anthem], rs) }
 
 }

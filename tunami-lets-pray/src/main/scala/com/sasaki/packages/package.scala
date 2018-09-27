@@ -153,7 +153,7 @@ package object independent {
     def name(o: TimePattern.Value) = o.toString()
   }
   
-  /**
+  /** 
    * // TODO 方法未测试！
    */
   import TimePattern._
@@ -220,16 +220,26 @@ package object reflect {
    */
   def classpath = 
     independent.erase(getClass.getClassLoader.getResource($e).toString, "file:/")
-  
+    
   def clazz[T: TT]: ClassSymbol = symbolOf[T].asClass
 
+  /**
+   * 由 Java Reflect 获得泛型的类型 Class[T]
+   * 适用于 abstract class 或 trait
+   */
+  def extractTypeClass[T: TT](self: AnyRef): Class[T] = self.getClass()
+      .getGenericSuperclass()
+      .asInstanceOf[java.lang.reflect.ParameterizedType]
+      .getActualTypeArguments.apply(0)
+      .asInstanceOf[Class[T]]
+  
   def buildInstance[T: TT](args: A*): T =
     runtimeMirror(getClass.getClassLoader)
       .reflectClass(clazz[T])
       .reflectConstructor(extractConstructor[T])
       .apply(args: _*)
       .asInstanceOf[T]
-  
+
   def extractConstructor[T: TT]: MethodSymbol = 
     typeOf[T].decl(termNames.CONSTRUCTOR).asMethod
 

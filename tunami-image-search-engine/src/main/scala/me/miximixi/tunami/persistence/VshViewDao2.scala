@@ -7,7 +7,7 @@ import me.miximixi.tunami.poso.Bristol
 import org.springframework.stereotype.Repository
 import me.miximixi.tunami.kit.QueryFragmentHelper
 import me.miximixi.tunami.persistence.QueryProperty._
-import me.miximixi.tunami.kit.QueryDao
+import me.miximixi.tunami.kit.AbstractQueryDao
 
 /**
  * @Author Sasaki
@@ -16,7 +16,7 @@ import me.miximixi.tunami.kit.QueryDao
  * @Description 
  */
 @Repository
-class VshViewDao2 extends QueryDao[Bristol] {
+class VshViewDao2 extends AbstractQueryDao[Bristol] {
   
   def count(keyword: String = __): Option[Int] = 
     query(s"""

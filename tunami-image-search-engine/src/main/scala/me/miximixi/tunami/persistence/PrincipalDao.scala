@@ -4,7 +4,7 @@ import org.springframework.stereotype.Repository
 
 import me.miximixi.tunami.kit.JdbcTemplateHandler
 import me.miximixi.tunami.kit.JdbcTemplateHandler.mapRow
-import me.miximixi.tunami.kit.QueryDao
+import me.miximixi.tunami.kit.AbstractQueryDao
 import me.miximixi.tunami.persistence.QueryProperty.attr_principal
 import me.miximixi.tunami.poso.Principal
 
@@ -16,7 +16,7 @@ import me.miximixi.tunami.poso.Principal
  * @Description
  */
 @Repository
-class PrincipalDao extends QueryDao[Principal]  with JdbcTemplateHandler {
+class PrincipalDao extends AbstractQueryDao[Principal]  with JdbcTemplateHandler {
    
   def query(accountName: String): Option[Principal] =
     query(s"select id, account_name, password from $attr_principal where account_name = ?", accountName) 

@@ -6,7 +6,7 @@ import com.sasaki.packages.constant.JInt
 import com.sasaki.packages.constant.JList
 
 import me.miximixi.tunami.kit.JdbcTemplateHandler.mapRow
-import me.miximixi.tunami.kit.QueryDao
+import me.miximixi.tunami.kit.AbstractQueryDao
 import me.miximixi.tunami.persistence.QueryProperty.attr_joseph
 import me.miximixi.tunami.poso.Joseph
 
@@ -17,7 +17,7 @@ import me.miximixi.tunami.poso.Joseph
  * @Description 
  */
 @Repository
-class JosephDao extends QueryDao[Joseph] {
+class JosephDao extends AbstractQueryDao[Joseph] {
 
   def count(keyword: String = __): Option[Int] = 
     query(s"""

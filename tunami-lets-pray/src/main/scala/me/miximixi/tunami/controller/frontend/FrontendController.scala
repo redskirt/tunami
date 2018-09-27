@@ -145,7 +145,9 @@ class FrontendController @Autowired() (
               o.setLocation(location)
               o.setGender(gender)
               o.setTarget(target)
-              val result = prayerDao.insert(o)
+              
+              val result = prayerDao.insert(List(o))
+              
               if(1 == result)
                 ($verify -> true) ~ ($message -> JNull)
               else

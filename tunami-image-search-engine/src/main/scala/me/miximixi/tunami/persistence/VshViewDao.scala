@@ -7,7 +7,7 @@ import me.miximixi.tunami.poso.VshView
 import org.springframework.stereotype.Repository
 import me.miximixi.tunami.kit.QueryFragmentHelper
 import me.miximixi.tunami.persistence.QueryProperty._
-import me.miximixi.tunami.kit.QueryDao
+import me.miximixi.tunami.kit.AbstractQueryDao
 
 /**
  * @Author Sasaki
@@ -16,7 +16,7 @@ import me.miximixi.tunami.kit.QueryDao
  * @Description 
  */
 @Repository
-class VshViewDao extends QueryDao[VshView] {
+class VshViewDao extends AbstractQueryDao[VshView] {
   
   def count(keyword: String): Option[Int] = None
   
@@ -25,7 +25,7 @@ class VshViewDao extends QueryDao[VshView] {
   def count(city: String = __, keyword: String = __): Option[Int] = 
     query(s"""
       $from_count
-        $attr_vsh_view
+        $table
       where true
       ${ and("city", city) }
       ${ not_null("image_id") }

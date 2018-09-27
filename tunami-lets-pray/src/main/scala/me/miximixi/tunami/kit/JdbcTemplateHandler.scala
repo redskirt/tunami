@@ -1,12 +1,18 @@
 package me.miximixi.tunami.kit
 
-import java.sql.{ ResultSet, Timestamp }
-import java.time.{ ZoneId, Instant, LocalDateTime }
+import java.sql.ResultSet
+import java.sql.Timestamp
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
 
-import com.sasaki.packages.constant._
-import scala.collection.JavaConverters._
+import scala.collection.JavaConverters.asScalaBufferConverter
+import reflect.runtime.universe.TypeTag
 
-import org.springframework.jdbc.core.{ RowMapper, JdbcTemplate }
+import org.springframework.jdbc.core.JdbcTemplate
+import org.springframework.jdbc.core.RowMapper
+
+import com.sasaki.packages.constant.JList
 
 /**
  * @Author Sasaki
@@ -16,7 +22,7 @@ import org.springframework.jdbc.core.{ RowMapper, JdbcTemplate }
  * Ref: https://github.com/j-shepard/java-vs-scala
  */
 trait JdbcTemplateHandler { self =>
-    
+  
   protected var jdbcTemplate: JdbcTemplate = _
 
   @org.springframework.beans.factory.annotation.Autowired
@@ -49,7 +55,39 @@ trait JdbcTemplateHandler { self =>
 //  protected implicit def list2JavaList[T](list: List[T]): com.sasaki.packages.constant.JList[T] = 
 //    list.asJava
 
-//  protected def getString[T](rs:ResultSet, column: String) = rs.getString(columnIndex)
+  /**
+   * 
+   */
+  protected def buildBean[T: TypeTag](clazz: Class[T], rs: ResultSet, attrs: String*): T = {
+    val constructor = clazz.getConstructor()
+    val objT = constructor.newInstance()
+    val fields_ = clazz.getDeclaredFields
+    val fields =
+      if (null == attrs || attrs.isEmpty || fields_.size == attrs.size)
+        fields_
+      else
+        fields_.filter(o => attrs.contains(o.getName))
+
+    fields
+      .map { o => (o.getName, o.getType) }
+      .foreach { o =>
+        val attr = o._1
+        val field = clazz.getDeclaredField(attr)
+        field.setAccessible(true)
+
+        o._2 match {
+          case _type if _type.equals(classOf[Int])     => field.set(objT, Int.box(rs.getInt(attr)))
+          case _type if _type.equals(classOf[Long])    => field.set(objT, rs.getLong(attr))
+          case _type if _type.equals(classOf[String])  => field.set(objT, rs.getString(attr))
+          case _type if _type.equals(classOf[Boolean]) => field.set(objT, rs.getBoolean(attr))
+          case _ =>
+            println("From me.miximixi.tunami.kit.buildBean method，未知的类型。")
+            ???
+        }
+      }
+      
+    objT
+  }
 }
 
 object JdbcTemplateHandler {
@@ -72,13 +110,4 @@ final class RichResultSet(rs: ResultSet) {
   def getLocalDateTime(colIndex: Int): LocalDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(rs.getTimestamp(colIndex).getTime()), ZoneId.systemDefault())
 }
 
-abstract class AbstractQueryHander[T] {
-    
-  def insert(seq: Seq[T]): Int
-  
-  def insert(o: T): Int = insert(Seq(o))
-  
-  def list: JList[T]
-  
-  def update(o: T): Int
-}
+class ResultsNonSingleException extends Exception("Returned too many results.")

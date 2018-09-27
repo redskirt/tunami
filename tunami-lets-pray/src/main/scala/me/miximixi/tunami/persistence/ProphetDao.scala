@@ -1,14 +1,16 @@
 package me.miximixi.tunami.persistence
 
-import me.miximixi.tunami.kit.AbstractQueryHander
-import org.springframework.stereotype.Repository
-import me.miximixi.tunami.kit.JdbcTemplateHandler
-import me.miximixi.tunami.kit.JdbcTemplateHandler.mapRow
-import me.miximixi.tunami.poso.Prophet
-import com.sasaki.packages.constant.{ JInt, JList }
-import org.springframework.jdbc.core.BatchPreparedStatementSetter
 import java.sql.PreparedStatement
 
+import org.springframework.jdbc.core.BatchPreparedStatementSetter
+import org.springframework.stereotype.Repository
+
+import com.sasaki.packages.constant.JInt
+import com.sasaki.packages.constant.JList
+
+import me.miximixi.tunami.kit.AbstractQueryDao
+import me.miximixi.tunami.kit.JdbcTemplateHandler.mapRow
+import me.miximixi.tunami.poso.Prophet
 
 /**
  * @Author Sasaki
@@ -17,12 +19,12 @@ import java.sql.PreparedStatement
  * @Description
  */
 @Repository
-class ProphetDao extends AbstractQueryHander[Prophet] with JdbcTemplateHandler with DB {
+class ProphetDao extends AbstractQueryDao[Prophet] {
 
-  def insert(seq: Seq[Prophet]) = 
+  def insert(seq: Seq[Prophet]) =
     jdbcTemplate.batchUpdate(s"""
        insert into 
-       $attr_prophet (
+       $table (
         content, 
         category,
         chapter
@@ -37,12 +39,8 @@ class ProphetDao extends AbstractQueryHander[Prophet] with JdbcTemplateHandler w
       override def getBatchSize() = seq.size
     }).reduce(_ + _)
 
-  def listCategory: JList[String] = 
-    queryJList(s"select distinct category from $attr_prophet") { (rs, i) =>
-      rs.getString(1)
-    }
-  
-  def list = ???
+  def listCategory: JList[String] =
+    queryJList(s"select distinct category from $table") { (rs, i) => rs.getString(1) }
 
   def list(minId: JInt = 0, category: String = __): JList[Prophet] =
     queryJList(s"""
@@ -51,30 +49,22 @@ class ProphetDao extends AbstractQueryHander[Prophet] with JdbcTemplateHandler w
         content,
         category,
         chapter
-      from $attr_prophet
+      from $table
       where true
-      ${ if(0 != minId) "and id<?" else and_? }
-      ${ and("category", category) }
+      ${if (0 != minId) "and id<?" else and_?}
+      ${and("category", category)}
       order by id desc
-      limit ${ if(0 != minId) 5/*增量加载数*/ else 20/*初始化加载数*/ }
-      """, minId, category) { (rs, i) =>
-
-      val o = new Prophet
-      o.setId(rs.getInt(1))
-      o.setContent(rs.getString(2))
-      o.setCategory(rs.getString(3))
-      o.setChapter(rs.getString(4))
-      o
+      limit ${ if (0 != minId) 5 /*增量加载数*/ else 20 /*初始化加载数*/ }
+      """, minId, category) { (rs, i) => 
+        buildBean(classOf[Prophet], rs, "content", "category", "chapter").setId(rs.getInt(1))
     }
-    
-  def update(o: Prophet) = ???
-      
+
   def update(ids: Array[Object]) = jdbcTemplate.update(s"""
-		  update $attr_prophet
+		  update $table
 		  set see = see + 1
-		  where id in (${ ids.map(o => "?").mkString(", ") })
-  """, ids:_*)
-  
-  def queryMaxDate: Option[String] = 
-    query(s"select max(date) from $attr_gospel")((rs, i) => rs.getString(1)).headOption
+		  where id in (${ids.map(o => "?").mkString(", ")})
+  """, ids: _*)
+
+  def queryMaxDate: Option[String] =
+    query(s"select max(date) from $table")((rs, i) => rs.getString(1)).headOption
 }

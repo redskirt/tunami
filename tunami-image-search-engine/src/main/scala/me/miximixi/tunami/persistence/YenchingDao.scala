@@ -6,7 +6,7 @@ import com.sasaki.packages.constant.JInt
 import com.sasaki.packages.constant.JList
 
 import me.miximixi.tunami.kit.JdbcTemplateHandler.mapRow
-import me.miximixi.tunami.kit.QueryDao
+import me.miximixi.tunami.kit.AbstractQueryDao
 import me.miximixi.tunami.persistence.QueryProperty.attr_harvard_yenching
 import me.miximixi.tunami.poso.Yenching
 
@@ -17,7 +17,7 @@ import me.miximixi.tunami.poso.Yenching
  * @Description 
  */
 @Repository
-class YenchingDao extends QueryDao[Yenching] {
+class YenchingDao extends AbstractQueryDao[Yenching] {
 
   def count(keyword: String = __): Option[Int] =
     query(

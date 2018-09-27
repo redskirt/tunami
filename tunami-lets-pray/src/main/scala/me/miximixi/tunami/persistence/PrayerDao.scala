@@ -5,11 +5,9 @@ import java.sql.PreparedStatement
 import org.springframework.jdbc.core.BatchPreparedStatementSetter
 import org.springframework.stereotype.Repository
 
-import com.sasaki.chain.ScalaEntity
 import com.sasaki.packages.constant.JInt
 
-import me.miximixi.tunami.kit.AbstractQueryHander
-import me.miximixi.tunami.kit.JdbcTemplateHandler
+import me.miximixi.tunami.kit.AbstractQueryDao
 import me.miximixi.tunami.kit.JdbcTemplateHandler.mapRow
 import me.miximixi.tunami.poso.Prayer
 
@@ -20,7 +18,7 @@ import me.miximixi.tunami.poso.Prayer
  * @Description
  */
 @Repository
-class PrayerDao extends AbstractQueryHander[Prayer] with JdbcTemplateHandler with DB with ScalaEntity {
+class PrayerDao extends AbstractQueryDao[Prayer] {
 
   def list(minId: JInt = 0): List[Prayer] =
     query(s"""
@@ -32,28 +30,17 @@ class PrayerDao extends AbstractQueryHander[Prayer] with JdbcTemplateHandler wit
         target,
         see,
         digg
-      from $bhvr_prayer 
+      from $table 
       where true
       ${ if(0 != minId) "and id<?" else and_? }
       order by id desc
       limit ${ if(0 != minId) 5/*增量加载数*/ else 20/*初始化加载数*/ }
-      """, minId) { (rs, i) =>
-
-      val o = new Prayer
-      o.setId(Int.box(rs.getInt(1)))
-      setMultiple(o, Array(
-        ("content", rs.getString(2)),
-        ("location", rs.getString(3)),
-        ("gender", rs.getString(4)),
-        ("target", rs.getString(5)),
-        ("see", Int.box(rs.getInt(6))),
-        ("digg", Int.box(rs.getInt(7)))))
-    }
+      """, minId) { (rs, i) => buildBean(classOf[Prayer], rs).setId(rs.getInt(1)) }
   
-  override def insert(seq: Seq[Prayer]): Int =
+  def insert(seq: Seq[Prayer]): Int =
     jdbcTemplate.batchUpdate(s"""
        insert into 
-       $bhvr_prayer (
+       $table (
         content, 
         location,
         gender,
@@ -75,16 +62,12 @@ class PrayerDao extends AbstractQueryHander[Prayer] with JdbcTemplateHandler wit
       override def getBatchSize() = seq.size
     }).reduce(_ + _)
     
-  override def list = ???
-  
-  override def update(o: Prayer) = ???
-  
   /**
    * 新增相应id的浏览数
    */
   def update(ids: Array[Object]) = 
     jdbcTemplate.update(s"""
-      update $bhvr_prayer
+      update $table
       set see = see + 1
       where id in (${ ids.map(o => "?").mkString(", ") })
       """, ids:_*)

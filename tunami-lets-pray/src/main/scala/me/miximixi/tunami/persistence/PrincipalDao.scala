@@ -1,12 +1,10 @@
 package me.miximixi.tunami.persistence
 
 import org.springframework.stereotype.Repository
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.jdbc.core.JdbcTemplate
-import me.miximixi.tunami.kit.JdbcTemplateHandler
+
+import me.miximixi.tunami.kit.AbstractQueryDao
+import me.miximixi.tunami.kit.JdbcTemplateHandler.mapRow
 import me.miximixi.tunami.poso.Principal
-import me.miximixi.tunami.kit.JdbcTemplateHandler._
-import com.sasaki.chain.ScalaEntity
 
 
 /**
@@ -16,15 +14,11 @@ import com.sasaki.chain.ScalaEntity
  * @Description
  */
 @Repository
-class PrincipalDao extends JdbcTemplateHandler with DB with ScalaEntity {
+class PrincipalDao extends AbstractQueryDao[Principal] {
 
   def query(accountName: String): Option[Principal] =
-    query(s"select id, account_name, password from $attr_principal where account_name = ?", accountName) { (rs, i) =>
-
-      setMultiple(new Principal, Array(
-        ("id", Int.box(rs.getInt(1))),
-        ("account_name", rs.getString(2)),
-        ("password", rs.getString(3))))
+    query(s"select id, account_name, password from $table where account_name = ?", accountName) { (rs, i) =>
+      buildBean(classOf[Principal], rs, "account_name", "password").setId(rs.getInt(1))
     }.headOption
 
 }

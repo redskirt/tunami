@@ -1,16 +1,14 @@
 package me.miximixi.tunami.persistence
 
+import java.sql.Date
+import java.sql.PreparedStatement
+
+import org.springframework.jdbc.core.BatchPreparedStatementSetter
 import org.springframework.stereotype.Repository
 
-import com.sasaki.chain.ScalaEntity
-
-import me.miximixi.tunami.kit.JdbcTemplateHandler
+import me.miximixi.tunami.kit.AbstractQueryDao
 import me.miximixi.tunami.kit.JdbcTemplateHandler.mapRow
 import me.miximixi.tunami.poso.Gospel
-import me.miximixi.tunami.kit.AbstractQueryHander
-import org.springframework.jdbc.core.BatchPreparedStatementSetter
-import java.sql.PreparedStatement
-import java.sql.Date
 
 /**
  * @Author Sasaki
@@ -19,23 +17,16 @@ import java.sql.Date
  * @Description
  */
 @Repository
-class GospelDao extends AbstractQueryHander[Gospel] with JdbcTemplateHandler with DB with ScalaEntity {
+class GospelDao extends AbstractQueryDao[Gospel] {
 
   def query(date: Date): Option[Gospel] =
-    query(s"select id, content, chapter, date from $attr_gospel where date=? limit 1", date) { (rs, i) =>
-
-      val o = new Gospel
-      o.setId(Int.box(rs.getInt(1)))
-      setMultiple(o, Array(
-        ("content", rs.getString(2)),
-        ("chapter", rs.getString(3)),
-        ("date", rs.getDate(4))))
-    }.headOption
+    query(s"select id, content, chapter, date from $table where date=? limit 1", date) 
+      { (rs, i) => buildBean(classOf[Gospel], rs).setId(rs.getInt(1)) }.headOption
     
-  override def insert(seq: Seq[Gospel]): Int =
+  def insert(seq: Seq[Gospel]): Int =
     jdbcTemplate.batchUpdate(s"""
        insert into 
-       $attr_gospel (content, date, chapter, timestamp)
+       $table (content, date, chapter, timestamp)
        values (?, ?, ?, ?)
        """, new BatchPreparedStatementSetter() {
 
@@ -49,7 +40,4 @@ class GospelDao extends AbstractQueryHander[Gospel] with JdbcTemplateHandler wit
       override def getBatchSize() = seq.size
     }).reduce(_ + _)
     
-  override def list = ???
-  
-  override def update(o: Gospel) = ???
 }
