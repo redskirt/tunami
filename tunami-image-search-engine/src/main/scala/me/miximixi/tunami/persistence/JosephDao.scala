@@ -1,13 +1,14 @@
 package me.miximixi.tunami.persistence
 
-import com.sasaki.packages.constant._ 
-import me.miximixi.tunami.kit.JdbcTemplateHandler
-import me.miximixi.tunami.kit.JdbcTemplateHandler._
-import me.miximixi.tunami.poso.Bristol
 import org.springframework.stereotype.Repository
+
+import com.sasaki.packages.constant.JInt
+import com.sasaki.packages.constant.JList
+
+import me.miximixi.tunami.kit.JdbcTemplateHandler.mapRow
+import me.miximixi.tunami.kit.QueryDao
+import me.miximixi.tunami.persistence.QueryProperty.attr_joseph
 import me.miximixi.tunami.poso.Joseph
-import me.miximixi.tunami.kit.QueryHelper
-import me.miximixi.tunami.persistence.QueryProperty._
 
 /**
  * @Author Sasaki
@@ -16,11 +17,11 @@ import me.miximixi.tunami.persistence.QueryProperty._
  * @Description 
  */
 @Repository
-class JosephDao extends JdbcTemplateHandler with QueryHelper[Joseph] {
-  
+class JosephDao extends QueryDao[Joseph] {
+
   def count(keyword: String = __): Option[Int] = 
     query(s"""
-      $count_from
+      $from_count
         $attr_joseph
       where true
       ${

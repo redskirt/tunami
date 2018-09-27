@@ -7,6 +7,7 @@ import me.miximixi.tunami.poso.VshView
 import org.springframework.stereotype.Repository
 import me.miximixi.tunami.kit.QueryHelper
 import me.miximixi.tunami.persistence.QueryProperty._
+import me.miximixi.tunami.kit.QueryDao
 
 /**
  * @Author Sasaki
@@ -15,7 +16,7 @@ import me.miximixi.tunami.persistence.QueryProperty._
  * @Description 
  */
 @Repository
-class VshViewDao extends JdbcTemplateHandler with QueryHelper[VshView] {
+class VshViewDao extends QueryDao[VshView] {
   
   def count(keyword: String): Option[Int] = None
   
@@ -23,7 +24,7 @@ class VshViewDao extends JdbcTemplateHandler with QueryHelper[VshView] {
     
   def count(city: String = __, keyword: String = __): Option[Int] = 
     query(s"""
-      $count_from
+      $from_count
         $attr_vsh_view
       where true
       ${ and("city", city) }

@@ -8,15 +8,13 @@ import com.sasaki.packages.constant._
  * @Timestamp Jun 18, 2018 11:15:36 PM
  * @Description 
  */
-trait QueryHelper[T] { 
+trait QueryHelper { 
 
-  def count(keyword: String): Option[Int]
-  def list(keyword: String, limit: Tuple2[JInt, JInt]): JList[T]
-   
-  final val __ = "__"
-  final val and_? = " and ? is false " // 若有多余参数但不需要赋值，则用该变量占位
-  final val count_from = "select count(0) from "
-  final val limit_? = " limit ?,? "
+  protected final val __ = "__"
+  protected final val and_? = " and ? is false " // 若有多余参数但不需要赋值，则用该变量占位
+  protected final val from_* = "select * from "
+  protected final val from_count = "select count(0) from "
+  protected final val limit_? = " limit ?,? "
   
   protected def and(column: String, value: String): String = if(__ != value) s"and $column = ?\n" else and_?
   protected def and(column: JInt): String = if(0 != column) s"and $column = ?\n" else and_?

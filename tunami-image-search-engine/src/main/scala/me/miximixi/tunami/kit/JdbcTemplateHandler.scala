@@ -1,13 +1,18 @@
 package me.miximixi.tunami.kit
 
-import java.sql.{ ResultSet, Timestamp }
-import java.time.{ ZoneId, Instant, LocalDateTime }
+import java.sql.ResultSet
+import java.sql.Timestamp
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
 
-import com.sasaki.packages.constant._
-import scala.collection.JavaConverters._
-import reflect.runtime.universe._
+import scala.collection.JavaConverters.asScalaBufferConverter
+import reflect.runtime.universe.TypeTag
 
-import org.springframework.jdbc.core.{ RowMapper, JdbcTemplate }
+import org.springframework.jdbc.core.JdbcTemplate
+import org.springframework.jdbc.core.RowMapper
+
+import com.sasaki.packages.constant.JList
 
 /**
  * @Author Sasaki
@@ -79,6 +84,7 @@ trait JdbcTemplateHandler { self =>
       
     objT
   }
+
 }
 
 object JdbcTemplateHandler {
@@ -100,3 +106,5 @@ object JdbcTemplateHandler {
 final class RichResultSet(rs: ResultSet) {
   def getLocalDateTime(colIndex: Int): LocalDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(rs.getTimestamp(colIndex).getTime()), ZoneId.systemDefault())
 }
+
+class ResultsNonSingleException extends Exception("Returned too many results.")

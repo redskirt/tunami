@@ -2,6 +2,8 @@ package me.miximixi.tunami.poso
 
 import scala.beans.BeanProperty
 
+import org.springframework.context.annotation.Bean
+
 /**
  * @Author Sasaki
  * @Mail redskirt@outlook.com
@@ -9,14 +11,14 @@ import scala.beans.BeanProperty
  * @Description
  */
 
-class Metadata extends Class {
+class Metadata extends PrimaryBean {
   
   @BeanProperty // -> image_repo
   var imageRepo: String = _
   
 }
 
-class Principal extends Class {
+class Principal extends PrimaryBean {
 
   @BeanProperty
   var account_name: String = _
@@ -32,7 +34,7 @@ class Principal extends Class {
 
 }
 
-class ImageContent extends Class {
+class ImageContent extends PrimaryBean {
 
   @BeanProperty
   var dir: String = _
@@ -54,7 +56,7 @@ class ImageContent extends Class {
 
 }
 
-class VshViewMap extends Class {
+class VshViewMap extends PrimaryBean {
   
   @BeanProperty
   var remark: String = _
@@ -118,7 +120,7 @@ class VshViewMap extends Class {
   
 }
 
-class VshView extends Class {
+class VshView extends PrimaryBean {
   
   @BeanProperty
   var remark: String = _
@@ -211,7 +213,7 @@ class VshView extends Class {
   var tags: String = _
 }
 
-class Bristol extends Class {
+class Bristol extends PrimaryBean {
   
   @BeanProperty
   var original_image_name: String = _
@@ -244,7 +246,7 @@ class Bristol extends Class {
   var remark: String = _
 }
 
-class Joseph extends Class {
+class Joseph extends PrimaryBean {
 
   @BeanProperty
   var title: String = _
@@ -269,7 +271,7 @@ class Joseph extends Class {
 
 }
 
-class HarvardYenching extends Class {
+class HarvardYenching extends PrimaryBean {
 
   @BeanProperty
   var title: String = _
@@ -302,7 +304,7 @@ class HarvardYenching extends Class {
   var source: String = _
 }
 
-class Yenching extends Class {
+class Yenching extends PrimaryBean {
   
   @BeanProperty
   var page: Int = _
@@ -345,7 +347,7 @@ class Yenching extends Class {
   
 }
 
-class WeiChat extends Class {
+class WeiChat extends PrimaryBean {
 
   @BeanProperty
   var original_title: String = _

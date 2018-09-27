@@ -1,12 +1,14 @@
 package me.miximixi.tunami.persistence
 
-import me.miximixi.tunami.poso.Yenching
-import com.sasaki.packages.constant._
-import me.miximixi.tunami.kit.JdbcTemplateHandler
-import me.miximixi.tunami.kit.JdbcTemplateHandler._
 import org.springframework.stereotype.Repository
-import me.miximixi.tunami.kit.QueryHelper
-import me.miximixi.tunami.persistence.QueryProperty._
+
+import com.sasaki.packages.constant.JInt
+import com.sasaki.packages.constant.JList
+
+import me.miximixi.tunami.kit.JdbcTemplateHandler.mapRow
+import me.miximixi.tunami.kit.QueryDao
+import me.miximixi.tunami.persistence.QueryProperty.attr_harvard_yenching
+import me.miximixi.tunami.poso.Yenching
 
 /**
  * @Author Sasaki
@@ -15,17 +17,18 @@ import me.miximixi.tunami.persistence.QueryProperty._
  * @Description 
  */
 @Repository
-class YenchingDao extends JdbcTemplateHandler with QueryHelper[Yenching] {
-  
-    def count(keyword: String = __): Option[Int] = 
-    query(s"""
-      $count_from
+class YenchingDao extends QueryDao[Yenching] {
+
+  def count(keyword: String = __): Option[Int] =
+    query(
+      s"""
+      $from_count
         $attr_harvard_yenching
       where true
       ${
-        if (__ == keyword)
-          s"${ and_? }\n${ and_? }\n${ and_? }\n${ and_? }\n${ and_? }"
-        else """
+      if (__ == keyword)
+        s"${and_?}\n${and_?}\n${and_?}\n${and_?}\n${and_?}"
+      else """
             	and (
               	title like ?
               	or image_name like ?
@@ -34,16 +37,17 @@ class YenchingDao extends JdbcTemplateHandler with QueryHelper[Yenching] {
               	or remark like ?
             )
             """
-      }    
-      """, 
-      like(keyword), 
-      like(keyword), 
-      like(keyword), 
-      like(keyword), 
+    }    
+      """,
+      like(keyword),
+      like(keyword),
+      like(keyword),
+      like(keyword),
       like(keyword)) { (rs, i) => rs.getInt(1) }.headOption
-    
+
   def list(keyword: String = __, limit: Tuple2[JInt, JInt]): JList[Yenching] =
-    queryJList(s"""
+    queryJList(
+      s"""
       select 
         id,
       		image_name,
@@ -59,9 +63,9 @@ class YenchingDao extends JdbcTemplateHandler with QueryHelper[Yenching] {
       from $attr_harvard_yenching
       where true
       ${
-        if (__ == keyword)
-          s"${ and_? }\n${ and_? }\n${ and_? }\n${ and_? }\n${ and_? }"
-        else """
+      if (__ == keyword)
+        s"${and_?}\n${and_?}\n${and_?}\n${and_?}\n${and_?}"
+      else """
             	and (
               title like ?
               	or image_name like ?
@@ -70,17 +74,17 @@ class YenchingDao extends JdbcTemplateHandler with QueryHelper[Yenching] {
               	or remark like ?
             )
             """
-      }
+    }
       order by id asc
-      ${ limit_? } 
-      """, 
-      like(keyword), 
-      like(keyword), 
-      like(keyword), 
-      like(keyword), 
-      like(keyword), 
+      ${limit_?} 
+      """,
+      like(keyword),
+      like(keyword),
+      like(keyword),
+      like(keyword),
+      like(keyword),
       limit._1,
-      limit._2) ((rs, i) => buildBean(classOf[Yenching], rs).setId(Int.box(rs.getInt(0))))
+      limit._2)((rs, i) => buildBean(classOf[Yenching], rs).setId(Int.box(rs.getInt(0))))
 
   def update(o: Yenching): Int =
     jdbcTemplate.update(s"""
@@ -89,5 +93,5 @@ class YenchingDao extends JdbcTemplateHandler with QueryHelper[Yenching] {
         where true
         and id=?
         """, o.remark, o.id)
-  
+
 }

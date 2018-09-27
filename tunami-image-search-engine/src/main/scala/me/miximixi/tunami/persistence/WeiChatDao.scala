@@ -1,14 +1,14 @@
 package me.miximixi.tunami.persistence
 
-import com.sasaki.packages.constant._
-import me.miximixi.tunami.kit.JdbcTemplateHandler
-import me.miximixi.tunami.kit.JdbcTemplateHandler._
-import me.miximixi.tunami.poso.Bristol
 import org.springframework.stereotype.Repository
-import me.miximixi.tunami.poso.Joseph
+
+import com.sasaki.packages.constant.JInt
+import com.sasaki.packages.constant.JList
+
+import me.miximixi.tunami.kit.JdbcTemplateHandler.mapRow
+import me.miximixi.tunami.kit.QueryDao
+import me.miximixi.tunami.persistence.QueryProperty.attr_weichat
 import me.miximixi.tunami.poso.WeiChat
-import me.miximixi.tunami.kit.QueryHelper
-import me.miximixi.tunami.persistence.QueryProperty._
 
 /**
  * @Author Sasaki
@@ -17,11 +17,11 @@ import me.miximixi.tunami.persistence.QueryProperty._
  * @Description 
  */
 @Repository
-class WeiChatDao extends JdbcTemplateHandler with QueryHelper[WeiChat] {
-  
+class WeiChatDao extends QueryDao[WeiChat] {
+
   def count(keyword: String = __): Option[Int] = 
     query(s"""
-      $count_from
+      $from_count
         $attr_weichat
       where true
       ${

@@ -7,6 +7,7 @@ import me.miximixi.tunami.poso.Bristol
 import org.springframework.stereotype.Repository
 import me.miximixi.tunami.kit.QueryHelper
 import me.miximixi.tunami.persistence.QueryProperty._
+import me.miximixi.tunami.kit.QueryDao
 
 /**
  * @Author Sasaki
@@ -15,11 +16,11 @@ import me.miximixi.tunami.persistence.QueryProperty._
  * @Description 
  */
 @Repository
-class VshViewDao2 extends JdbcTemplateHandler with QueryHelper[Bristol] {
+class VshViewDao2 extends QueryDao[Bristol] {
   
   def count(keyword: String = __): Option[Int] = 
     query(s"""
-      $count_from
+      $from_count
         $attr_bristol
       where true
       ${
