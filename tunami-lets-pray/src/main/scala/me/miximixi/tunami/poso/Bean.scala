@@ -11,13 +11,13 @@ import com.sasaki.chain.ScalaEntity
  * @Description
  */
 
-class Metadata extends C {
+class Metadata extends PrimaryBean {
   
   @BeanProperty // -> image_repo
   var imageRepo: String = _
 }
 
-class Principal extends C {
+class Principal extends PrimaryBean {
 
   @BeanProperty
   var account_name: String = _
@@ -32,7 +32,7 @@ class Principal extends C {
   var `type`: String = _
 }
 
-class Gospel extends C {
+class Gospel extends PrimaryBean {
   
   def this(content: String, date: java.sql.Date, chapter: String) = {
     this()
@@ -66,7 +66,7 @@ class Gospel extends C {
 //  }
 }
 
-class Prayer extends C {
+class Prayer extends PrimaryBean {
 
   @BeanProperty
   var content: String = _
@@ -92,7 +92,7 @@ class Prayer extends C {
   val genderInfo = if("0" == gender) "姊妹" else "弟兄"
 }
 
-class Prophet extends C with ScalaEntity {
+class Prophet extends PrimaryBean {
   
   @BeanProperty 
   var category: String = _
@@ -115,7 +115,7 @@ class Prophet extends C with ScalaEntity {
     }
 }
 
-class Anthem extends C {
+class Anthem extends PrimaryBean {
   @BeanProperty
   var name: String = _
 

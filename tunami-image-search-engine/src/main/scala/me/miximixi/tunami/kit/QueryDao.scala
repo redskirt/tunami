@@ -14,7 +14,6 @@ import me.miximixi.tunami.persistence.QueryProperty.mappingTable
  * @Timestamp Sep 26, 2018 11:28:22 PM
  * @Description
  */
-
 private[me] abstract class QueryDao[T: TypeTag] extends JdbcTemplateHandler with QueryFragmentHelper { self =>
    
   protected lazy val table = mappingTable[T]
@@ -28,10 +27,10 @@ private[me] abstract class QueryDao[T: TypeTag] extends JdbcTemplateHandler with
     query(s"""$from_count $table""") { (rs, i) => rs.getInt(1) }.headOption
 
   protected def list: cons.JList[T] =
-    queryJList(s"""${from_*} $table""") { (rs, i) => buildBean(clazz, rs) }
+    queryJList(s"""${ from_* } $table""") { (rs, i) => buildBean(clazz, rs) }
 
   def list(limit: Tuple2[cons.JInt, cons.JInt]): cons.JList[T] = 
-    queryJList(s"""${from_*} ${ table } ${ limit_? } """, limit._1, limit._2) { (rs, i) => buildBean(clazz, rs) }
+    queryJList(s"""${ from_* } $table ${ limit_? } """, limit._1, limit._2) { (rs, i) => buildBean(clazz, rs) }
   
 //  protected def insert(t: T): Option[Int] = ??? 
 //  

@@ -8,9 +8,7 @@ import com.sasaki.packages.constant._
  * @Timestamp Jun 2, 2018 4:23:56 PM
  * @Description Constant
  */
-class C {
-
-  val self = this
+class PrimaryBean { self =>
 
   def this($id: JInt) {
     this()
@@ -42,7 +40,7 @@ class C {
     self
   }
 
-  def setId($id: JInt): C = {
+  def setId($id: JInt): self.type = {
     self.id = $id
     self
   }

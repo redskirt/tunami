@@ -76,15 +76,18 @@ trait JdbcTemplateHandler { self =>
         field.setAccessible(true)
 
         o._2 match {
-          case _type if _type.equals(classOf[Int])    => field.set(objT, Int.box(rs.getInt(attr)))
-          case _type if _type.equals(classOf[String]) => field.set(objT, rs.getString(attr))
-          case _ => ???
+          case _type if _type.equals(classOf[Int])     => field.set(objT, Int.box(rs.getInt(attr)))
+          case _type if _type.equals(classOf[Long])    => field.set(objT, rs.getLong(attr))
+          case _type if _type.equals(classOf[String])  => field.set(objT, rs.getString(attr))
+          case _type if _type.equals(classOf[Boolean]) => field.set(objT, rs.getBoolean(attr))
+          case _ =>
+            println("From me.miximixi.tunami.kit.buildBean method，未知的类型。")
+            ???
         }
       }
       
     objT
   }
-
 }
 
 object JdbcTemplateHandler {
