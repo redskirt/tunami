@@ -20,12 +20,12 @@
 				<div class="col-md-6 col-md-offset-3 text-center section-heading probootstrap-animate">
 					<span id="category-a" style="font-size: 16px; font-family: Bellefair, serif;">
 						<a href="javascript:loadListProcess('__');">全部</a> / 
-						<th:block th:each="i:${#numbers.sequence(0, #lists.size(categories)-(1))}">
+						<th:block th:each="i:${ #numbers.sequence(0, #lists.size(session.categories)-(1)) }">
 							<a 
-								th:href="@{'javascript:loadListProcess(\'' + ${categories[i]} + '\');'}" 
-								th:text="@{${categories[i]}}"
+								th:href="@{'javascript:loadListProcess(\'' + ${session.categories[i]} + '\');'}" 
+								th:text="@{${session.categories[i]}}"
 							></a>
-							<th:block th:if="${i lt #lists.size(categories)-(1)}" th:text="@{' / '}">
+							<th:block th:if="${i lt #lists.size(session.categories)-(1)}" th:text="@{' / '}">
 							</th:block>
 						</th:block>
 					</span>

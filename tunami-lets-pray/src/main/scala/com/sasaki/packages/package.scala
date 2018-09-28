@@ -220,84 +220,180 @@ package object reflect {
    */
   def classpath = 
     independent.erase(getClass.getClassLoader.getResource($e).toString, "file:/")
-    
-  def clazz[T: TT]: ClassSymbol = symbolOf[T].asClass
+
+  def symbol[T: TT]: ClassSymbol = 
+    symbolOf[T].asClass
 
   /**
    * 由 Java Reflect 获得泛型的类型 Class[T]
    * 适用于 abstract class 或 trait
    */
-  def extractTypeClass[T: TT](self: AnyRef): Class[T] = self.getClass()
+  def extractTypeClass[T: TT](self: AnyRef): Class[T] = 
+    self.getClass()
       .getGenericSuperclass()
       .asInstanceOf[java.lang.reflect.ParameterizedType]
       .getActualTypeArguments.apply(0)
       .asInstanceOf[Class[T]]
   
-  def buildInstance[T: TT](args: A*): T =
-    runtimeMirror(getClass.getClassLoader)
-      .reflectClass(clazz[T])
-      .reflectConstructor(extractConstructor[T])
-      .apply(args: _*)
-      .asInstanceOf[T]
+  def buildInstance[T: TT](args: A*): T = ???
+//    runtimeMirror(getClass.getClassLoader)
+//      .reflectClass(clazz[T])
+//      .reflectConstructor(extractConstructor[T])
+//      .apply(args: _*)
+//      .asInstanceOf[T]
 
   def extractConstructor[T: TT]: MethodSymbol = 
     typeOf[T].decl(termNames.CONSTRUCTOR).asMethod
 
-  def typeNothing[T: TT]: Boolean = typeEqual[T, Nothing]
+  def typeNothing[T: TT]: Boolean = 
+    typeEqual[T, Nothing]
   
-  def typeIs[T: TT](t: Type): Boolean = t =:= typeOf[T]
+  def typeIs[T: TT](t: Type): Boolean = 
+    t =:= typeOf[T]
   
-  def typeEqual[E: TT, T: TT]: Boolean = typeOf[E] =:= typeOf[T]
+  def typeEqual[E: TT, T: TT]: Boolean = 
+    typeOf[E] =:= typeOf[T]
   
-  def typeFrom[E: TT, T: TT]: Boolean = typeOf[E] <:< typeOf[T]
+  def typeFrom[E: TT, T: TT]: Boolean = 
+    typeOf[E] <:< typeOf[T]
 
   /**
    * 仅适用case class
    */
-  def extractFieldNames[T: TT]: Seq[String] =
-    typeOf[T].members.collect {
-      case m: MethodSymbol if m.isCaseAccessor => m.name.toString()
-    }.toList.reverse
+  def extractFields[T: TT]: Seq[String] = ???
+//    typeOf[T].members.collect {
+//      case m: MethodSymbol if m.isCaseAccessor => m.name.toString()
+//    }.toList.reverse
+    
+  /**
+   * Java 反射获取属性列表
+   * 参数 classOf[T]  
+   */
+  def extractFields[T: TT](clazz: Class[T]): Seq[java.lang.reflect.Field] =
+    clazz.getDeclaredFields
 
-  def extractSimpleName[T: TT](t: Class[T]): String = t.getSimpleName
+  def extractSimpleName[T: TT](t: Class[T]): String = 
+    t.getSimpleName
   
-  def extractSimpleName[T: TT]: String = extractFullName[T].split($p).last
+  def extractSimpleName[T: TT]: String = 
+    extractFullName[T].split($p).last
 
-  def extractFullName[T: TT](t: Class[T]): String = t.getName
+  def extractFullName[T: TT](t: Class[T]): String = 
+    t.getName
   
-  def extractFullName[T: TT]: String = typeOf[T].toString()
+  def extractFullName[T: TT]: String = 
+    typeOf[T].toString()
 
-  def extractTypes[T: TT]: List[Type] =
+  def extractTypes[T: TT]: Seq[Type] =
     extractSymbolList[T].head.map(_ typeSignature)
 
-  private def extractSymbolList[T: TT]: List[List[Symbol]] =
-    symbolOf[T].asClass.primaryConstructor.typeSignature.paramLists
+  private def extractSymbolList[T: TT]: Seq[Seq[Symbol]] = ???
+//    symbolOf[T].asClass.primaryConstructor.typeSignature.paramLists
 
-  def extractClassAnnotations[T: TT]: List[Annotation] = 
-    symbolOf[T].asClass.annotations
+  /**
+   * 类标识注解
+   * for case class / normal class
+   * 
+   * 以下项测试通过
+   * 
+   * @transient
+ 	 * class O(@transient id: Int)
+ 	 * 
+ 	 * @transient
+ 	 * case class O(@transient id: Int)
+ 	 * 
+ 	 * 结果
+ 	 * List(scala.transient)
+   */
+  def extractClassAnnotations[T: TT]: Seq[Annotation] = 
+    typeOf[T].typeSymbol.annotations
 
-  def extractFieldAnnotations[T: TT]: List[List[Annotation]] = 
-    extractSymbolList[T].head.map(_ annotations)
+  /**
+   * 字段标识注解
+   * for case class / normal class
+   * 
+   * 以下项测试通过
+   * 
+   * @transient
+   * class O(@transient id: Int) {
+   * 
+   * 	@BeanProperty
+   * 	@transient
+   * 	@throws
+   * 	var attr1 : String = _
+   * 
+   * 	@transient
+   * 	var attr2 : String = _
+   * }
+   * 
+   * @transient
+   * case class O(@transient id: Int) {
+   * 
+   * 	@BeanProperty
+   * 	@transient
+   * 	@throws
+   * 	var attr1 : String = _
+   * 
+   * 	@transient
+   * 	var attr2 : String = _
+   * }
+   * 
+   * 结果 
+   * normal class: 
+   * ArrayBuffer(
+   * List(scala.beans.BeanProperty, scala.transient, scala.throws[scala.Nothing](scala.this.throws.<init>$default$1[scala.Nothing])), 
+   * List(scala.transient)
+   * )
+	 * 
+	 * case class:
+	 * ArrayBuffer(
+   * List(scala.transient), 
+   * List(scala.beans.BeanProperty, scala.transient, scala.throws[scala.Nothing](scala.this.throws.<init>$default$1[scala.Nothing])), 
+   * List(scala.transient)
+   * )
+   * 
+   * 注意：normal class 不能获得主构造方法中的值！
+   */
+  def extractFieldAnnotations[T: TT](clazz: Class[T]): Seq[Seq[Annotation]] =
+    extractFields(clazz)
+      .map { o => typeOf[T].decl(TermName(s"${ o.getName } ")).annotations }
 
-  def extractField2Annotations[T: TT]: Seq[(String, List[Annotation])] = 
-    extractFieldNames[T] zip extractFieldAnnotations[T]
+  /**
+   * 字段标识联合注解
+   * for case class / normal class
+   * 
+   * 测试项以 extractFieldAnnotations 为准
+   * @see extractFieldAnnotations[T: TT](clazz: Class[T]): Seq[Seq[Annotation]]
+   * 
+   */
+  def extractField2Annotations[T: TT](clazz: Class[T]): Seq[(String, Seq[Annotation])] = 
+    extractFields(clazz).map(_.getName) zip extractFieldAnnotations(clazz)
 
   def extractField2Type[T: TT]: Seq[(String, Type)] =
-    extractFieldNames[T] zip extractTypes[T]
+    extractFields[T] zip extractTypes[T]
 
-  def extractSingleFieldWhileAnnotation[T: TT, E <: SA: TT]: Option[String] =
-    extractField2Annotations[T]
-      .find(_._2.exists(o => typeIs[E](o.tree.tpe)))
-      .map(_._1)
+//  def extractSingleFieldWhileAnnotation[T: TT, E <: SA: TT]: Option[String] =
+//    extractField2Annotations[T]
+//      .find(_._2.exists(o => typeIs[E](o.tree.tpe)))
+//      .map(_._1)
 
-  def extractListFieldWhileAnnotation[T: TT, E <: SA: TT] = ???
+//  def extractListFieldWhileAnnotation[T: TT, E <: SA: TT] = ???
 
   def existsAnnotationFromType[T: TT, E <: SA: TT]: Boolean =
     extractClassAnnotations[T]
       .exists(o => typeIs[E](o.tree.tpe))
 
-  def existsAnnotationFromField[T: TT, E <: SA: TT](f: String): Boolean = {
-    val opField___Annotations = extractField2Annotations[T].find(_._1 == f)
+  /**
+   * 判断字段是否存在该注解
+   * or case class / normal class
+   * 
+   * 测试项以 extractFieldAnnotations 为准
+   * @see extractFieldAnnotations[T: TT](clazz: Class[T]): Seq[Seq[Annotation]]
+   * 
+   * 注意：对 normal class 使用时必须确保目标字段不属于主构造方法，否则有误！原因，参考 @see 测试项说明。
+   */
+  def existsAnnotationFromField[T: TT, E <: SA: TT](clazz: Class[T], field: String): Boolean = {
+    val opField___Annotations = extractField2Annotations(clazz).find(_._1 == field)
     opField___Annotations match {
       case Some(_) => opField___Annotations.get._2.exists(o => typeIs[E](o.tree.tpe))
       case None    => false

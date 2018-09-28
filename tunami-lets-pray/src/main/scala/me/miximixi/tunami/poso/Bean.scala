@@ -52,18 +52,11 @@ class Gospel extends PrimaryBean {
   var chapter: String = _
   
   @BeanProperty
+  @transient
   lazy val chapterInfo: String = {
-    val o = chapter.split('|')
+    val o = this.chapter.split('|')
     s"${o(0)}，${o(1)}章${o(2)}节"
   }
-    
-//  lazy val chapterO: Tuple3[String, Int, Int] =
-//  if (chapter == null)
-//    ("", 0, 0)
-//  else {
-//    val o = chapter.split('|')
-//    (o(0), o(1) toInt, o(2) toInt)
-//  }
 }
 
 class Prayer extends PrimaryBean {
@@ -89,7 +82,8 @@ class Prayer extends PrimaryBean {
   @BeanProperty
   var digg: JInt = 0
   
-  val genderInfo = if("0" == gender) "姊妹" else "弟兄"
+  @transient
+  lazy val genderInfo = if("0" == gender) "姊妹" else "弟兄"
 }
 
 class Prophet extends PrimaryBean {
@@ -106,6 +100,7 @@ class Prophet extends PrimaryBean {
   @BeanProperty
   var see: JInt = 0
   
+  @transient
   lazy val chapterO: Tuple3[String, Int, Int] =
     if (chapter == null)
       ("", 0, 0)
@@ -199,8 +194,41 @@ final object Bible extends Enumeration {
   def name(o: Bible.Value) = o.toString()
 }
 
-//object APP extends App{
-//  
+@transient
+case class O(@transient id: Int) {
+  @BeanProperty
+  @transient
+  @throws
+  var attr1 : String = _
+  @transient
+  var attr2 : String = _
+}
+
+object APP extends App{
+  
 //  println(Bible.name(Bible.创世记))
 //  println(Bible.创世记.id)
-//}
+  
+import com.sasaki.packages.{ reflect => ref, constant => cons }
+
+import scala.reflect.runtime.universe._
+
+
+val tpe: Type = typeOf[O]
+//    val symbol: Symbol = tpe.decl(TermName("id_ ")) //获取字段符号信息
+//    val annotation: Annotation = symbol.annotations.head
+//    val tree: Tree = annotation.tree
+// println(showRaw(tree)) //打印语法树
+//println(symbol.annotations(0).tree.tpe =:= typeOf[BeanProperty] )
+//  val Apply(_, Literal(Constant(name: String)) :: Literal(Constant(num: Int)) :: Nil) = tree
+//  println(s"Annotation args: name -> $name, num -> $num")
+
+    
+//println(ref.existsAnnotationFromField[O, transient](classOf[O], "id"))
+//println(ref.extractField2Annotations[Anthem])
+//println(ref.existsAnnotationFromField[AA, BeanProperty]("id"))
+
+  val g = new Gospel("亚伯拉罕的后裔，大卫的子孙，耶稣基督...", null, "马太福音|1|1")
+  println(g.chapterInfo) 
+
+}

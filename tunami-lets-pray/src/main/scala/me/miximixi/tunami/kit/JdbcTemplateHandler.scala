@@ -12,7 +12,7 @@ import reflect.runtime.universe.TypeTag
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper
 
-import com.sasaki.packages.constant.JList
+import com.sasaki.packages.{ reflect => ref, constant => cons }
 
 /**
  * @Author Sasaki
@@ -43,7 +43,7 @@ trait JdbcTemplateHandler { self =>
 //  }
   
   protected def queryJList(sql: String, args: Object*) = new {
-    def apply[T](f: (ResultSet, Int) => T)(implicit ev: ((ResultSet, Int) => T) => RowMapper[T]): JList[T] = 
+    def apply[T](f: (ResultSet, Int) => T)(implicit ev: ((ResultSet, Int) => T) => RowMapper[T]): cons.JList[T] = 
       jdbcTemplate.query(sql, args.toArray, ev(f))//.asScala.toList
   }
 
@@ -61,14 +61,18 @@ trait JdbcTemplateHandler { self =>
   protected def buildBean[T: TypeTag](clazz: Class[T], rs: ResultSet, attrs: String*): T = {
     val constructor = clazz.getConstructor()
     val objT = constructor.newInstance()
-    val fields_ = clazz.getDeclaredFields
-    val fields =
-      if (null == attrs || attrs.isEmpty || fields_.size == attrs.size)
-        fields_
-      else
-        fields_.filter(o => attrs.contains(o.getName))
-
-    fields
+    val fields_ = clazz.getDeclaredFields.filterNot(_.getName.contains("$")/*含 $ 字符的无效属性*/)
+    
+      {
+        if (null == attrs || attrs.isEmpty || fields_.size == attrs.size)
+          fields_
+        else
+          fields_.filter { o => attrs.contains(o.getName) }
+      }
+      .filterNot { o =>
+        // 排除 @transient 标记属性
+        ref.existsAnnotationFromField[T, transient](clazz, o.getName)
+      }
       .map { o => (o.getName, o.getType) }
       .foreach { o =>
         val attr = o._1
@@ -76,13 +80,15 @@ trait JdbcTemplateHandler { self =>
         field.setAccessible(true)
 
         o._2 match {
-          case _type if _type.equals(classOf[Int])     => field.set(objT, Int.box(rs.getInt(attr)))
-          case _type if _type.equals(classOf[Long])    => field.set(objT, rs.getLong(attr))
-          case _type if _type.equals(classOf[String])  => field.set(objT, rs.getString(attr))
-          case _type if _type.equals(classOf[Boolean]) => field.set(objT, rs.getBoolean(attr))
-          case _ =>
-            println("From me.miximixi.tunami.kit.buildBean method，未知的类型。")
-            ???
+          case _type if _type.equals(classOf[Int])               => field.set(objT, Int.box(rs.getInt(attr)))
+          case _type if _type.equals(classOf[cons.JInt])         => field.set(objT, Int.box(rs.getInt(attr)))
+          case _type if _type.equals(classOf[Long])              => field.set(objT, rs.getLong(attr))
+          case _type if _type.equals(classOf[cons.JLong])        => field.set(objT, rs.getLong(attr))
+          case _type if _type.equals(classOf[String])            => field.set(objT, rs.getString(attr))
+          case _type if _type.equals(classOf[Boolean])           => field.set(objT, rs.getBoolean(attr))
+          case _type if _type.equals(classOf[cons.JDate])        => field.set(objT, rs.getDate(attr))
+          case _type if _type.equals(classOf[cons.JTimestamp])   => field.set(objT, rs.getTimestamp(attr))
+          case _ => throw new Exception("From me.miximixi.tunami.kit.buildBean method，未知的类型。")
         }
       }
       

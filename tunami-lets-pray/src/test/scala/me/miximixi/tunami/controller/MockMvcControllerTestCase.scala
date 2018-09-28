@@ -78,17 +78,17 @@ class MockMvcControllerTestCase {
     // "text/html;charset=UTF-8"
     //		  .andExpect(redirectedUrl("/_"))
 
-    //        println(">> Without session:")
-    //        mockMvc.perform(get("/"))
-    //          .andExpect(status.isOk())
-    //          .andDo(print())
-    import org.json4s.jackson.JsonMethods.render
-    import org.json4s.JsonDSL._
-    val body = ("content" -> "大卫之子，和撒那！赞美主！大卫之子，和撒那！赞美主！大卫之子，和撒那！赞美主！大卫之子，和撒那！赞美主！") ~ ("location" -> "上海") ~ ("gender" -> "1") ~ ("target" -> "国家")
-    println(">> With mock session:")
-    mockMvc.perform(get("/"))
-      .andExpect(status.isOk())
-      .andDo(print)
+            println(">> Without session:")
+            mockMvc.perform(get("/"))
+              .andExpect(status.isOk())
+              .andDo(print())
+//    import org.json4s.jackson.JsonMethods.render
+//    import org.json4s.JsonDSL._
+//    val body = ("content" -> "大卫之子，和撒那！赞美主！大卫之子，和撒那！赞美主！大卫之子，和撒那！赞美主！大卫之子，和撒那！赞美主！") ~ ("location" -> "上海") ~ ("gender" -> "1") ~ ("target" -> "国家")
+//    println(">> With mock session:")
+//    mockMvc.perform(get("/"))
+//      .andExpect(status.isOk())
+//      .andDo(print)
   }
   
 //  @Test

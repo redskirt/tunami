@@ -23,6 +23,8 @@ import me.miximixi.tunami.service._
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import me.miximixi.tunami.poso.Gospel
+import javax.servlet.http.HttpSession
+import org.springframework.context.annotation.Scope
 
 /**
  * @Author Sasaki
@@ -31,6 +33,7 @@ import me.miximixi.tunami.poso.Gospel
  * @Description
  */
 @RestController
+@Scope("session") 
 class FrontendController @Autowired() (
     gospelDao: GospelDao, //
     prayerDao: PrayerDao, //
@@ -45,16 +48,23 @@ class FrontendController @Autowired() (
    */
   @GetMapping(Array("/"))
   def /(model: Model) = {
+
+    import scala.collection.JavaConversions.seqAsJavaList
+
     val list = prayerService.bizBuildPrayerDTO(0)
-    val list_ = scala.collection.JavaConversions.seqAsJavaList(list)
+    val list_ = seqAsJavaList(list)
     model.addAttribute("prayers", list_)
-    model.addAttribute("gospel", {
+    session.setAttribute("gospel", {
       val o = gospelDao.query(TODAY)
       o match {
-        case Some(_) => o.get
-        case _       => new Gospel("亚伯拉罕的后裔，大卫的子孙，耶稣基督...", TODAY, "马太福音|1|1")
+        case Some(_)    => o.get
+        case None       => new Gospel("亚伯拉罕的后裔，大卫的子孙，耶稣基督...", TODAY, "马太福音|1|1")
       }
     })
+
+    val thumbnails = for (i <- 1 to 60) yield Thumbnail(i, s"title $i", s"description $i")
+    session.setAttribute("thumbnails", seqAsJavaList(thumbnails))
+    
     new ModelAndView("frontend/index")
   }
 
@@ -68,8 +78,8 @@ class FrontendController @Autowired() (
    * 神谕
    */
   @GetMapping(Array("/prophet"))
-  def prophet(model: Model) = {
-    model.addAttribute("categories", prophetDao.listCategory)
+  def prophet = {
+    session.setAttribute("categories", prophetDao.listCategory)
     new ModelAndView("frontend/prophet")
   }
   
@@ -158,3 +168,10 @@ class FrontendController @Autowired() (
         }
     }
 }
+
+case class Thumbnail(
+  @BeanProperty index: Int,
+
+  @BeanProperty title: String,
+
+  @BeanProperty description: String)

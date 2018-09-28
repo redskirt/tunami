@@ -33,14 +33,14 @@ class DaoTestCase extends PaginationHandler {
   var prayerDao: PrayerDao = _
   @Autowired
   var prophetDao: ProphetDao = _
-  
-
+ 
   val page = new Pagination(100, 2, 18, 10)
   
   @Test
   def testListImageContent: Unit = {
 //        prayerDao.list(Int.box(318)).foreach(o => println(o.id))
         
+//    gospelDao.list.asScala.foreach(o => println(o.chapterInfo))
 //    println(prayerDao.update(Array[Object](Int.box(1), Int.box(3), Int.box(2))))
     
 //    println(gospelDao.query(new Date(System.currentTimeMillis())).get.content)
@@ -82,8 +82,8 @@ class DaoTestCase extends PaginationHandler {
 //      }
     
 //    val list = prophetDao.list(0, "__")// .foreach(o => println(o.chapterO))
-    val list = prophetDao.listCategory
-    println(list.size)
-    
+//    val list = prophetDao.listCategory
+//    println(list.size)
+   
   }
 }

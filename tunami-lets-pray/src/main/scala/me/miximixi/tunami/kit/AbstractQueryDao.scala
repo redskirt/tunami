@@ -7,6 +7,7 @@ import com.sasaki.packages.{ reflect => ref }
 
 import me.miximixi.tunami.kit.JdbcTemplateHandler.mapRow
 import me.miximixi.tunami.persistence.QueryProperty.mappingTable
+import me.miximixi.tunami.poso.PrimaryBean
 
 /**
  * @Author Sasaki
@@ -14,7 +15,7 @@ import me.miximixi.tunami.persistence.QueryProperty.mappingTable
  * @Timestamp Sep 26, 2018 11:28:22 PM
  * @Description
  */
-private[me] abstract class AbstractQueryDao[T: TypeTag] extends JdbcTemplateHandler with QueryFragmentHelper { self =>
+private[me] abstract class AbstractQueryDao[T <: PrimaryBean: TypeTag] extends JdbcTemplateHandler with QueryFragmentHelper { self =>
    
   protected lazy val table = mappingTable[T]
 
@@ -23,10 +24,10 @@ private[me] abstract class AbstractQueryDao[T: TypeTag] extends JdbcTemplateHand
    */
   private lazy val clazz = ref.extractTypeClass[T](self)
   
-  protected def count: Option[Int] =
+  def count: Option[Int] =
     query(s"""$from_count $table""") { (rs, i) => rs.getInt(1) }.headOption
 
-  protected def list: cons.JList[T] =
+  def list: cons.JList[T] =
     queryJList(s"""${ from_* } $table""") { (rs, i) => buildBean(clazz, rs) }
 
   def list(limit: Tuple2[cons.JInt, cons.JInt]): cons.JList[T] = 
