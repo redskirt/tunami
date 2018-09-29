@@ -24,9 +24,9 @@
 	<nav th:replace="frontend/_scaffold_ :: nav"></nav>
 	
 	<!-- <section class="flexslider"> -->
-	<section class="pe-container" style="width: 100%; height: 500px; background: #b39e9e00 url(/assets/frontend/images/2.jpg) center center; text-align: center; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);">
+	<section class="pe-container" style="width: 100%; height: 500px; background: #b39e9e00 url(/assets/back.jpg) center center; text-align: center; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);">
 		<ul id="pe-thumbs" class="pe-thumbs" style="list-style: none; padding: 0;">
- 			<li th:each="o : ${session.thumbnails}"><a><img th:src="@{'/assets/frontend/images/thumbs/' + ${o.index} + '.png'}" /><div class="pe-description"><h3>time</h3><p>Since time, and his predestinated end</p></div></a></li>
+ 			<li th:each="o : ${session.thumbnails}"><a><img th:src="@{'/assets/thumbnail/' + ${o.index} + '.png'}" /><div class="pe-description"><h3>time</h3><p>Since time, and his predestinated end</p></div></a></li>
 		</ul>
 	</section>
 
