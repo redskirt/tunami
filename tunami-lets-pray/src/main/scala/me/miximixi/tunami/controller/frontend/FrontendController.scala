@@ -114,7 +114,7 @@ class FrontendController @Autowired() (
       }
     })
 
-  @GetMapping(Array("/ajaxListPrayers_{minId}"))
+  @GetMapping(Array("/ajaxListPrayers/{minId}"))
   def ajaxListPrayers(@PathVariable minId: JInt): JsonNode = {
     val list = prayerService.bizBuildPrayerDTO(minId) 
     render(list.map { o => (
@@ -155,10 +155,9 @@ class FrontendController @Autowired() (
               o.setLocation(location)
               o.setGender(gender)
               o.setTarget(target)
+              o.setStatus("1")
               
-              val result = prayerDao.insert(List(o))
-              
-              if(1 == result)
+              if(1 == prayerDao.inset(o))
                 ($verify -> true) ~ ($message -> JNull)
               else
                 ($verify -> false) ~ ($message -> "处理异常。")
@@ -171,7 +170,5 @@ class FrontendController @Autowired() (
 
 case class Thumbnail(
   @BeanProperty index: Int,
-
   @BeanProperty title: String,
-
   @BeanProperty description: String)

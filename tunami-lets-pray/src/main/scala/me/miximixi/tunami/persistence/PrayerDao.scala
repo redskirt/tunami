@@ -10,6 +10,7 @@ import com.sasaki.packages.constant.JInt
 import me.miximixi.tunami.kit.AbstractQueryDao
 import me.miximixi.tunami.kit.JdbcTemplateHandler.mapRow
 import me.miximixi.tunami.poso.Prayer
+import me.miximixi.tunami.poso.Prayer
 
 /**
  * @Author Sasaki
@@ -20,7 +21,7 @@ import me.miximixi.tunami.poso.Prayer
 @Repository
 class PrayerDao extends AbstractQueryDao[Prayer] {
 
-  def list(minId: JInt = 0): List[Prayer] =
+  def list(minId: JInt = 0): Seq[Prayer] =
     query(s"""
       select 
         id, 
@@ -32,10 +33,13 @@ class PrayerDao extends AbstractQueryDao[Prayer] {
         digg
       from $table 
       where true
+      and status='0'
       ${ if(0 != minId) "and id<?" else and_? }
       order by id desc
       limit ${ if(0 != minId) 5/*增量加载数*/ else 20/*初始化加载数*/ }
       """, minId) { (rs, i) => buildBean(classOf[Prayer], rs).setId(rs.getInt(1)) }
+  
+  def inset(o: Prayer): Int = insert(Seq(o))
   
   def insert(seq: Seq[Prayer]): Int =
     jdbcTemplate.batchUpdate(s"""
@@ -46,7 +50,8 @@ class PrayerDao extends AbstractQueryDao[Prayer] {
         gender,
         target,
         see,
-        digg
+        digg,
+        status
         ) values (?, ?, ?, ?, ?, ?)
        """, new BatchPreparedStatementSetter() {
 
@@ -57,6 +62,7 @@ class PrayerDao extends AbstractQueryDao[Prayer] {
         ps.setString(4, seq(i).getTarget())
         ps.setInt(5, seq(i).getSee())
         ps.setInt(6, seq(i).getDigg())
+        ps.setString(7, seq(i).getStatus)
       }
 
       override def getBatchSize() = seq.size
@@ -65,7 +71,7 @@ class PrayerDao extends AbstractQueryDao[Prayer] {
   /**
    * 新增相应id的浏览数
    */
-  def update(ids: Array[Object]) = 
+  def update(ids: Seq[Object]) = 
     jdbcTemplate.update(s"""
       update $table
       set see = see + 1

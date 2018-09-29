@@ -17,7 +17,7 @@ class PrayerService {
   @org.springframework.beans.factory.annotation.Autowired
   private var prayerDao: PrayerDao = _
   
-  def bizBuildPrayerDTO(minId: com.sasaki.packages.constant.JInt): List[PrayerDTO] = {
+  def bizBuildPrayerDTO(minId: com.sasaki.packages.constant.JInt): Seq[PrayerDTO] = {
     val list = prayerDao.list(minId).map { o =>
       PrayerDTO(
           o.getId, 
@@ -25,7 +25,7 @@ class PrayerService {
           o.getSee, 
           s"${ new SimpleDateFormat(TimePattern.PATTERN_DATE.toString()).format(o.timestamp) } 来自${o.location}的${o.genderInfo}为${o.target}祷告")
     }
-    prayerDao.update(list.map(o => o.id.asInstanceOf[Object]).toArray)
+    prayerDao.update(list.map(o => o.id.asInstanceOf[Object]))
     list
   }
 }

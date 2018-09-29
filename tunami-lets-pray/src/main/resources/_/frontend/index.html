@@ -26,7 +26,7 @@
 	<!-- <section class="flexslider"> -->
 	<section class="pe-container" style="width: 100%; height: 500px; background: #b39e9e00 url(/assets/frontend/images/2.jpg) center center; text-align: center; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);">
 		<ul id="pe-thumbs" class="pe-thumbs" style="list-style: none; padding: 0;">
- 			<li th:each="o : ${session.thumbnails}"><a href=""><img th:src="@{'/assets/frontend/images/thumbs/' + ${o.index} + '.png'}" /><div class="pe-description"><h3>time</h3><p>Since time, and his predestinated end</p></div></a></li>
+ 			<li th:each="o : ${session.thumbnails}"><a><img th:src="@{'/assets/frontend/images/thumbs/' + ${o.index} + '.png'}" /><div class="pe-description"><h3>time</h3><p>Since time, and his predestinated end</p></div></a></li>
 		</ul>
 	</section>
 
@@ -43,9 +43,12 @@
 
 	<section class="probootstrap-section proboostrap-clients probootstrap-bg-white probootstrap-zindex-above-showcase">
 		<div class="container">
-			<div class="row">
-				<div class="col-md-6 col-md-offset-3 text-center section-heading probootstrap-animate">
+			<div class="row" style="height: 150px;">
+				<div class="col-md-6 col-md-offset-3 text-center probootstrap-animate">
 					<h2>同心祷告<span style="font-size: 16px; font-family: Bellefair,serif;"> / Let's Pray</span></h2>
+				</div>
+				<div id="publish-message" style="width: 400px; height: 30px; font-size: 16px; text-align: center; border-radius: 3px; background: #ec5351; margin: 80px auto; color: #fff; display: none">
+					<span>您的的祷告已提交，将在后台审核后显示。</span>
 				</div>
 			</div>
 			
@@ -82,19 +85,19 @@
 					</label>
 					<div class="form-group">
 						<label>内容</label>
-						<textarea cols="30" rows="10" class="form-control" id="message" name="message"></textarea>
+						<textarea cols="30" rows="10" class="form-control" id="content" name="content"></textarea>
 					</div>
 					<div class="form-group">
 						<label>城市</label> 
-						<input type="text" class="form-control" id="name" name="name">
+						<input type="text" class="form-control" id="city" name="city">
 					</div>
 					<div class="form-group">
 						<label>性别</label> 
 						<div>
-							<input name="gender" type="radio" id="male"> 
-							<label style="margin-left: 8px;">弟兄</label>
-							<input name="gender" type="radio" id="female" style="margin-left: 8px;"> 
-							<label style="margin-left: 8px;">姊妹</label>
+							<input name="gender" type="radio" id="male" value="m" checked="checked">
+							<label for="male" style="margin-left: 8px;">弟兄</label>
+							<input name="gender" type="radio" id="female" value="f" style="margin-left: 8px;"> 
+							<label for="female" style="margin-left: 8px;">姊妹</label>
 						</div>
 					</div>
 					<div class="form-group" style="text-align: right;" id="submit-button">
@@ -217,7 +220,6 @@
 						var $el = $(this);
 
 						$('<img/>').load(function() {
-
 							++loaded;
 							if (loaded === total)
 								callback.call();
@@ -311,7 +313,7 @@
 			function incrementProcess(itemNum, minId) {
 				$
 						.ajax({
-							url : "/ajaxListPrayers_" + minId,
+							url : "/ajaxListPrayers/" + minId,
 							dataType : "json",
 							type : "GET",
 							contentType : "application/json",
@@ -588,31 +590,23 @@
 					$.ajax({
 					    url: "/ajaxSubmitPrayer",
 					    data: JSON.stringify({
-						    	/* content: $('#content').val(),
-						    	location: $('#location').val(),
-						    	gender: $('#gender').val(),
-						    	target: $('#target').val() */
-						    	content: "大卫之子，和撒那！赞美主！大卫之子，和撒那！赞美主！大卫之子，和撒那！赞美主！大卫之子，和撒那！赞美主！",
-						    	location: "上海",
-						    	gender: "1",
-						    	target: "国家"
+						    content: $('#content').val(),
+						    	location: $('#city').val(),
+						    	target: "",
+						    	gender: $('input:radio[name=gender]:checked').val()
 					    }),
 					    	dataType: "json",
 					    	beforeSend: function(){  
-			                 $("#submit-button").val("正在登录，请稍后...");  
+			                 $("#submit-button").val("正在提交，请稍后...");  
 			            	}, 
 					    	type: "POST",
 					    	contentType: "application/json",
 					    	success: function (data) {
-// 					    		alert(data.message)
 							if(data.verify) {
-								window.location.reload();
-// 								window.location.href = "/"; 
-// 								window.location.href = 'http://cn.bing.com'; 
-							}
-							else {
-// 								$("#message").html(data.message);  
-	                        		return false;  
+								$("#publish-message").show();						
+							} else {
+								
+	                        		return ;  
 							}
 			       	 	}
 			    		}); 
