@@ -24,20 +24,31 @@ class GospelDao extends AbstractQueryDao[Gospel] {
       { (rs, i) => buildBean(classOf[Gospel], rs).setId(rs.getInt(1)) }.headOption
     
   def insert(seq: Seq[Gospel]): Int =
-    jdbcTemplate.batchUpdate(s"""
+    super.insert(s"""
        insert into 
        $table (content, date, chapter, timestamp)
        values (?, ?, ?, ?)
-       """, new BatchPreparedStatementSetter() {
-
-      override def setValues(ps: PreparedStatement, i: Int) = {
-        ps.setString(1, seq(i).getContent())
-        ps.setDate(2, seq(i).getDate())
-        ps.setString(3, seq(i).getChapter())
-        ps.setTimestamp(4, seq(i).getTimestamp)
-      }
-
-      override def getBatchSize() = seq.size
-    }).reduce(_ + _)
+       """, seq) { (ps, i) ⇒
+      ps.setString(1, seq(i).getContent())
+      ps.setDate(2, seq(i).getDate())
+      ps.setString(3, seq(i).getChapter())
+      ps.setTimestamp(4, seq(i).getTimestamp)
+    }
+    
+//    jdbcTemplate.batchUpdate(s"""
+//       insert into 
+//       $table (content, date, chapter, timestamp)
+//       values (?, ?, ?, ?)
+//       """, new BatchPreparedStatementSetter {
+//
+//      override def setValues(ps: PreparedStatement, i: Int) = {
+//        ps.setString(1, seq(i).getContent())
+//        ps.setDate(2, seq(i).getDate())
+//        ps.setString(3, seq(i).getChapter())
+//        ps.setTimestamp(4, seq(i).getTimestamp)
+//      }
+//
+//      override def getBatchSize() = seq.size
+//    }).reduce(_ + _)
     
 }

@@ -8,6 +8,8 @@ import com.sasaki.packages.{ reflect => ref }
 import me.miximixi.tunami.kit.JdbcTemplateHandler.mapRow
 import me.miximixi.tunami.persistence.QueryProperty.mappingTable
 import me.miximixi.tunami.poso.PrimaryBean
+import java.sql.PreparedStatement
+import org.springframework.jdbc.core.BatchPreparedStatementSetter
 
 /**
  * @Author Sasaki
@@ -20,7 +22,7 @@ private[me] abstract class AbstractQueryDao[T <: PrimaryBean: TypeTag] extends J
   protected lazy val table = mappingTable[T]
 
   /**
-   * 由 Java Reflect 获得泛型的类型 Class[T]
+   * 由 Java Reflect 获得泛型类型 Class[T]
    */
   private lazy val clazz = ref.extractTypeClass[T](self)
   
@@ -32,8 +34,25 @@ private[me] abstract class AbstractQueryDao[T <: PrimaryBean: TypeTag] extends J
 
   def list(limit: Tuple2[cons.JInt, cons.JInt]): cons.JList[T] = 
     queryJList(s"""${ from_* } $table ${ limit_? } """, limit._1, limit._2) { (rs, i) => buildBean(clazz, rs) }
-  
-//  protected def insert(t: T): Option[Int] = ??? 
+
+  /**
+   * 带函数插入模板，批量
+   */
+  protected def insert(sql: String, seq: Seq[T])(f_x: (PreparedStatement, Int) ⇒ Unit): Int =
+    jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter {
+      
+      override def setValues(ps: PreparedStatement, i: Int) = f_x(ps, i)
+      
+      override def getBatchSize() = seq.size
+      
+    }).reduce(_ + _)
+
+  /**
+   * 带函数插入模板，单条
+   */
+  protected def insert(sql: String, t: T)(f_x: (PreparedStatement, Int) ⇒ Unit): Int =
+    insert(sql, Seq(t))(f_x)
+      
 //  
 //  protected def update(t: T): Option[Int] = ???
 //  

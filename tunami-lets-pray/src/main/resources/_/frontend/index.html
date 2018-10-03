@@ -26,7 +26,8 @@
 	<!-- <section class="flexslider"> -->
 	<section class="pe-container" style="width: 100%; height: 500px; background: #b39e9e00 url(/assets/back.jpg) center center; text-align: center; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);">
 		<ul id="pe-thumbs" class="pe-thumbs" style="list-style: none; padding: 0;">
- 			<li th:each="o : ${session.thumbnails}"><a><img th:src="@{'/assets/thumbnail/' + ${o.index} + '.png'}" /><div class="pe-description"><h3>time</h3><p>Since time, and his predestinated end</p></div></a></li>
+<!--  			<li th:each="o : ${session.thumbnails}"><a><img th:src="@{'/assets/thumbnail/' + ${o.index} + '.png'}" /><div class="pe-description"><h3>time</h3><p>Since time, and his predestinated end</p></div></a></li> -->
+ 			<li th:each="o : ${session.thumbnails}"><a><img th:src="@{'/assets/thumbnail/' + ${o.index} + '.png'}" /></a></li>
 		</ul>
 	</section>
 
@@ -35,7 +36,8 @@
         <div class="row">
           <div class="col-md-6 col-md-offset-3 text-center section-heading probootstrap-animate">
             <h2 style="color: #ffffff;">今日福音<span style="font-size: 16px; font-family: Bellefair,serif;"> / Today's Gospel</span></h2>
-            <h5 style="font-size: 20px; color: #ffffff;" th:text="${session.gospel.chapterInfo}"></h5>
+            <h5 style="font-size: 20px; color: #ffffff;" th:text="${session.gospel.content}"></h5>
+            <h5 style="font-size: 16px; color: #ffffff;" th:text="@{'&mdash; ' + ${session.gospel.chapterInfo}}"></h5>
           </div>
         </div>
       </div>
@@ -376,7 +378,7 @@
 				};
 			}
 			;
-			loadImage('/assets/frontend/images/one.jpg');
+// 			loadImage('/assets/frontend/images/one.jpg');
 			/*item hover效果*/
 			var rbgB = [ '#71D3F5', '#F0C179', '#F28386', '#8BD38B' ];
 			$('#waterfull').on('mouseover', '.item', function() {

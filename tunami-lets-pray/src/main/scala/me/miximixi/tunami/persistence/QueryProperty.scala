@@ -17,15 +17,20 @@ object QueryProperty {
   val attr_prophet = "attr_prophet"
   val bhvr_prayer = "bhvr_prayer"
   val attr_anthem = "attr_anthem"
+  
+  val bhvr_journal_frontend = "bhvr_journal_frontend"
+  val bhvr_journal_platform = "bhvr_journal_platform"
 
   def mappingTable[T: TypeTag] =
     typeOf[T] match {
-      case __ if __ =:= typeOf[Principal] => attr_principal
-      case __ if __ =:= typeOf[Metadata]  => attr_metadata
-      case __ if __ =:= typeOf[Gospel]    => attr_gospel
-      case __ if __ =:= typeOf[Prophet]   => attr_prophet
-      case __ if __ =:= typeOf[Prayer]    => bhvr_prayer
-      case __ if __ =:= typeOf[Anthem]    => attr_anthem
-      case _                              => "???"
+      case __ if __ =:= typeOf[Principal]       => attr_principal
+      case __ if __ =:= typeOf[Metadata]        => attr_metadata
+      case __ if __ =:= typeOf[Gospel]          => attr_gospel
+      case __ if __ =:= typeOf[Prophet]         => attr_prophet
+      case __ if __ =:= typeOf[Prayer]          => bhvr_prayer
+      case __ if __ =:= typeOf[Anthem]          => attr_anthem
+      case __ if __ =:= typeOf[JournalFrontend] => bhvr_journal_frontend
+      case __ if __ =:= typeOf[JournalPlatform] => bhvr_journal_platform
+      case _                                    => ???; println(s"Unexpected type of column: ${ typeOf[T] }.")
     }
 }

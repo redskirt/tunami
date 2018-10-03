@@ -16,6 +16,12 @@ import me.miximixi.tunami.poso.Prayer
 import scala.util.Random
 import me.miximixi.tunami.persistence.ProphetDao
 import me.miximixi.tunami.poso.Prophet
+import scala.io.Source
+import java.io.File
+import me.miximixi.tunami.poso.BibleChapter
+import me.miximixi.tunami.poso.Prophet
+import me.miximixi.tunami.poso.Gospel
+import com.sasaki.packages.independent._
 
 /**
  * @Author Sasaki
@@ -84,6 +90,34 @@ class DaoTestCase extends PaginationHandler {
 //    val list = prophetDao.list(0, "__")// .foreach(o => println(o.chapterO))
 //    val list = prophetDao.listCategory
 //    println(list.size)
+    
+    val lines = Source
+    .fromFile(new File("/Users/sasaki/Desktop/te"))
+    .getLines()
+    .toSeq
+    
+    /*
+     * 插入 Gospel ，文本格式为
+     * 耶稣看着他们说、“在人这是不能的，在神凡事都能！” |太|19:26
+     */
+    val list =
+      {
+        for (i <- 0 until lines.size) yield {
+          val array = lines(i).split('|')
+          val content = array(0)
+          println(array(1))
+          val title = BibleChapter.short2fullName(array(1))
+          val index = array(2).split(":")
+          val chapter = s"$title|${index(0)}|${index(1)}"
+          val o = new Gospel
+          o.setContent(content)
+          o.setChapter(chapter)
+          o.setDate(computeDate(TODAY, i))
+          o
+        }
+      } toSeq
+    
+    gospelDao.insert(list)
    
   }
 }

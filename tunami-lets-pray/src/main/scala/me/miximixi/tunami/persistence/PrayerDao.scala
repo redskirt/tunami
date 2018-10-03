@@ -39,7 +39,7 @@ class PrayerDao extends AbstractQueryDao[Prayer] {
       limit ${ if(0 != minId) 5/*增量加载数*/ else 20/*初始化加载数*/ }
       """, minId) { (rs, i) => buildBean(classOf[Prayer], rs).setId(rs.getInt(1)) }
   
-  def inset(o: Prayer): Int = insert(Seq(o))
+  def insert(o: Prayer): Int = insert(Seq(o))
   
   def insert(seq: Seq[Prayer]): Int =
     jdbcTemplate.batchUpdate(s"""

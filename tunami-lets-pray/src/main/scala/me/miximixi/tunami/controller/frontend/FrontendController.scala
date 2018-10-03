@@ -157,7 +157,7 @@ class FrontendController @Autowired() (
               o.setTarget(target)
               o.setStatus("1")
               
-              if(1 == prayerDao.inset(o))
+              if(1 == prayerDao.insert(o))
                 ($verify -> true) ~ ($message -> JNull)
               else
                 ($verify -> false) ~ ($message -> "处理异常。")

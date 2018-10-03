@@ -60,7 +60,7 @@ trait JdbcTemplateHandler { self =>
    */
   protected def buildBean[T: TypeTag](clazz: Class[T], rs: ResultSet, attrs: String*): T = {
     val constructor = clazz.getConstructor()
-    val objT = constructor.newInstance()
+    val oT = constructor.newInstance()
     val fields_ = clazz.getDeclaredFields.filterNot(_.getName.contains("$")/*含 $ 字符的无效属性*/)
     
       {
@@ -80,19 +80,19 @@ trait JdbcTemplateHandler { self =>
         field.setAccessible(true)
 
         o._2 match {
-          case _type if _type.equals(classOf[Int])               => field.set(objT, Int.box(rs.getInt(attr)))
-          case _type if _type.equals(classOf[cons.JInt])         => field.set(objT, Int.box(rs.getInt(attr)))
-          case _type if _type.equals(classOf[Long])              => field.set(objT, rs.getLong(attr))
-          case _type if _type.equals(classOf[cons.JLong])        => field.set(objT, rs.getLong(attr))
-          case _type if _type.equals(classOf[String])            => field.set(objT, rs.getString(attr))
-          case _type if _type.equals(classOf[Boolean])           => field.set(objT, rs.getBoolean(attr))
-          case _type if _type.equals(classOf[cons.JDate])        => field.set(objT, rs.getDate(attr))
-          case _type if _type.equals(classOf[cons.JTimestamp])   => field.set(objT, rs.getTimestamp(attr))
+          case _type if _type.equals(classOf[Int])               => field.set(oT, Int.box(rs.getInt(attr)))
+          case _type if _type.equals(classOf[cons.JInt])         => field.set(oT, Int.box(rs.getInt(attr)))
+          case _type if _type.equals(classOf[Long])              => field.set(oT, rs.getLong(attr))
+          case _type if _type.equals(classOf[cons.JLong])        => field.set(oT, rs.getLong(attr))
+          case _type if _type.equals(classOf[String])            => field.set(oT, rs.getString(attr))
+          case _type if _type.equals(classOf[Boolean])           => field.set(oT, rs.getBoolean(attr))
+          case _type if _type.equals(classOf[cons.JDate])        => field.set(oT, rs.getDate(attr))
+          case _type if _type.equals(classOf[cons.JTimestamp])   => field.set(oT, rs.getTimestamp(attr))
           case _ => throw new Exception("From me.miximixi.tunami.kit.buildBean method，未知的类型。")
         }
       }
       
-    objT
+    oT
   }
 }
 

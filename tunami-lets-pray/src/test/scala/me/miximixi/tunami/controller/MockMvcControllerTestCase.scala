@@ -50,36 +50,10 @@ class MockMvcControllerTestCase {
     mockSession.putValue(SESSION_PRINCIPAL, "tunami")
   }
   
-//  @RequestMapping(value="/sample/insertBoard.do")
-//public ModelAndView insertBoard(CommandMap commandMap,HttpServletRequest request) throws Exception{
-//    ModelAndView mv = ModelAndView("redirect:/sample/openBoardList.do");
-//    sampleService.insertBoard(commandMap.getMap(),request);
-//    return mv;
-//}
-//  
-//  @Test
-//public void testInsertBoard() throws Exception{
-//    File fis = new File("c:\\users\\aaa.jpg");
-//    FileInputStream fi1 = new FileInputStream(fis);
-//    MockMultipartFile file = new MockMultipartFile("file",fis.getName(),"multipart/form-data",fi1);
-//
-//    this.mockMvc.perform(MockMvcRequestBuilders.fileupload("/sample/insertBoard.do"))
-//            .file(file)
-//            .param("title","title_test")
-//            .param("contents","contents_test")
-//            .contentType(MediaType.MULTIPART_FORM_DATA)
-//            .andExpect(redirectedUrl("/sample/openBoardList.do"));
-//}
-  
   @Test
   def test_/(): Unit = {
-    //    .andExpect(status().isOk())
-    //      .andExpect(content().contentType("application/json;charset=UTF-8"))
-    // "text/html;charset=UTF-8"
-    //		  .andExpect(redirectedUrl("/_"))
-
             println(">> Without session:")
-            mockMvc.perform(get("/"))
+            mockMvc.perform(get("/ajaxListProphet/20/__"))
               .andExpect(status.isOk())
               .andDo(print())
 //    import org.json4s.jackson.JsonMethods.render
@@ -91,13 +65,13 @@ class MockMvcControllerTestCase {
 //      .andDo(print)
   }
   
-//  @Test
-//  def text_download(): Unit = {
+  @Test
+  def text_download(): Unit = {
 //    println(">> With mock session:")
 //    mockMvc.perform(get("/media/download_SZU_SZU0001.jpg").session(mockSession))
 //      .andExpect(status.isOk())
 //      .andDo(print)
-//  }
+  }
   
   
   

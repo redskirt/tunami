@@ -1,7 +1,6 @@
 package com.sasaki.packages
 
 import scala.reflect.runtime.universe._
-
 /**
  * @Author Sasaki
  * @Mail redskirt@outlook.com
@@ -169,6 +168,19 @@ package object independent {
   val currentFormatedDate: String = 
     new JSimpleDateFormat(PATTERN_DATE.toString()).format(TODAY)
 
+  def computeDate(date: JDate, offset: Int): JDate = {
+    import java.util.Calendar
+
+    val calendar = Calendar.getInstance()
+    calendar.setTime(date)
+    calendar.add(Calendar.DAY_OF_MONTH, offset)
+    new JDate(calendar.getTimeInMillis)
+  }
+  
+  def yesterday(date: JDate) = computeDate(date, -1)
+  
+  def tomorrow(date: JDate) = computeDate(date, 1)
+  
   //  def formatDuration(durationTimeMillis: Long) =
   //    org.apache.commons.lang3.time.DurationFormatUtils.formatDuration(durationTimeMillis, "HH:mm:ss", true)
   //
