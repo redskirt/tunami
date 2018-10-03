@@ -19,7 +19,7 @@ import me.miximixi.tunami.poso.Principal
 class PrincipalDao extends AbstractQueryDao[Principal]  with JdbcTemplateHandler {
    
   def query(accountName: String): Option[Principal] =
-    query(s"select id, account_name, password from $attr_principal where account_name = ?", accountName) 
-      {  (rs, i) => buildBean(classOf[Principal], rs).setId(rs.getInt("id")) }.headOption
+    query(s"select id, account_name, password from $table where account_name = ?", accountName) 
+      {  (rs, i) => buildBean(classOf[Principal], rs, "id", "account_name", "password").setId(rs.getInt("id")) }.headOption
 
 }
