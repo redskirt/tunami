@@ -12,7 +12,7 @@ import com.sasaki.chain.ScalaEntity
  */
 
 class Metadata extends PrimaryBean {
-  
+
   @BeanProperty // -> image_repo
   var imageRepo: String = _
 }
@@ -36,24 +36,24 @@ class Principal extends PrimaryBean {
  * 今日福音
  */
 class Gospel extends PrimaryBean {
-  
+
   def this(content: String, date: java.sql.Date, chapter: String) = {
     this()
     setContent(content)
     setDate(date)
     setChapter(chapter)
   }
-  
+
   @BeanProperty
   var content: String = _
-  
+
   @BeanProperty
   var date: java.sql.Date = _
-//  var date: JDate = _
-  
+  //  var date: JDate = _
+
   @BeanProperty
   var chapter: String = _
-  
+
   @BeanProperty
   @transient
   lazy val chapterInfo: String = {
@@ -66,46 +66,46 @@ class Prayer extends PrimaryBean {
 
   @BeanProperty
   var content: String = _
-  
+
   @BeanProperty
   var location: String = _
-  
+
   @BeanProperty
   var gender: String = _ // 0: female, 1: male
-  
+
   @BeanProperty
   var target: String = _
-  
-//  @BeanProperty
-//  var relation: String = _
-  
+
+  //  @BeanProperty
+  //  var relation: String = _
+
   @BeanProperty
   var see: JInt = 0
-  
+
   @BeanProperty
   var digg: JInt = 0
-  
+
   @transient
-  lazy val genderInfo = if("0" == gender) "姊妹" else "弟兄"
+  lazy val genderInfo = if ("0" == gender) "姊妹" else "弟兄"
 }
 
 /**
  * 神谕
  */
 class Prophet extends PrimaryBean {
-  
-  @BeanProperty 
+
+  @BeanProperty
   var category: String = _
-  
+
   @BeanProperty
   var content: String = _
-  
+
   @BeanProperty
   var chapter: String = _
 
   @BeanProperty
   var see: JInt = 0
-  
+
   @transient
   lazy val chapterO: Tuple3[String, Int, Int] =
     if (chapter == null)
@@ -265,7 +265,7 @@ final object BibleChapter {
       case n_25._1 => n_25._2
       case n_26._1 => n_26._2
       case n_27._1 => n_27._2
-      case _ => ???
+      case _       => ???
     }
 }
 
@@ -347,34 +347,53 @@ case class O(@transient id: Int) {
   @BeanProperty
   @transient
   @throws
-  var attr1 : String = _
+  var attr1: String = _
   @transient
-  var attr2 : String = _
+  var attr2: String = _
 }
 
-//object APP extends App{
-//  
-////  println(Bible.name(Bible.创世记))
-////  println(Bible.创世记.id)
-//  
-//import com.sasaki.packages.{ reflect => ref, constant => cons }
-//
-//import scala.reflect.runtime.universe._
-//
-//val tpe: Type = typeOf[O]
-////    val symbol: Symbol = tpe.decl(TermName("id_ ")) //获取字段符号信息
-////    val annotation: Annotation = symbol.annotations.head
-////    val tree: Tree = annotation.tree
-//// println(showRaw(tree)) //打印语法树
-////println(symbol.annotations(0).tree.tpe =:= typeOf[BeanProperty] )
-////  val Apply(_, Literal(Constant(name: String)) :: Literal(Constant(num: Int)) :: Nil) = tree
-////  println(s"Annotation args: name -> $name, num -> $num")
-//    
-////println(ref.existsAnnotationFromField[O, transient](classOf[O], "id"))
-////println(ref.extractField2Annotations[Anthem])
-////println(ref.existsAnnotationFromField[AA, BeanProperty]("id"))
-//
-//  val g = new Gospel("亚伯拉罕的后裔，大卫的子孙，耶稣基督...", null, "马太福音|1|1")
-//  println(g.chapterInfo) 
-//
-//}
+object APP extends App {
+
+  //  println(Bible.name(Bible.创世记))
+  //  println(Bible.创世记.id)
+
+  import com.sasaki.packages.{ reflect => ref, constant => cons }
+
+  import scala.reflect.runtime.universe._
+
+  val tpe: Type = typeOf[O]
+  //    val symbol: Symbol = tpe.decl(TermName("id_ ")) //获取字段符号信息
+  //    val annotation: Annotation = symbol.annotations.head
+  //    val tree: Tree = annotation.tree
+  // println(showRaw(tree)) //打印语法树
+  //println(symbol.annotations(0).tree.tpe =:= typeOf[BeanProperty] )
+  //  val Apply(_, Literal(Constant(name: String)) :: Literal(Constant(num: Int)) :: Nil) = tree
+  //  println(s"Annotation args: name -> $name, num -> $num")
+
+  //println(ref.existsAnnotationFromField[O, transient](classOf[O], "id"))
+  //println(ref.extractField2Annotations[Anthem])
+  //println(ref.existsAnnotationFromField[AA, BeanProperty]("id"))
+
+  //  val g = new Gospel("亚伯拉罕的后裔，大卫的子孙，耶稣基督...", null, "马太福音|1|1")
+  //  println(g.chapterInfo)
+
+  //  import scala.tools.reflect.ToolBox
+  //
+  //  val o = new Gospel
+  //  o.setChapter("x$1wqer")
+  //
+  //  //  val tb = scala.reflect.runtime.currentMirror.mkToolBox()
+  //  val tb = scala.reflect.runtime.universe.runtimeMirror(getClass.getClassLoader).mkToolBox()
+  //  //  val a = tb.eval(q"me.miximixi.tunami.poso.APP.o.getChapter").asInstanceOf[String]
+  //  //  println(a)
+  //
+  //  val tree = tb.parse(s"""
+  //    import me.miximixi.tunami.poso.APP.o
+  //    o.getChapter
+  //    """.stripMargin)
+  //
+  //  val result = tb.eval(tree).asInstanceOf[String]
+  //  println(result)
+
+}
+

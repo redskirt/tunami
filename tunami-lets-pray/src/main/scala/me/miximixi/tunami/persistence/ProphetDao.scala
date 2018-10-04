@@ -42,8 +42,8 @@ class ProphetDao extends AbstractQueryDao[Prophet] {
   def listCategory: JList[String] =
     queryJList(s"select distinct category from $table") { (rs, i) => rs.getString(1) }
 
-  def list(minId: JInt = 0, category: String = __): JList[Prophet] =
-    queryJList(s"""
+  def list(minId: JInt = 0, category: String = __): JList[Prophet] = {
+    val sql = s"""
       select 
         id,
         content,
@@ -54,10 +54,12 @@ class ProphetDao extends AbstractQueryDao[Prophet] {
       ${if (0 != minId) "and id<?" else and_?}
       ${and("category", category)}
       order by id desc
-      limit ${ if (0 != minId) 5 /*增量加载数*/ else 20 /*初始化加载数*/ }
-      """, minId, category) { (rs, i) => 
-        buildBean(classOf[Prophet], rs, "content", "category", "chapter").setId(rs.getInt(1))
+      limit ${if (0 != minId) 5 /*增量加载数*/ else 20 /*初始化加载数*/ }
+      """
+    queryJList(sql, minId, category) { (rs, i) =>
+      buildBean(classOf[Prophet], rs, parseQueryColumn(sql))
     }
+  }
 
   def update(ids: Array[Object]) = jdbcTemplate.update(s"""
 		  update $table

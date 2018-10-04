@@ -18,7 +18,7 @@ import me.miximixi.tunami.poso.Anthem
 @Repository
 class AnthemDao extends AbstractQueryDao[Anthem] {
 
-  override def list: JList[Anthem] = 
-    queryJList(s"""select `name`, artist, `order` from $table order by `order`""") { (rs, i) => buildBean(classOf[Anthem], rs) }
+  override def list: JList[Anthem] = ???
+//    queryJList(s"""select `name`, artist, `order` from $table order by `order`""") { (rs, i) => buildBean(classOf[Anthem], rs) }
 
 }

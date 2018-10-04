@@ -19,13 +19,14 @@ import me.miximixi.tunami.poso.Gospel
 @Repository
 class GospelDao extends AbstractQueryDao[Gospel] {
 
-  def query(date: Date): Option[Gospel] =
-    query(s"select id, content, chapter, date from $table where date=? limit 1", date) 
-      { (rs, i) => buildBean(classOf[Gospel], rs).setId(rs.getInt(1)) }.headOption
-    
+  def query(date: Date): Option[Gospel] = {
+    val sql = s"select id, content, chapter, date from $table where date=? limit 1"
+    query(sql, date) { (rs, i) => buildBean(classOf[Gospel], rs, parseQueryColumn(sql)) /*.setId(rs.getInt(1))*/ }.headOption
+  }
+
   def insert(seq: Seq[Gospel]): Int =
     super.insert(s"""
-       insert into 
+       insert into
        $table (content, date, chapter, timestamp)
        values (?, ?, ?, ?)
        """, seq) { (ps, i) ⇒
@@ -34,21 +35,6 @@ class GospelDao extends AbstractQueryDao[Gospel] {
       ps.setString(3, seq(i).getChapter())
       ps.setTimestamp(4, seq(i).getTimestamp)
     }
-    
-//    jdbcTemplate.batchUpdate(s"""
-//       insert into 
-//       $table (content, date, chapter, timestamp)
-//       values (?, ?, ?, ?)
-//       """, new BatchPreparedStatementSetter {
-//
-//      override def setValues(ps: PreparedStatement, i: Int) = {
-//        ps.setString(1, seq(i).getContent())
-//        ps.setDate(2, seq(i).getDate())
-//        ps.setString(3, seq(i).getChapter())
-//        ps.setTimestamp(4, seq(i).getTimestamp)
-//      }
-//
-//      override def getBatchSize() = seq.size
-//    }).reduce(_ + _)
-    
+
+
 }

@@ -39,18 +39,19 @@ class DaoTestCase extends PaginationHandler {
   var prayerDao: PrayerDao = _
   @Autowired
   var prophetDao: ProphetDao = _
- 
+
   val page = new Pagination(100, 2, 18, 10)
-  
+
   @Test
   def testListImageContent: Unit = {
 //        prayerDao.list(Int.box(318)).foreach(o => println(o.id))
-        
-//    gospelDao.list.asScala.foreach(o => println(o.chapterInfo))
+
+//    gospelDao.query.foreach(o => println(o.id))
+
 //    println(prayerDao.update(Array[Object](Int.box(1), Int.box(3), Int.box(2))))
-    
+
 //    println(gospelDao.query(new Date(System.currentTimeMillis())).get.content)
-    
+
 //    val o1 = new Gospel
 //    o1.setContent("test")
 //    o1.setDate(new Date(System.currentTimeMillis()))
@@ -58,15 +59,15 @@ class DaoTestCase extends PaginationHandler {
 //    val o2 = o1
 //    val o3 = o1
 //    println(gospelDao.insert(Seq(o1, o2, o3)))
-    
+
 //    for(i <- 0 to 50)
 //    println(gospelDao.insert(o1))
-    
+
 //      val o = new Prayer
 //      val o = new Prophet
 //      val str = "这"
 //      var str2: String = ""
-//      
+//
 //      for(i <- 0 to 150) {
 //        val random = new Random().nextInt(180)
 //        for(j <- 0 to random) {
@@ -81,43 +82,43 @@ class DaoTestCase extends PaginationHandler {
 //        o.setTarget("国家")
 //        o.setTimestamp(new Timestamp(System.currentTimeMillis()))
 //        prayerDao.insert(o)
-        
+
 //        o.setCategory("律法")
 //        o.setChapter("马太福音|2|3")
 //        prophetDao.insert(o)
 //      }
-    
+
 //    val list = prophetDao.list(0, "__")// .foreach(o => println(o.chapterO))
 //    val list = prophetDao.listCategory
 //    println(list.size)
-    
-    val lines = Source
-    .fromFile(new File("/Users/sasaki/Desktop/te"))
-    .getLines()
-    .toSeq
-    
+
+//    val lines = Source
+//    .fromFile(new File("/Users/sasaki/Desktop/te"))
+//    .getLines()
+//    .toSeq
+
     /*
      * 插入 Gospel ，文本格式为
      * 耶稣看着他们说、“在人这是不能的，在神凡事都能！” |太|19:26
      */
-    val list =
-      {
-        for (i <- 0 until lines.size) yield {
-          val array = lines(i).split('|')
-          val content = array(0)
-          println(array(1))
-          val title = BibleChapter.short2fullName(array(1))
-          val index = array(2).split(":")
-          val chapter = s"$title|${index(0)}|${index(1)}"
-          val o = new Gospel
-          o.setContent(content)
-          o.setChapter(chapter)
-          o.setDate(computeDate(TODAY, i))
-          o
-        }
-      } toSeq
-    
-    gospelDao.insert(list)
-   
+//    val list =
+//      {
+//        for (i <- 0 until lines.size) yield {
+//          val array = lines(i).split('|')
+//          val content = array(0)
+//          println(array(1))
+//          val title = BibleChapter.short2fullName(array(1))
+//          val index = array(2).split(":")
+//          val chapter = s"$title|${index(0)}|${index(1)}"
+//          val o = new Gospel
+//          o.setContent(content)
+//          o.setChapter(chapter)
+//          o.setDate(computeDate(TODAY, i))
+//          o
+//        }
+//      } toSeq
+//
+//    gospelDao.insert(list)
+
   }
 }

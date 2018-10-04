@@ -21,23 +21,23 @@ import me.miximixi.tunami.poso.Prayer
 @Repository
 class PrayerDao extends AbstractQueryDao[Prayer] {
 
-  def list(minId: JInt = 0): Seq[Prayer] =
-    query(s"""
-      select 
-        id, 
-        content, 
-        location,
-        gender,
-        target,
-        see,
-        digg
-      from $table 
-      where true
-      and status='0'
-      ${ if(0 != minId) "and id<?" else and_? }
-      order by id desc
-      limit ${ if(0 != minId) 5/*增量加载数*/ else 20/*初始化加载数*/ }
-      """, minId) { (rs, i) => buildBean(classOf[Prayer], rs).setId(rs.getInt(1)) }
+  def list(minId: JInt = 0): Seq[Prayer] = ???
+//    query(s"""
+//      select 
+//        id, 
+//        content, 
+//        location,
+//        gender,
+//        target,
+//        see,
+//        digg
+//      from $table 
+//      where true
+//      and status='0'
+//      ${ if(0 != minId) "and id<?" else and_? }
+//      order by id desc
+//      limit ${ if(0 != minId) 5/*增量加载数*/ else 20/*初始化加载数*/ }
+//      """, minId) { (rs, i) => buildBean(classOf[Prayer], rs).setId(rs.getInt(1)) }
   
   def insert(o: Prayer): Int = insert(Seq(o))
   

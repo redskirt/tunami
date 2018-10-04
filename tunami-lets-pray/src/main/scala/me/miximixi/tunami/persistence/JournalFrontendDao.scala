@@ -15,11 +15,15 @@ import org.springframework.stereotype.Repository
 @Repository
 class JournalFrontendDao extends AbstractQueryDao[JournalFrontend] {
 
+  def f_x: (java.sql.PreparedStatement, Int) => Unit = (ps: PreparedStatement, i: Int) => {
+
+  }
+
   def insert(o: JournalFrontend): Int = insert(Seq(o))
-  
-  def insert(seq: Seq[JournalFrontend]): Int = 
+
+  def insert(seq: Seq[JournalFrontend]): Int =
     super.insert(s"""
-       insert into 
+       insert into
        $table (
           uri,
           url,
@@ -30,13 +34,15 @@ class JournalFrontendDao extends AbstractQueryDao[JournalFrontend] {
           timestamp
        )
        values (?, ?, ?, ?, ?, ?, ?)
-       """, seq) { (ps, i) ⇒
-       ps.setString(1, seq(i).getUri())
-       ps.setString(2, seq(i).getUrl())
-       ps.setString(3, seq(i).getHttp_method())
-       ps.setString(4, seq(i).getIp())
-       ps.setString(5, seq(i).getMethod())
-       ps.setString(6, seq(i).getArgs())
-       ps.setTimestamp(7, seq(i).getTimestamp)
+       """, seq) { (ps, i) =>
+
+      setParameter(classOf[JournalFrontend], ps, seq(i),
+        "uri",
+        "url",
+        "http_method",
+        "ip",
+        "method",
+        "args", "timestamp")
     }
+
 }

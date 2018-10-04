@@ -16,9 +16,9 @@ import me.miximixi.tunami.poso.Principal
 @Repository
 class PrincipalDao extends AbstractQueryDao[Principal] {
 
-  def query(accountName: String): Option[Principal] =
-    query(s"select id, account_name, password from $table where account_name = ?", accountName) { (rs, i) =>
-      buildBean(classOf[Principal], rs, "account_name", "password").setId(rs.getInt(1))
-    }.headOption
+  def query(accountName: String): Option[Principal] = ???
+//    query(s"select id, account_name, password from $table where account_name = ?", accountName) { (rs, i) =>
+//      buildBean(classOf[Principal], rs, "account_name", "password").setId(rs.getInt(1))
+//    }.headOption
 
 }
