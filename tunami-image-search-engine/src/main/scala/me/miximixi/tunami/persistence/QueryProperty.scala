@@ -11,14 +11,14 @@ import reflect.runtime.universe._
  */
 object QueryProperty {
   
-  val attr_principal = "attr_principal"
-  val attr_metadata = "attr_metadata"
-  val attr_vsh_view = "attr_vsh_view"
-  val attr_vsh_view_map = "attr_vsh_view_map"
-  val attr_harvard_yenching = "attr_harvard_yenching"
-  val attr_bristol = "attr_bristol"
-  val attr_joseph = "attr_joseph"
-  val attr_weichat = "attr_weichat"
+  val attr_principal             = "attr_principal"
+  val attr_metadata              = "attr_metadata"
+  val attr_vsh_view              = "attr_vsh_view"
+  val attr_vsh_view_map          = "attr_vsh_view_map"
+  val attr_harvard_yenching      = "attr_harvard_yenching"
+  val attr_bristol               = "attr_bristol"
+  val attr_joseph                = "attr_joseph"
+  val attr_weichat               = "attr_weichat"
   
   def mappingTable[T: TypeTag] = 
     typeOf[T] match {
@@ -29,7 +29,6 @@ object QueryProperty {
       case __ if __ =:= typeOf[Bristol]    => attr_bristol
       case __ if __ =:= typeOf[Yenching]   => attr_harvard_yenching
       case __ if __ =:= typeOf[Joseph]     => attr_joseph
-      case _                               => "???"
+      case _                               => ???; println(s"Unexpected type of column: ${ typeOf[T] }.")
     }
-  
 }

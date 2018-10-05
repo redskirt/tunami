@@ -50,8 +50,9 @@ class VshViewDao extends AbstractQueryDao[VshView] {
       like(keyword), 
       like(keyword)) { (rs, i) => rs.getInt(1) }.headOption
       
-  def list(city: String = __, keyword: String = __, limit: Tuple2[JInt, JInt]): JList[VshView] =
-    queryJList(s"""
+  def list(city: String = __, keyword: String = __, limit: Tuple2[JInt, JInt]): JList[VshView] = {
+    
+    val sql = s"""
       select 
         id,
         remark,
@@ -97,7 +98,8 @@ class VshViewDao extends AbstractQueryDao[VshView] {
       }
       order by SUBSTR(image_id, 4) + 0 asc
       ${ limit_? } 
-      """, 
+      """
+    queryJList(sql, 
       city, 
       like(keyword), 
       like(keyword), 
@@ -105,7 +107,8 @@ class VshViewDao extends AbstractQueryDao[VshView] {
       like(keyword), 
       like(keyword), 
       limit._1, 
-      limit._2) { (rs, i) => buildBean(classOf[VshView], rs).setId(rs.getInt("id")) }
+      limit._2) { (rs, i) => buildBean(classOf[VshView], rs, parseQueryColumn(sql)) }
+  }
 
   def update(o: VshView): Int =
     jdbcTemplate.update(s"""

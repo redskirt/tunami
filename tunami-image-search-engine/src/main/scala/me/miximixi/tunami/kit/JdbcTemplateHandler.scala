@@ -12,7 +12,10 @@ import reflect.runtime.universe.TypeTag
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper
 
-import com.sasaki.packages.constant.JList
+import com.sasaki.packages.{ independent, reflect => ref, constant => cons }
+import java.sql.PreparedStatement
+import me.miximixi.tunami.poso.PrimaryBean
+import org.springframework.lang.Nullable
 
 /**
  * @Author Sasaki
@@ -43,7 +46,7 @@ trait JdbcTemplateHandler { self =>
 //  }
   
   protected def queryJList(sql: String, args: Object*) = new {
-    def apply[T](f: (ResultSet, Int) => T)(implicit ev: ((ResultSet, Int) => T) => RowMapper[T]): JList[T] = 
+    def apply[T](f: (ResultSet, Int) => T)(implicit ev: ((ResultSet, Int) => T) => RowMapper[T]): cons.JList[T] = 
       jdbcTemplate.query(sql, args.toArray, ev(f))//.asScala.toList
   }
 
@@ -58,36 +61,43 @@ trait JdbcTemplateHandler { self =>
   /**
    * 
    */
-  protected def buildBean[T: TypeTag](clazz: Class[T], rs: ResultSet, attrs: String*): T = {
-    val constructor = clazz.getConstructor()
-    val objT = constructor.newInstance()
-    val fields_ = clazz.getDeclaredFields
-    val fields =
-      if (null == attrs || attrs.isEmpty || fields_.size == attrs.size)
-        fields_
-      else
-        fields_.filter(o => attrs.contains(o.getName))
+  @Nullable
+  protected def buildBean[T <: PrimaryBean: TypeTag](clazz: Class[T], rs: ResultSet, queryColumns: Seq[String]): T = {
+    lazy val o = clazz.getConstructor().newInstance()
+    lazy val fields = ref.extractFieldsAll(clazz)
 
-    fields
-      .map { o => (o.getName, o.getType) }
-      .foreach { o =>
-        val attr = o._1
-        val field = clazz.getDeclaredField(attr)
-        field.setAccessible(true)
-
-        o._2 match {
-          case _type if _type.equals(classOf[Int])     => field.set(objT, Int.box(rs.getInt(attr)))
-          case _type if _type.equals(classOf[Long])    => field.set(objT, rs.getLong(attr))
-          case _type if _type.equals(classOf[String])  => field.set(objT, rs.getString(attr))
-          case _type if _type.equals(classOf[Boolean]) => field.set(objT, rs.getBoolean(attr))
-          case _ =>
-            println("From me.miximixi.tunami.kit.buildBean method，未知的类型。")
-            ???
-        }
+    for (i <- 0 until queryColumns.size) {
+      fields.find(_.getName == queryColumns(i)).get match {
+          case f if f.getType.equals(classOf[Int])                 => f.set(o, Int.box(rs.getInt(queryColumns(i))))
+          case f if f.getType.equals(classOf[cons.JInt])           => f.set(o, Int.box(rs.getInt(queryColumns(i))))
+          case f if f.getType.equals(classOf[Long])                => f.set(o, rs.getLong(queryColumns(i)))
+          case f if f.getType.equals(classOf[cons.JLong])          => f.set(o, rs.getLong(queryColumns(i)))
+          case f if f.getType.equals(classOf[String])              => f.set(o, rs.getString(queryColumns(i)))
+          case f if f.getType.equals(classOf[Boolean])             => f.set(o, rs.getBoolean(queryColumns(i)))
+          case f if f.getType.equals(classOf[cons.JDate])          => f.set(o, rs.getDate(queryColumns(i)))
+          case f if f.getType.equals(classOf[cons.JTimestamp])     => f.set(o, rs.getTimestamp(queryColumns(i)))
+          case _                                                   => throw new Exception("From me.miximixi.tunami.kit.buildBean method，未知的类型。")
       }
-      
-    objT
+    }
+    o
   }
+  
+  protected def setParameter[T <: PrimaryBean: TypeTag](clazz: Class[T], ps: PreparedStatement, t: T, @Nullable queryColumns: String*): Unit = {
+    lazy val fields = ref.extractFieldsAll(clazz)
+
+    for (i <- 0 until queryColumns.size) {
+      val index = i + 1
+
+      fields.find(_.getName == queryColumns(i)).get match {
+        case f if f.getType.equals(classOf[Int])             => ps.setInt(index, f.getInt(t))
+        case f if f.getType.equals(classOf[cons.JInt])       => ps.setInt(index, Int.box(f.getInt(t)))
+        case f if f.getType.equals(classOf[String])          => ps.setString(index, f.get(t).asInstanceOf[String])
+        case f if f.getType.equals(classOf[cons.JTimestamp]) => ps.setTimestamp(index, f.get(t).asInstanceOf[cons.JTimestamp])
+        case _                                               => throw new Exception("From me.miximixi.tunami.kit.setParameter method，未知的类型。")
+      }
+    }
+  }  
+  
 }
 
 object JdbcTemplateHandler {

@@ -44,8 +44,9 @@ class JosephDao extends AbstractQueryDao[Joseph] {
       like(keyword), 
       like(keyword)) { (rs, i) => rs.getInt(1) }.headOption
     
-  def list(keyword: String = __, limit: Tuple2[JInt, JInt]): JList[Joseph] =
-    queryJList(s"""
+  def list(keyword: String = __, limit: Tuple2[JInt, JInt]): JList[Joseph] = {
+    
+    val sql = s"""
       select 
         id,
       		title,
@@ -72,14 +73,16 @@ class JosephDao extends AbstractQueryDao[Joseph] {
       }
       order by id asc
       ${ limit_? } 
-      """, 
+      """
+    queryJList(sql, 
       like(keyword), 
       like(keyword), 
       like(keyword), 
       like(keyword), 
       like(keyword), 
       limit._1, 
-      limit._2) { (rs, i) => buildBean(classOf[Joseph], rs).setId(rs.getInt("id")) }
+      limit._2) { (rs, i) => buildBean(classOf[Joseph], rs, parseQueryColumn(sql))/*.setId(rs.getInt("id"))*/ }
+  }
 
   def update(o: Joseph): Int =
     jdbcTemplate.update(s"""

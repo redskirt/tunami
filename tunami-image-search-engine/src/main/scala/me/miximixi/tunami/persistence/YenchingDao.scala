@@ -45,9 +45,9 @@ class YenchingDao extends AbstractQueryDao[Yenching] {
       like(keyword),
       like(keyword)) { (rs, i) => rs.getInt(1) }.headOption
 
-  def list(keyword: String = __, limit: Tuple2[JInt, JInt]): JList[Yenching] =
-    queryJList(
-      s"""
+  def list(keyword: String = __, limit: Tuple2[JInt, JInt]): JList[Yenching] = {
+
+    val sql = s"""
       select 
         id,
       		image_name,
@@ -77,14 +77,19 @@ class YenchingDao extends AbstractQueryDao[Yenching] {
     }
       order by id asc
       ${limit_?} 
-      """,
+      """
+
+    queryJList(
+      sql,
       like(keyword),
       like(keyword),
       like(keyword),
       like(keyword),
       like(keyword),
       limit._1,
-      limit._2)((rs, i) => buildBean(classOf[Yenching], rs).setId(Int.box(rs.getInt(0))))
+      limit._2
+    )((rs, i) => buildBean(classOf[Yenching], rs, parseQueryColumn(sql)) /*.setId(Int.box(rs.getInt(0)))*/ )
+  }
 
   def update(o: Yenching): Int =
     jdbcTemplate.update(s"""

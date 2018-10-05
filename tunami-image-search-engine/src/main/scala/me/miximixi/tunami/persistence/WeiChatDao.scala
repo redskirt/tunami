@@ -40,8 +40,9 @@ class WeiChatDao extends AbstractQueryDao[WeiChat] {
       like(keyword), 
       like(keyword)) { (rs, i) => rs.getInt(1) }.headOption
     
-  def list(keyword: String = __, limit: Tuple2[JInt, JInt]): JList[WeiChat] =
-    queryJList(s"""
+  def list(keyword: String = __, limit: Tuple2[JInt, JInt]): JList[WeiChat] = {
+        
+    val sql = s"""
       select 
         id,
       		original_title,
@@ -51,24 +52,28 @@ class WeiChatDao extends AbstractQueryDao[WeiChat] {
       from $table
       where true
       ${
-        if (__ == keyword)
-          s"${ and_? }\n${ and_? }\n${ and_? }"
-        else """
+      if (__ == keyword)
+        s"${and_?}\n${and_?}\n${and_?}"
+      else """
           	and (
             	original_title like ?
             	or source like ?
             	or remark like ?
           )
           """
-      }
+    }
       order by id asc
-      ${ limit_? } 
-      """, 
-      like(keyword), 
-      like(keyword), 
-      like(keyword), 
+      ${limit_?} 
+      """
+    queryJList(
+      sql,
+      like(keyword),
+      like(keyword),
+      like(keyword),
       limit._1,
-      limit._2) { (rs, i) => buildBean(classOf[WeiChat], rs).setId(rs.getInt("id")) }
+      limit._2
+    ) { (rs, i) => buildBean(classOf[WeiChat], rs, parseQueryColumn(sql))/*.setId(rs.getInt("id"))*/ }
+  }
 
   def update(o: WeiChat): Int =
     jdbcTemplate.update(s"""

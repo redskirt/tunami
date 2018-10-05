@@ -43,8 +43,8 @@ class VshViewDao2 extends AbstractQueryDao[Bristol] {
       like(keyword), 
       like(keyword)) { (rs, i) => rs.getInt(1) }.headOption
     
-  def list(keyword: String = __, limit: Tuple2[JInt, JInt]): JList[Bristol] =
-    queryJList(s"""
+  def list(keyword: String = __, limit: Tuple2[JInt, JInt]): JList[Bristol] = {
+    val sql = s"""
       select 
         id,
         original_image_name,
@@ -74,14 +74,17 @@ class VshViewDao2 extends AbstractQueryDao[Bristol] {
       }
       order by id asc
       ${ limit_? } 
-      """, 
+      """
+      
+    queryJList(sql, 
       like(keyword), 
       like(keyword), 
       like(keyword), 
       like(keyword), 
       like(keyword), 
       limit._1, 
-      limit._2) { (rs, i) => buildBean(classOf[Bristol], rs).setId(rs.getInt("id")) }
+      limit._2) { (rs, i) => buildBean(classOf[Bristol], rs, parseQueryColumn(sql))/*.setId(rs.getInt("id"))*/ }
+  }
 
   def update(o: Bristol): Int =
     jdbcTemplate.update(s"""

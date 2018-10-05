@@ -40,11 +40,11 @@ class DaoTestCase extends PaginationHandler {
   def testListImageContent: Unit = {
     //    imageContentDao.list() foreach println
 //        vshViewMapDao.list("__", "上海", page.limit).asScala.foreach(o => println(o.id + " " + o.city + " " + o.original_title))
-//        vshViewDao.list("__", "__", page.limit).asScala.foreach(o => println(o.id + " " + o.city))
+        vshViewDao.list("__", "__", page.limit).asScala.foreach(o => println(o.id + " " + o.city))
 //        josephDao.list("__", page.limit).asScala.take(3).foreach(o => println(o.id + " " + o.original_caption_by_joseph_needham))
 //        weichatDao.list("__", page.limit).asScala.take(3).foreach(o => println(o.id + " " + o.original_title))
     
-        weichatDao.list((1, 10)).asScala.foreach(println)
+        weichatDao.list("__", (1, 10)).asScala.foreach(println)
         
 //        println(vshViewMapDao.count("TJN"))
 //    val o = new VshViewMap

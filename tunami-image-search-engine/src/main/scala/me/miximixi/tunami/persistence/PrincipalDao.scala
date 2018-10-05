@@ -2,10 +2,9 @@ package me.miximixi.tunami.persistence
 
 import org.springframework.stereotype.Repository
 
+import me.miximixi.tunami.kit.AbstractQueryDao
 import me.miximixi.tunami.kit.JdbcTemplateHandler
 import me.miximixi.tunami.kit.JdbcTemplateHandler.mapRow
-import me.miximixi.tunami.kit.AbstractQueryDao
-import me.miximixi.tunami.persistence.QueryProperty.attr_principal
 import me.miximixi.tunami.poso.Principal
 
 
@@ -17,9 +16,11 @@ import me.miximixi.tunami.poso.Principal
  */
 @Repository
 class PrincipalDao extends AbstractQueryDao[Principal]  with JdbcTemplateHandler {
-   
-  def query(accountName: String): Option[Principal] =
-    query(s"select id, account_name, password from $table where account_name = ?", accountName) 
-      {  (rs, i) => buildBean(classOf[Principal], rs, "id", "account_name", "password").setId(rs.getInt("id")) }.headOption
 
+  def query(accountName: String): Option[Principal] = {
+    val sql = s"select id, account_name, password from $table where account_name = ?"
+    query(sql, accountName) { (rs, i) =>
+      buildBean(classOf[Principal], rs, parseQueryColumn(sql)) /*.setId(rs.getInt("id"))*/
+    }.headOption
+  }
 }

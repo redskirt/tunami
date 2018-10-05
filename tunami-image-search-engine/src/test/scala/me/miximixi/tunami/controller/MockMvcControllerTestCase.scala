@@ -87,7 +87,7 @@ class MockMvcControllerTestCase {
     //        .andDo(print())
 
         println(">> With mock session:")
-        mockMvc.perform(get("/media/map_list_0_30").session(mockSession))
+        mockMvc.perform(get("/media/photo_list_0_15").session(mockSession))
           .andExpect(status.isOk())
           .andDo(print)
         

@@ -53,8 +53,9 @@ class VshViewMapDao extends AbstractQueryDao[VshViewMap] {
       like(keyword),
       like(keyword)) { (rs, i) => rs.getInt(1) }.headOption
     
-  def list(city: String = __, keyword: String = __, limit: Tuple2[JInt, JInt]): JList[VshViewMap] =
-    queryJList(s"""
+  def list(city: String = __, keyword: String = __, limit: Tuple2[JInt, JInt]): JList[VshViewMap] = {
+
+    val sql = s"""
       select 
         id,
       		image_name,
@@ -76,12 +77,12 @@ class VshViewMapDao extends AbstractQueryDao[VshViewMap] {
       		remark
       from $attr_vsh_view_map
       where true
-      ${ and("city", city) }
-      ${ not_null("image_id") }
+      ${and("city", city)}
+      ${not_null("image_id")}
       ${
-        if (__ == keyword || "" == keyword)
-          s"${ and_? }\n${ and_? }\n${ and_? }\n${ and_? }\n${ and_? }\n${ and_? }"
-        else """
+      if (__ == keyword || "" == keyword)
+        s"${and_?}\n${and_?}\n${and_?}\n${and_?}\n${and_?}\n${and_?}"
+      else """
             	and (
               	original_title like ?
               	or transliteration like ?
@@ -91,19 +92,24 @@ class VshViewMapDao extends AbstractQueryDao[VshViewMap] {
               	or remark like ?
             )
             """
-      }
+    }
       order by id asc
-      ${ limit_? } 
-      """, 
-      city, 
-      like(keyword), 
-      like(keyword), 
-      like(keyword), 
-      like(keyword), 
-      like(keyword), 
-      like(keyword), 
-      limit._1, 
-      limit._2) { (rs, i) => buildBean(classOf[VshViewMap], rs).setId(rs.getInt("id")) }
+      ${limit_?} 
+      """
+
+    queryJList(
+      sql,
+      city,
+      like(keyword),
+      like(keyword),
+      like(keyword),
+      like(keyword),
+      like(keyword),
+      like(keyword),
+      limit._1,
+      limit._2
+    ) { (rs, i) => buildBean(classOf[VshViewMap], rs, parseQueryColumn(sql)) /*.setId(rs.getInt("id"))*/ }
+  }
       
     def update(o: VshViewMap): Int = 
       jdbcTemplate.update(s"""
