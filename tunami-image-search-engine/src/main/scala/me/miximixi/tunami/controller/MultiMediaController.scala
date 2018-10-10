@@ -229,14 +229,20 @@ class MultiMediaController extends UsefulController with PaginationHandler {
       @PathVariable size: Int): ModelAndView =
     map_list(model, __ trim, __ trim, current, size)
 
-  @org.springframework.beans.factory.annotation.Value("${value.repository}")
-  private var repository: String = _
+//  @org.springframework.beans.factory.annotation.Value("${value.repository}")
+//  private var repository: String = _
 
   @GetMapping(Array("/download_{dir}_{filename}"))
   def download(
     @PathVariable dir:      String,
     @PathVariable filename: String): ResponseEntity[InputStreamResource] =
     download(s"$repository${|}${dir.replace("|", "/")}${|}$filename")
+    
+  @GetMapping(Array("/downloadMultiple_{dir}_{filenames}"))
+  def downloadMultiple(
+    @PathVariable dir:      String,
+    @PathVariable filenames: String): ResponseEntity[InputStreamResource] =
+      download(filenames.split(|).map(o => s"$repository${|}${dir.replace("|", "/")}${|}$o"))
 
   @PostMapping(Array("/ajaxRemark"))
   def ajaxRemark(@RequestBody body: JsonNode): JsonNode =

@@ -1,6 +1,9 @@
 package com.sasaki.packages
 
 import scala.reflect.runtime.universe._
+import java.util.zip.ZipOutputStream
+import java.io.FileInputStream
+
 /**
  * @Author Sasaki
  * @Mail redskirt@outlook.com
@@ -185,6 +188,9 @@ package object independent {
   //
   //  def formatUntilDuration(lastTimeMillis: Long) = formatDuration(currentTimeMillis - lastTimeMillis)
 
+  import java.io.{ File, InputStream, BufferedInputStream }
+  import java.util.zip.ZipEntry
+  
   /**
    * File Operation
    */
@@ -198,6 +204,10 @@ package object independent {
       Array(t)
   }
 
+  /**
+   * @param fileNameWithPath 文件全路径
+   * @param content
+   */
   def writeFile(fileNameWithPath: String, content: String) = {
     import java.io.{ File, FileWriter, BufferedWriter }
 
@@ -206,6 +216,56 @@ package object independent {
     writer.close()
   }
 
+  /**
+   * 压缩列表中的文件
+   */
+  def zipFile(files: Seq[File], outputStream: ZipOutputStream): Unit =
+    files.foreach(o => zipFile(o, outputStream))
+
+  /**
+   * 将文件写入到zip文件中
+   */
+  def zipFile(file: File, outputStream: ZipOutputStream): Unit = {
+
+    var inputStream: FileInputStream = null
+    var bufferedInputStream: BufferedInputStream = null
+
+    try {
+      if (file.exists && file.isFile) {
+        inputStream = new FileInputStream(file)
+        bufferedInputStream = new BufferedInputStream(inputStream)
+        val entry = new ZipEntry(file.getName)
+
+        outputStream.putNextEntry(entry)
+
+        val MAX_BYTE = 10 * 1024 * 1024 // 最大的流为10M
+        val streamTotal = inputStream.available() // 接受流的容量，通过available方法取得流的最大字符数
+        val streamNum = math.floor(streamTotal / MAX_BYTE).toInt // 流需要分开的数量，取得流文件需要分开的数量
+        val leaveByte = streamTotal % MAX_BYTE // 文件剩下的字符数，分开文件之后，剩余的数量
+
+        var bytes: Array[Byte] = null
+        if (streamNum > 0) {
+          for (i <- 0 until streamNum) {
+            bytes = new Array[Byte](MAX_BYTE) // byte数组接受文件的数据
+            bufferedInputStream.read(bytes, 0, MAX_BYTE) // 读入流,保存在byte数组
+            outputStream.write(bytes, 0, MAX_BYTE) // 写出流
+          }
+        }
+
+        // 写出剩下的流数据
+        bytes = new Array[Byte](leaveByte)
+        bufferedInputStream.read(bytes, 0, leaveByte)
+        outputStream.write(bytes)
+        outputStream.closeEntry()
+      }
+    } finally {
+      if (null != bufferedInputStream)
+        bufferedInputStream.close()
+      if (null != inputStream)
+        inputStream.close()
+    }
+  }
+  
   /**
    * 平行映射
    * 对两组序列1->1 映射产出一组序列值
@@ -531,11 +591,11 @@ package object constant {
    * scala.collection.Iterable                     <=> java.lang.Iterable
    * scala.collection.Iterable                     <=> java.util.Collection
    * scala.collection.Iterator                     <=> java.util.{ Iterator, Enumeration }
-   * scala.collection.mutable.Buffer              	<=> java.util.List
-   * scala.collection.mutable.Set                 	<=> java.util.Set
-   * scala.collection.mutable.Map                 	<=> java.util.{ Map, Dictionary }
-   * scala.collection.mutable.ConcurrentMap       	<=> java.util.concurrent.ConcurrentMap
-   * scala.collection.Seq                           => java.util.List
+   * scala.collection.mutable.Buffer              <=> java.util.List
+   * scala.collection.mutable.Set                 <=> java.util.Set
+   * scala.collection.mutable.Map                 <=> java.util.{ Map, Dictionary }
+   * scala.collection.mutable.ConcurrentMap       <=> java.util.concurrent.ConcurrentMap
+   * scala.collection.Seq                            => java.util.List
    * scala.collection.mutable.Seq                   => java.util.List
    * scala.collection.Set                           => java.util.Set
    * scala.collection.Map                           => java.util.Map
