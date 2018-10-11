@@ -1,8 +1,6 @@
 package com.sasaki.packages
 
 import scala.reflect.runtime.universe._
-import java.util.zip.ZipOutputStream
-import java.io.FileInputStream
 
 /**
  * @Author Sasaki
@@ -188,8 +186,8 @@ package object independent {
   //
   //  def formatUntilDuration(lastTimeMillis: Long) = formatDuration(currentTimeMillis - lastTimeMillis)
 
-  import java.io.{ File, InputStream, BufferedInputStream }
-  import java.util.zip.ZipEntry
+  import java.io._
+  import java.util.zip.{ ZipEntry, ZipOutputStream }
   
   /**
    * File Operation
@@ -219,53 +217,49 @@ package object independent {
   /**
    * 压缩列表中的文件
    */
-  def zipFile(files: Seq[File], outputStream: ZipOutputStream): Unit =
-    files.foreach(o => zipFile(o, outputStream))
+  def zip(files: Seq[File], zipFileNameWithAbsolutePath: String): Unit =
+    invokeVerify(files.forall(o => o.exists() && o.isFile()), "文件不存在或存在目录文件。") { () =>
 
-  /**
-   * 将文件写入到zip文件中
-   */
-  def zipFile(file: File, outputStream: ZipOutputStream): Unit = {
+      val bufferSize = 2 * 1024 * 1024
+      val buffer = new Array[Byte](bufferSize)
+      val zipFile = new File(zipFileNameWithAbsolutePath)
+      val outputStream = new FileOutputStream(zipFile)
+      val zipOutputStream = new ZipOutputStream(outputStream)
 
-    var inputStream: FileInputStream = null
-    var bufferedInputStream: BufferedInputStream = null
+      var fileInputStream: FileInputStream = null
+      var bufferedInputStream: BufferedInputStream = null
 
-    try {
-      if (file.exists && file.isFile) {
-        inputStream = new FileInputStream(file)
-        bufferedInputStream = new BufferedInputStream(inputStream)
-        val entry = new ZipEntry(file.getName)
+      try {
+        files.foreach { o =>
+          fileInputStream = new FileInputStream(o)
+          bufferedInputStream = new BufferedInputStream(fileInputStream, bufferSize)
+          zipOutputStream.putNextEntry(new ZipEntry(o.getName))
 
-        outputStream.putNextEntry(entry)
-
-        val MAX_BYTE = 10 * 1024 * 1024 // 最大的流为10M
-        val streamTotal = inputStream.available() // 接受流的容量，通过available方法取得流的最大字符数
-        val streamNum = math.floor(streamTotal / MAX_BYTE).toInt // 流需要分开的数量，取得流文件需要分开的数量
-        val leaveByte = streamTotal % MAX_BYTE // 文件剩下的字符数，分开文件之后，剩余的数量
-
-        var bytes: Array[Byte] = null
-        if (streamNum > 0) {
-          for (i <- 0 until streamNum) {
-            bytes = new Array[Byte](MAX_BYTE) // byte数组接受文件的数据
-            bufferedInputStream.read(bytes, 0, MAX_BYTE) // 读入流,保存在byte数组
-            outputStream.write(bytes, 0, MAX_BYTE) // 写出流
+          var i = 0
+          while ({
+            i = fileInputStream.read(buffer, 0, bufferSize)
+            i != -1
+          }) {
+            zipOutputStream.write(buffer, 0, i)
           }
         }
+      } finally {
+        if (null != fileInputStream)
+          fileInputStream.close()
+        if (null != bufferedInputStream)
+          bufferedInputStream.close()
 
-        // 写出剩下的流数据
-        bytes = new Array[Byte](leaveByte)
-        bufferedInputStream.read(bytes, 0, leaveByte)
-        outputStream.write(bytes)
-        outputStream.closeEntry()
+        zipOutputStream.close()
+        outputStream.close()
       }
-    } finally {
-      if (null != bufferedInputStream)
-        bufferedInputStream.close()
-      if (null != inputStream)
-        inputStream.close()
     }
-  }
-  
+
+  /**
+   * 压缩单个文件
+   */
+  def zip(file: File, zipFileNameWithAbsolutePath: String): Unit =
+     zip(Seq(file), zipFileNameWithAbsolutePath)  
+     
   /**
    * 平行映射
    * 对两组序列1->1 映射产出一组序列值
@@ -306,6 +300,7 @@ package object reflect {
       .getActualTypeArguments.apply(0)
       .asInstanceOf[Class[T]]
 
+  @deprecated
   def buildInstance[T: TT](args: A*): T = ???
   //    runtimeMirror(getClass.getClassLoader)
   //      .reflectClass(clazz[T])
@@ -331,6 +326,7 @@ package object reflect {
   /**
    * 仅适用case class
    */
+  @deprecated
   def extractFields[T: TT]: Seq[String] = ???
   //    typeOf[T].members.collect {
   //      case m: MethodSymbol if m.isCaseAccessor => m.name.toString()
@@ -369,9 +365,11 @@ package object reflect {
   def extractFullName[T: TT]: String =
     typeOf[T].toString()
 
+  @deprecated
   def extractTypes[T: TT]: Seq[Type] =
     extractSymbolList[T].head.map(_ typeSignature)
 
+  @deprecated
   private def extractSymbolList[T: TT]: Seq[Seq[Symbol]] = ???
   //    symbolOf[T].asClass.primaryConstructor.typeSignature.paramLists
 
@@ -440,8 +438,7 @@ package object reflect {
    * 注意：normal class 不能获得主构造方法中的值！
    */
   def extractFieldAnnotations[T: TT](clazz: Class[T]): Seq[Seq[Annotation]] =
-    extractFields(clazz)
-      .map { o => typeOf[T].decl(TermName(s"${o.getName} ")).annotations }
+    extractFields(clazz).map { o => typeOf[T].decl(TermName(s"${o.getName} ")).annotations }
 
   /**
    * 字段标识联合注解
@@ -454,6 +451,7 @@ package object reflect {
   def extractField2Annotations[T: TT](clazz: Class[T]): Seq[(String, Seq[Annotation])] =
     extractFields(clazz).map(_.getName) zip extractFieldAnnotations(clazz)
 
+  @deprecated
   def extractField2Type[T: TT]: Seq[(String, Type)] =
     extractFields[T] zip extractTypes[T]
 
@@ -556,31 +554,31 @@ package constant {
 
 package object constant {
 
-  val $e = "" // empty
-  val $s = " " // space
-  val $p = '.' // point
-  val $n = null // null
-  val $u = "_" // underline
+  val $e = ""       // empty
+  val $s = " "      // space
+  val $p = '.'      // point
+  val $n = null     // null
+  val $u = "_"      // underline
 
   // --------------------------- Java Type -------------------------------
   import java.{ lang => Java, util => JUtil, sql => JSql }
 
   //  type JObject             = Java.Object
-  type JInt = Java.Integer
-  type JLong = Java.Long
-  type JDouble = Java.Double
-  type JBoolean = Java.Boolean
-  type JTimestamp = JSql.Timestamp
+  type JInt              = Java.Integer
+  type JLong             = Java.Long
+  type JDouble           = Java.Double
+  type JBoolean          = Java.Boolean
+  type JTimestamp        = JSql.Timestamp
   type JSimpleDateFormat = java.text.SimpleDateFormat
-  type JDate = JSql.Date
+  type JDate             = JSql.Date
 
   //  Java Collection
-  type JIterable[T] = Java.Iterable[T]
-  type JCollection[T] = JUtil.Collection[T]
-  type JList[T] = JUtil.List[T]
-  type JSet[T] = JUtil.Set[T]
-  type JMap[P, V] = JUtil.Map[P, V]
-  type JProperties = JUtil.Properties
+  type JIterable[T]      = Java.Iterable[T]
+  type JCollection[T]    = JUtil.Collection[T]
+  type JList[T]          = JUtil.List[T]
+  type JSet[T]           = JUtil.Set[T]
+  type JMap[P, V]        = JUtil.Map[P, V]
+  type JProperties       = JUtil.Properties
 
   // Java Reflect
   type Field = Java.reflect.Field

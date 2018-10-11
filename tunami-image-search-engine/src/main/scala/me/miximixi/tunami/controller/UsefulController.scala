@@ -57,7 +57,7 @@ trait UsefulController { self =>
     f_x(org.json4s.jackson.JsonMethods.fromJsonNode(body))
 
   @org.springframework.beans.factory.annotation.Value("${value.repository}")
-  /*private[this]*/ var repository: String = _
+  protected var repository: String = _
   
   // 运行时Session注入
   @Autowired
@@ -83,42 +83,9 @@ trait UsefulController { self =>
    * 批量打包文件生成 zip 后下载
    */
   protected def download(fullPaths: Seq[String]): ResponseEntity[InputStreamResource] = {
-
-    import java.io.{ File, FileOutputStream, FileInputStream }
-    import java.util.zip.ZipOutputStream
-
-    var outputStream: FileOutputStream = null
-    var zipOutputStream: ZipOutputStream = null
-
-    try {
-      val files = fullPaths.map(new FileSystemResource(_).getFile)
-      val targetFileName = fullPaths.size + "_files_" + java.util.UUID.randomUUID + ".zip"
-      val targetFile = new File(repository + targetFileName)
-      outputStream = new FileOutputStream(targetFile)
-      zipOutputStream = new ZipOutputStream(outputStream)
-      independent.zipFile(files, zipOutputStream)
-
-      println(targetFile.getAbsolutePath)
-      
-      download(repository + targetFileName)
-//      val headers = new HttpHeaders()
-//      headers.add("Cache-Control", "no-cache, no-store, must-revalidate")
-//      headers.add("Content-Disposition", s"""attachment; filename="${ targetFile.getName }"""")
-//      headers.add("Pragma", "no-cache")
-//      headers.add("Expires", "0")
-//
-//      ResponseEntity
-//        .ok()
-//        .headers(headers)
-//        .contentLength(targetFile.length())
-//        .contentType(MediaType.parseMediaType("application/octet-stream"))
-//        .body(new InputStreamResource(new FileInputStream(targetFile)))
-
-    } finally {
-      if (null != zipOutputStream)
-        zipOutputStream.close()
-      if (null != outputStream)
-        outputStream.close()
-    }
-  }
+    val files = fullPaths.map(new FileSystemResource(_).getFile)
+    val zipFileName = repository + "tmp/" + files(0).getName + "等" + files.size + "个文件-" + System.currentTimeMillis() + ".zip"
+    independent.zip(files, zipFileName)
+    download(zipFileName)
+  }   
 }

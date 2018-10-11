@@ -236,13 +236,13 @@ class MultiMediaController extends UsefulController with PaginationHandler {
   def download(
     @PathVariable dir:      String,
     @PathVariable filename: String): ResponseEntity[InputStreamResource] =
-    download(s"$repository${|}${dir.replace("|", "/")}${|}$filename")
-    
+    download(s"$repository${dir.replace("|", "/")}${|}$filename")
+
   @GetMapping(Array("/downloadMultiple_{dir}_{filenames}"))
   def downloadMultiple(
-    @PathVariable dir:      String,
+    @PathVariable dir:       String,
     @PathVariable filenames: String): ResponseEntity[InputStreamResource] =
-      download(filenames.split(|).map(o => s"$repository${|}${dir.replace("|", "/")}${|}$o"))
+    download(filenames.split('|').map(o => s"$repository${dir.replace("|", |)}${|}$o"))
 
   @PostMapping(Array("/ajaxRemark"))
   def ajaxRemark(@RequestBody body: JsonNode): JsonNode =
