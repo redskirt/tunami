@@ -112,6 +112,12 @@
 									<tbody id="galley">
 										<tr>
 											<td colspan="5">
+												<div class="col-sm-1" style="padding-top: 20px;">
+													<a style="margin-left: 10px;" class="btn-all-select pull-right btn btn-info clear-filter">全选</a>
+												</div>
+												<div class="col-sm-1" style="padding-top: 20px;">
+													<a style="margin-left: 10px;" class="btn-all-download pull-right btn btn-info clear-filter">批量下载</a>
+												</div>
 												<div id="html_pagination_" class="pagination pagination-centered">
 												</div>
 												<div style="color: black; width: 200px; display: inline-block; bottom: 10px; position: relative;">
@@ -124,6 +130,9 @@
 											<td>
 												<input id="id" th:value="@{${o.id}}" style="display: none;" /> 
 												<span class="status-metro status-disabled" th:text="${iterStat.count}"></span> 
+												<div class="checkbox">
+	                                                <input class="checkbox-download" th:value="@{'bristol|' + ${o.original_image_name}}" name="checkbox-download" type="checkbox">
+		                                        </div>
 												<a th:href="@{'/media/download_bristol_' + ${o.original_image_name}}" class="pull-right btn btn-info">下载</a>
 											</td>
 											<td>
@@ -164,6 +173,12 @@
 									<tfoot>
 										<tr>
 											<td colspan="5">
+												<div class="col-sm-1">
+													<a style="margin-left: 10px;" class="btn-all-select pull-right btn btn-info clear-filter">全选</a>
+												</div>
+												<div class="col-sm-1">
+													<a style="margin-left: 10px;" class="btn-all-download pull-right btn btn-info clear-filter">批量下载</a>
+												</div>
 												<div id="html_pagination" class="pagination pagination-centered">
 												</div>
 												<div style="color: black; width: 200px; display: inline-block; bottom: 10px; position: relative;">

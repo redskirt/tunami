@@ -1,11 +1,34 @@
-			
 $(function() {
 	$("#html_pagination").html(html_pagination);
 	$("#html_pagination_").html(html_pagination);
 
 	$('#footable-res2').footable();
+	
+	var $flag = true;
+	$(".btn-all-select").click(function(){
+		if($flag) {
+			$("input[name='checkbox-download']").prop("checked", true);
+			$flag = false;
+		} else {
+			$("input[name='checkbox-download']").prop("checked", false);
+			$flag = true;
+		}
+	});
+	
+	var $image_url = '';
+	$(".btn-all-download").click(function() {
+		$("input:checkbox[name='checkbox-download']:checked").each(function(i) {
+			if (i == 0) {
+				$image_url += $(this).val();
+			} else {
+				$image_url += ',' + $(this).val();
+			}
+		});
+//		alert("/media/downloadMultiple_" + $image_url);
+		window.location.href = "/media/downloadMultiple_" + $image_url;
+		$image_url = '';
+	});
 });
-
 
 function bindingPagination(url) {
 	$("#btn-search").on("click", function() {

@@ -100,7 +100,7 @@ class MockMvcControllerTestCase {
 //      .andExpect(status.isOk())
 //      .andDo(print)
       
-    mockMvc.perform(get("/media/downloadMultiple_vsh|city|SZU_SZU0001.jpg|SZU0002.jpg").session(mockSession))
+    mockMvc.perform(get("/media/downloadMultiple_vsh|city|SZU|SZU0001.jpg,vsh|city|HKU|HKU0001.jpg,vsh|city|TJN|TJN0001.jpg").session(mockSession))
       .andExpect(status.isOk())
       .andDo(print)
   }

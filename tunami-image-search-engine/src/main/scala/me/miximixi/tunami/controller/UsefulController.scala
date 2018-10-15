@@ -84,7 +84,7 @@ trait UsefulController { self =>
    */
   protected def download(fullPaths: Seq[String]): ResponseEntity[InputStreamResource] = {
     val files = fullPaths.map(new FileSystemResource(_).getFile)
-    val zipFileName = repository + "tmp/" + files(0).getName + "等" + files.size + "个文件-" + System.currentTimeMillis() + ".zip"
+    val zipFileName = repository + "tmp/" + files(0).getName + "_" + files.size + "_" + System.currentTimeMillis() + ".zip"
     independent.zip(files, zipFileName)
     download(zipFileName)
   }   
